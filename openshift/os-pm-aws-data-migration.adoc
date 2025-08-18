@@ -1,0 +1,49 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-pm-aws-data-migration.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP, Ansible Automation Platform, BlueXP 
+summary:  
+---
+= データ移行
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このページでは、永続ストレージとして FSx ONTAPを使用するマネージド Red Hat OpenShift クラスター上のコンテナ ワークロードのデータ移行オプションについて説明します。
+
+
+
+== データ マイグレーション
+
+AWS 上の Red Hat OpenShift サービスとAmazon FSx for NetApp ONTAP (FSx ONTAP) は、AWS のサービス ポートフォリオの一部です。  FSx ONTAP は、シングル AZ またはマルチ AZ オプションで利用できます。  Multi-Az オプションは、アベイラビリティーゾーンの障害からのデータ保護を提供します。  FSx ONTAP をTridentと統合して、ROSA クラスター上のアプリケーションに永続的なストレージを提供できます。
+
+
+
+=== Helm チャートを使用した FSx ONTAPとTridentの統合
+
+.ROSA クラスターとAmazon FSx ONTAP の統合
+video::621ae20d-7567-4bbf-809d-b01200fa7a68[panopto]
+コンテナ アプリケーションの移行には次の作業が含まれます。
+
+* 永続ボリューム: これはBlueXPを使用して実現できます。もう 1 つのオプションは、 Trident Protect を使用して、オンプレミスからクラウド環境へのコンテナ アプリケーションの移行を処理することです。同じ目的で自動化を使用することもできます。
+* アプリケーション メタデータ: これは OpenShift GitOps (Argo CD) を使用して実現できます。
+
+
+
+
+=== 永続ストレージとして FSx ONTAPを使用した ROSA クラスタ上のアプリケーションのフェイルオーバーとフェイルバック
+
+次のビデオは、 BlueXPと Argo CD を使用したアプリケーションのフェールオーバーとフェールバックのシナリオのデモです。
+
+.ROSA クラスタ上のアプリケーションのフェイルオーバーとフェイルバック
+video::e9a07d79-42a1-4480-86be-b01200fa62f5[panopto]
+
+
+=== OpenShift Container ワークロード向けのデータ保護および移行ソリューション
+
+image:rhhc-rosa-with-fsxn.png["入出力ダイアログまたは書かれたコンテンツを示す図"]

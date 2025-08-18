@@ -1,0 +1,106 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-solutions-validated.html 
+keywords: NetApp Solutions, hybrid cloud, container workloads, containers, Red Hat OpenShift, RedHat OpenShift, VMware, ROSA, ACC, Trident Protect, Advanced Cluster Management, ACM, Hub Cluster 
+summary:  
+---
+= Red Hat OpenShift Container ワークロード向けNetAppハイブリッド マルチクラウドのサポート対象ソリューション
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このソリューションは、OpenShift コンテナ プラットフォーム (OCP)、OpenShift Advanced Cluster Manager (ACM)、 NetApp ONTAP、 NetApp BlueXP 、 NetApp Trident Protect (ACC) を使用して、移行と集中データ保護をテストおよび検証します。
+
+このソリューションでは、次のシナリオがNetAppによってテストおよび検証されています。ソリューションは、次の特性に基づいて複数のシナリオに分かれています。
+
+* オンプレミス
+* cloud
++
+** セルフマネージド OpenShift クラスタとセルフマネージドNetAppストレージ
+** プロバイダー管理の OpenShift クラスターとプロバイダー管理のNetAppストレージ
+
+
+
+
+**今後、追加のソリューションとユースケースを構築していく予定です。**
+
+
+
+== シナリオ 1: Trident Protect を使用したオンプレミス環境内でのデータ保護と移行
+
+**オンプレミス: セルフマネージド OpenShift クラスターとセルフマネージドNetAppストレージ**
+
+* ACC を使用して、データ保護のためにスナップショット コピー、バックアップ、および復元を作成します。
+* ACC を使用して、コンテナ アプリケーションのSnapMirrorレプリケーションを実行します。
+
+
+
+
+=== シナリオ1
+
+image:rhhc-on-premises.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+
+
+== シナリオ 2: Trident Protect を使用したオンプレミス環境から AWS 環境へのデータ保護と移行
+
+**オンプレミス: セルフマネージド OpenShift クラスターとセルフマネージド ストレージ** **AWS クラウド: セルフマネージド OpenShift クラスターとセルフマネージド ストレージ**
+
+* ACC を使用して、データ保護のためのバックアップと復元を実行します。
+* ACC を使用して、コンテナ アプリケーションのSnapMirrorレプリケーションを実行します。
+
+
+
+
+=== シナリオ2
+
+image:rhhc-self-managed-aws.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+
+
+== シナリオ3: オンプレミス環境からAWS環境へのデータ保護と移行
+
+**オンプレミス: セルフマネージド OpenShift クラスターとセルフマネージド ストレージ** **AWS クラウド: プロバイダー管理 OpenShift クラスター (ROSA) とプロバイダー管理ストレージ (FSx ONTAP)**
+
+* BlueXPを使用して、永続ボリューム (FSx ONTAP) のレプリケーションを実行します。
+* OpenShift GitOps を使用して、アプリケーション メタデータを再作成します。
+
+
+
+
+=== シナリオ3
+
+image:rhhc-rosa-with-fsxn.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+
+
+=== シナリオ 4: Trident Protect を使用したオンプレミス環境から GCP 環境へのデータ保護と移行
+
+**オンプレミス: セルフマネージド OpenShift クラスタとセルフマネージド ストレージ** **Google Cloud: セルフマネージド OpenShift クラスタとセルフマネージド ストレージ**
+
+* ACC を使用して、データ保護のためのバックアップと復元を実行します。
+* ACC を使用して、コンテナ アプリケーションのSnapMirrorレプリケーションを実行します。
+
+
+image:rhhc-self-managed-gcp.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+MetroCluster構成でONTAPを使用する場合の考慮事項については、link:https://docs.netapp.com/us-en/ontap-metrocluster/install-stretch/concept_considerations_when_using_ontap_in_a_mcc_configuration.html["ここをクリックしてください。"] 。
+
+
+
+=== シナリオ 5: Trident Protect を使用したオンプレミス環境から Azure 環境へのデータ保護と移行
+
+**オンプレミス: セルフマネージド OpenShift クラスターとセルフマネージド ストレージ** **Azure クラウド: セルフマネージド OpenShift クラスターとセルフマネージド ストレージ**
+
+* ACC を使用して、データ保護のためのバックアップと復元を実行します。
+* ACC を使用して、コンテナ アプリケーションのSnapMirrorレプリケーションを実行します。
+
+
+image:rhhc-self-managed-azure.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+MetroCluster構成でONTAPを使用する場合の考慮事項については、link:https://docs.netapp.com/us-en/ontap-metrocluster/install-stretch/concept_considerations_when_using_ontap_in_a_mcc_configuration.html["ここをクリックしてください。"] 。

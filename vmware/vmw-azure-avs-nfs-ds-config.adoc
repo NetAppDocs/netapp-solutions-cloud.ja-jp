@@ -1,0 +1,333 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-azure-avs-nfs-ds-config.html 
+keywords:  
+summary:  
+---
+= Azure で追加の NFS データストアを作成する
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NFS データストアのサポートは、オンプレミス展開の ESXi バージョン 3 で導入され、vSphere のストレージ機能が大幅に拡張されました。
+
+NFS 上で vSphere を実行することは、優れたパフォーマンスと安定性を提供するため、オンプレミスの仮想化展開で広く採用されているオプションです。オンプレミスのデータセンターに大規模なネットワーク接続ストレージ (NAS) がある場合は、容量とパフォーマンスの課題を克服するために、Azure NetAppファイル データストアを使用して Azure VMware ソリューション SDDC を Azure にデプロイすることを検討する必要があります。
+
+Azure NetApp Files は、業界をリードする高可用性のNetApp ONTAPデータ管理ソフトウェア上に構築されています。  Microsoft Azure サービスは、基礎、メインストリーム、専門の 3 つのカテゴリに分類されます。  Azure NetApp Files は特殊なカテゴリに属しており、多くのリージョンにすでに導入されているハードウェアによってサポートされています。  Azure NetApp Filesは、高可用性（HA）を内蔵しており、ほとんどの障害からデータを保護し、業界をリードするSLAを提供します。 https://azure.microsoft.com/support/legal/sla/netapp/v1_1/["99.99%"^]稼働時間。
+
+Azure NetApp Filesデータストア機能が導入される前は、パフォーマンスとストレージを集中的に使用するワークロードをホストすることを計画している顧客のスケールアウト操作には、コンピューティングとストレージの両方の拡張が必要でした。
+
+次の点に留意してください。
+
+* SDDC クラスタでは、不均衡なクラスタ構成は推奨されません。したがって、ストレージを拡張するということは、ホストを追加することを意味し、TCO が増加します。
+* 可能な vSAN 環境は 1 つだけです。したがって、すべてのストレージ トラフィックは実稼働ワークロードと直接競合します。
+* アプリケーション要件、パフォーマンス、コストを調整するために複数のパフォーマンス層を提供するオプションはありません。
+* クラスター ホスト上に構築された vSAN のストレージ容量の限界に簡単に達してしまいます。Azure Azure NetApp FilesのPlatform as a Service (PaaS) オファリングをデータストアとして統合することで、顧客はストレージを個別に独立して拡張し、必要に応じて SDDC クラスターにコンピューティング ノードのみを追加できるようになります。この機能により、前述の課題が克服されます。
+
+
+Azure NetApp Files を使用すると、複数のデータストアをデプロイすることもできます。これにより、適切なデータストアに仮想マシンを配置し、ワークロードのパフォーマンス要件を満たすために必要なサービス レベルを割り当てることで、オンプレミスのデプロイ モデルを模倣できます。マルチプロトコル サポートの独自の機能により、ゲスト ストレージは、SQL や Oracle などのデータベース ワークロードの追加オプションとなると同時に、追加の NFS データストア機能を使用して残りの VMDK を格納することもできます。これに加えて、ネイティブ スナップショット機能を使用すると、迅速なバックアップと詳細な復元を実行できます。
+
+
+NOTE: ストレージの計画とサイズ設定、および必要なホスト数の決定については、Azure およびNetAppソリューション アーキテクトにお問い合わせください。  NetApp、テスト、POC、および本番環境の展開のデータストア レイアウトを最終決定する前に、ストレージ パフォーマンス要件を特定することを推奨しています。
+
+
+
+== 詳細なアーキテクチャ
+
+このアーキテクチャでは、高レベルの観点から、オンプレミス環境と Azure 間でハイブリッド クラウドの接続性とアプリの移植性を実現する方法について説明します。また、 Azure NetApp Files を補助的な NFS データストアとして使用する方法や、Azure VMware ソリューションでホストされているゲスト仮想マシンのゲスト内ストレージ オプションとして使用する方法についても説明します。
+
+image:vmware-dr-001.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+
+
+== サイジング
+
+移行または災害復旧において最も重要なのは、ターゲット環境の適切なサイズを決定することです。オンプレミスから Azure VMware Solution へのリフト アンド シフトを実行するために必要なノードの数を理解することは非常に重要です。
+
+サイズ設定には、RVTools (推奨) または Live Optics や Azure Migrate などの他のツールを使用して、オンプレミス環境からの履歴データを使用します。  RVTools は、vCPU、vMem、vDisk、および電源オン/オフの VM を含む必要なすべての情報をキャプチャして、ターゲット環境の特性を把握するのに最適なツールです。
+
+RVtools を実行するには、次の手順を実行します。
+
+. RVTools をダウンロードしてインストールします。
+. RVTools を実行し、オンプレミスの vCenter Server に接続するために必要な情報を入力して、「ログイン」を押します。
+. 在庫を Excel スプレッドシートにエクスポートします。
+. スプレッドシートを編集し、[vInfo] タブから理想的な候補ではない VM を削除します。このアプローチにより、必要な数のホストを使用して Azure VMware SDDC クラスターを適切なサイズにするために使用できるストレージ要件に関する明確な出力が得られます。
+
+
+
+NOTE: ゲスト内ストレージで使用されるゲスト VM は個別に計算する必要がありますが、 Azure NetApp Files は追加のストレージ容量を簡単にカバーできるため、全体的な TCO を低く抑えることができます。
+
+
+
+== Azure VMware Solution のデプロイと構成
+
+オンプレミスと同様に、仮想マシンの作成と移行のための運用準備が整った環境を正常に構築するには、Azure VMware ソリューションを計画することが重要です。
+
+このセクションでは、ゲスト内ストレージを備えたデータストアとしてAzure NetApp Filesと組み合わせて使用するために AVS を設定および管理する方法について説明します。
+
+セットアッププロセスは、次の 3 つの部分に分けられます。
+
+* リソース プロバイダーを登録し、プライベート クラウドを作成します。
+* 新規または既存の ExpressRoute 仮想ネットワーク ゲートウェイに接続します。
+* ネットワーク接続を検証し、プライベート クラウドにアクセスします。こちらを参照してくださいlink:vmw-azure-avs-overview.html["リンク"^]Azure VMware ソリューションの SDDC プロビジョニング プロセスのステップバイステップのチュートリアル。
+
+
+
+
+== Azure VMware Solution を使用してAzure NetApp Filesを構成する
+
+Azure NetApp Files間の新しい統合により、Azure VMware Solution リソース プロバイダー API/CLI を介してAzure NetApp Filesボリュームを使用して NFS データストアを作成し、プライベート クラウド内の任意のクラスターにデータストアをマウントできるようになります。  VM とアプリ VMDK を格納するだけでなく、Azure NetAppファイル ボリュームは、Azure VMware Solution SDDC 環境で作成された VM からマウントすることもできます。  Azure NetApp Files はサーバー メッセージ ブロック (SMB) プロトコルとネットワーク ファイル システム (NFS) プロトコルをサポートしているため、ボリュームを Linux クライアントにマウントし、Windows クライアントにマップすることができます。
+
+
+NOTE: 最適なパフォーマンスを得るには、 Azure NetApp Files をプライベート クラウドと同じ可用性ゾーンにデプロイします。  Express ルート ファストパスとのコロケーションにより、ネットワーク遅延が最小限に抑えられ、最高のパフォーマンスが実現します。
+
+Azure NetAppファイル ボリュームを Azure VMware Solution プライベート クラウドの VMware データストアとして接続するには、次の前提条件が満たされていることを確認してください。
+
+.前提条件
+[%collapsible%open]
+====
+. az login を使用して、サブスクリプションが Microsoft.AVS 名前空間の CloudSanExperience 機能に登録されていることを確認します。
+
+
+....
+az login –tenant xcvxcvxc- vxcv- xcvx- cvxc- vxcvxcvxcv
+az feature show --name "CloudSanExperience" --namespace "Microsoft.AVS"
+....
+. 登録されていない場合は登録してください。
+
+
+....
+az feature register --name "CloudSanExperience" --namespace "Microsoft.AVS"
+....
+
+NOTE: 登録が完了するまでに約 15 分かかります。
+
+. 登録のステータスを確認するには、次のコマンドを実行します。
+
+
+....
+az feature show --name "CloudSanExperience" --namespace "Microsoft.AVS" --query properties.state
+....
+. 登録が中間状態で 15 分以上停止している場合は、フラグを登録解除してから再登録してください。
+
+
+....
+az feature unregister --name "CloudSanExperience" --namespace "Microsoft.AVS"
+az feature register --name "CloudSanExperience" --namespace "Microsoft.AVS"
+....
+. サブスクリプションが Microsoft.AVS 名前空間の AnfDatastoreExperience 機能に登録されていることを確認します。
+
+
+....
+az feature show --name "AnfDatastoreExperience" --namespace "Microsoft.AVS" --query properties.state
+....
+. VMware 拡張機能がインストールされていることを確認します。
+
+
+....
+az extension show --name vmware
+....
+. 拡張機能がすでにインストールされている場合は、バージョンが 3.0.0 であることを確認してください。古いバージョンがインストールされている場合は、拡張機能を更新してください。
+
+
+....
+az extension update --name vmware
+....
+. 拡張機能がまだインストールされていない場合は、インストールしてください。
+
+
+....
+az extension add --name vmware
+....
+====
+.Azure NetApp Filesボリュームを作成してマウントする
+[%collapsible%open]
+====
+. Azure Portal にログインし、 Azure NetApp Files にアクセスします。 Azure NetApp Filesサービスへのアクセスを確認し、 Azure NetApp Filesリソース プロバイダーを登録するには、 `az provider register` `--namespace Microsoft.NetApp –wait`指示。登録後、 NetAppアカウントを作成します。こちらを参照してください https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["リンク"^]詳細な手順については、こちらをご覧ください。
+
+
+image:vmware-dr-002.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. NetAppアカウントを作成したら、必要なサービス レベルとサイズで容量プールを設定します。詳細については、こちらを参照してください。 https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-set-up-capacity-pool["リンク"^] 。
+
+
+image:vmware-dr-003.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+|===
+| 覚えておくべきポイント 
+
+
+ a| 
+* NFSv3 は、 Azure NetApp Files上のデータストアでサポートされています。
+* 容量制限のあるワークロードには Premium または Standard 層を使用し、必要に応じて、デフォルトの vSAN ストレージを補完しながら、パフォーマンス制限のあるワークロードには Ultra 層を使用します。
+
+
+|===
+. Azure NetApp Filesの委任されたサブネットを構成し、ボリュームを作成するときにこのサブネットを指定します。委任されたサブネットを作成する詳細な手順については、こちらを参照してください。 https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-delegate-subnet["リンク"^] 。
+. 容量プール ブレードのボリューム ブレードを使用して、データストアの NFS ボリュームを追加します。
+
+
+image:vmware-dr-004.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+Azure NetApp Filesボリュームのパフォーマンスをサイズまたはクォータ別に確認するには、以下を参照してください。link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-performance-considerations["Azure NetApp Files のパフォーマンスに関する考慮事項"^] 。
+
+====
+.Azure NetAppファイル データストアをプライベート クラウドに追加する
+[%collapsible%open]
+====
+
+NOTE: Azure NetApp Filesボリュームは、Azure Portal を使用してプライベート クラウドに接続できます。これに従ってくださいlink:https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal["Microsoftからのリンク"]Azure Portal を使用して Azure NetApp Files データストアをマウントする手順について説明します。
+
+Azure NetAppファイル データストアをプライベート クラウドに追加するには、次の手順を実行します。
+
+. 必要な機能が登録されたら、適切なコマンドを実行して、NFS データストアを Azure VMware Solution プライベート クラウド クラスターに接続します。
+. Azure VMware Solution プライベート クラウド クラスター内の既存の ANF ボリュームを使用してデータストアを作成します。
+
+
+....
+C:\Users\niyaz>az vmware datastore netapp-volume create --name ANFRecoDSU002 --resource-group anfavsval2 --cluster Cluster-1 --private-cloud ANFDataClus --volume-id /subscriptions/0efa2dfb-917c-4497-b56a-b3f4eadb8111/resourceGroups/anfavsval2/providers/Microsoft.NetApp/netAppAccounts/anfdatastoreacct/capacityPools/anfrecodsu/volumes/anfrecodsU002
+{
+  "diskPoolVolume": null,
+  "id": "/subscriptions/0efa2dfb-917c-4497-b56a-b3f4eadb8111/resourceGroups/anfavsval2/providers/Microsoft.AVS/privateClouds/ANFDataClus/clusters/Cluster-1/datastores/ANFRecoDSU002",
+  "name": "ANFRecoDSU002",
+  "netAppVolume": {
+    "id": "/subscriptions/0efa2dfb-917c-4497-b56a-b3f4eadb8111/resourceGroups/anfavsval2/providers/Microsoft.NetApp/netAppAccounts/anfdatastoreacct/capacityPools/anfrecodsu/volumes/anfrecodsU002",
+    "resourceGroup": "anfavsval2"
+  },
+  "provisioningState": "Succeeded",
+  "resourceGroup": "anfavsval2",
+  "type": "Microsoft.AVS/privateClouds/clusters/datastores"
+}
+
+. List all the datastores in a private cloud cluster.
+
+....
+  C:\Users\niyaz>az vmware データストア リスト --resource-group anfavsval2 --cluster Cluster-1 --private-cloud ANFDataClus [ { "diskPoolVolume": null, "id": "/subscriptions/0efa2dfb-917c-4497-b56a-b3f4eadb8111/resourceGroups/anfavsval2/providers/Microsoft.AVS/privateClouds/ANFDataClus/clusters/Cluster-1/datastores/ANFRecoDS001", "name": "ANFRecoDS001", "netAppVolume": { "id": "/subscriptions/0efa2dfb-917c-4497-b56a-b3f4eadb8111/resourceGroups/anfavsval2/providers/Microsoft. NetApp/netAppAccounts/anfdatastoreacct/capacityPools/anfrecods/volumes/ANFRecoDS001", "resourceGroup": "anfavsval2" }, "provisioningState": "Succeeded", "resourceGroup": "anfavsval2", "type": "Microsoft.AVS/privateClouds/clusters/datastores" }, { "diskPoolVolume": null, "id": "/subscriptions/0efa2dfb-917c-4497-b56a-b3f4eadb8111/resourceGroups/anfavsval2/providers/Microsoft.AVS/privateClouds/ANFDataClus/clusters/Cluster-1/datastores/ANFRecoDSU002", "name": "ANFRecoDSU002", "netAppVolume": { "id": "/subscriptions/0efa2dfb-917c-4497-b56a-b3f4eadb8111/resourceGroups/anfavsval2/providers/Microsoft. NetApp/netAppAccounts/anfdatastoreacct/capacityPools/anfrecodsu/volumes/anfrecodsU002", "resourceGroup": "anfavsval2" }, "provisioningState": "Succeeded", "resourceGroup": "anfavsval2", "type": "Microsoft.AVS/privateClouds/clusters/datastores" } ]
+
+. 必要な接続が確立されると、ボリュームはデータストアとしてマウントされます。
+
+
+image:vmware-dr-005.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+====
+
+
+== サイズとパフォーマンスの最適化
+
+Azure NetApp Files は、Standard (1 テラバイトあたり 16 MBps)、Premium (1 テラバイトあたり 64 MBps)、Ultra (1 テラバイトあたり 128 MBps) の 3 つのサービス レベルをサポートしています。適切なボリューム サイズをプロビジョニングすることは、データベース ワークロードのパフォーマンスを最適化するために重要です。Azure NetApp Filesでは、ボリュームのパフォーマンスとスループットの制限は次の要因に基づいて決まります。
+
+* ボリュームが属する容量プールのサービス レベル
+* ボリュームに割り当てられたクォータ
+* 容量プールのサービス品質 (QoS) タイプ (自動または手動)
+
+
+image:vmware-dr-006.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+詳細については、以下を参照してください。  https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-service-levels["Azure NetApp Filesのサービス レベル"^] 。
+
+こちらを参照してくださいlink:https://learn.microsoft.com/en-us/azure/azure-netapp-files/performance-benchmarks-azure-vmware-solution["Microsoftからのリンク"]サイズ設定の演習中に使用できる詳細なパフォーマンス ベンチマーク。
+
+|===
+| 覚えておくべきポイント 
+
+
+ a| 
+* 最適な容量とパフォーマンスを得るには、データストア ボリュームに Premium または Standard 層を使用します。パフォーマンスが必要な場合は、Ultra 層を使用できます。
+* ゲスト マウント要件の場合は Premium または Ultra レベルを使用し、ゲスト VM のファイル共有要件の場合は Standard または Premium レベルのボリュームを使用します。
+
+
+|===
+
+
+== パフォーマンスに関する考慮事項
+
+NFS バージョン 3 では、ESXi ホストと単一のストレージ ターゲット間の接続にアクティブなパイプが 1 つしかないことを理解することが重要です。つまり、フェイルオーバーに使用できる代替接続が存在する場合でも、単一のデータストアと基盤となるストレージの帯域幅は、単一の接続で提供できるものに制限されます。
+
+Azure NetApp Filesボリュームで利用可能な帯域幅をさらに活用するには、ESXi ホストにストレージ ターゲットへの複数の接続が必要です。この問題を解決するには、複数のデータストアを構成し、各データストアで ESXi ホストとストレージ間の個別の接続を使用します。
+
+より高い帯域幅を得るには、ベストプラクティスとして、複数の ANF ボリュームを使用して複数のデータストアを作成し、VMDK を作成し、論理ボリュームを VMDK 全体にストライプ化します。
+
+こちらを参照してくださいlink:https://learn.microsoft.com/en-us/azure/azure-netapp-files/performance-benchmarks-azure-vmware-solution["Microsoftからのリンク"]サイズ設定の演習中に使用できる詳細なパフォーマンス ベンチマーク。
+
+|===
+| 覚えておくべきポイント 
+
+
+ a| 
+* Azure VMware ソリューションでは、既定で 8 つの NFS データストアが許可されます。これはサポート リクエストを通じて増やすことができます。
+* ER ファストパスと Ultra SKU を併用して、より高い帯域幅とより低いレイテンシを実現します。詳細情報
+* Azure NetAppファイルの「基本」ネットワーク機能では、Azure VMware Solution からの接続は、ExpressRoute 回線と ExpressRoute ゲートウェイの帯域幅によって制限されます。
+* 「Standard」ネットワーク機能を備えたAzure NetApp Filesボリュームでは、ExpressRoute FastPath がサポートされます。有効にすると、FastPath はゲートウェイをバイパスしてネットワーク トラフィックをAzure NetApp Filesボリュームに直接送信し、より高い帯域幅とより低い待機時間を実現します。
+
+
+|===
+
+
+== データストアのサイズを増やす
+
+ボリュームの再形成と動的なサービス レベルの変更は、SDDC に対して完全に透過的です。  Azure NetApp Filesでは、これらの機能により、継続的なパフォーマンス、容量、コストの最適化が実現します。 Azure Portal または CLI を使用してボリュームのサイズを変更し、NFS データストアのサイズを増やします。完了したら、vCenter にアクセスし、データストア タブに移動して適切なデータストアを右クリックし、「容量情報の更新」を選択します。このアプローチを使用すると、ダウンタイムなしでデータストアの容量を増やし、データストアのパフォーマンスを動的に向上させることができます。このプロセスもアプリケーションに対して完全に透過的です。
+
+|===
+| 覚えておくべきポイント 
+
+
+ a| 
+* ボリュームの再形成と動的サービス レベル機能により、安定した状態のワークロードに合わせてサイズを設定することでコストを最適化し、過剰プロビジョニングを回避できます。
+* VAAI が無効になっています。
+
+
+|===
+
+
+== ワークロード
+
+.移住
+[%collapsible%open]
+====
+最も一般的なユースケースの 1 つは移行です。 VMware HCX または vMotion を使用してオンプレミスの VM を移動します。あるいは、Rivermeadow を使用して VM をAzure NetApp Filesデータストアに移行することもできます。
+
+====
+.データ保護
+[%collapsible%open]
+====
+VM のバックアップと迅速な回復は、ANF データストアの大きな強みの 1 つです。スナップショット コピーを使用すると、パフォーマンスに影響を与えずに VM またはデータストアのクイック コピーを作成し、それを Azure ストレージに送信して長期的なデータ保護を行うか、クロス リージョン レプリケーションを使用してセカンダリ リージョンに送信して災害復旧を行うことができます。このアプローチでは、変更された情報のみを保存することで、ストレージスペースとネットワーク帯域幅を最小限に抑えます。
+
+一般的な保護にはAzure NetApp Filesスナップショット コピーを使用し、ゲスト VM 上に存在する SQL Server や Oracle などのトランザクション データを保護するためにアプリケーション ツールを使用します。これらのスナップショット コピーは VMware (一貫性) スナップショットとは異なり、長期的な保護に適しています。
+
+
+NOTE: ANF データストアでは、「新しいボリュームに復元」オプションを使用してデータストア ボリューム全体のクローンを作成し、復元されたボリュームを AVS SDDC 内のホストに別のデータストアとしてマウントできます。データストアをマウントすると、その中の VM は、個別にクローン作成された VM であるかのように登録、再構成、カスタマイズできるようになります。
+
+.仮想マシンのBlueXP backup and recovery
+[%collapsible%open]
+=====
+BlueXP backup and recoveryでは、 vCenter 上の vSphere Web クライアント GUI が提供され、バックアップ ポリシーを通じて Azure VMware Solution 仮想マシンと Azure NetAppファイル データストアを保護します。これらのポリシーでは、スケジュール、保持期間、その他の機能を定義できます。  BlueXP backup and recovery機能は、実行コマンドを使用して展開できます。
+
+セットアップと保護ポリシーは、次の手順を実行してインストールできます。
+
+. 実行コマンドを使用して、Azure VMware Solution プライベート クラウドの仮想マシン用のBlueXP backup and recoveryをインストールします。
+. クラウド サブスクリプションの資格情報 (クライアントとシークレット値) を追加し、保護するリソースが含まれるクラウド サブスクリプション アカウント (NetAppアカウントと関連付けられたリソース グループ) を追加します。
+. リソース グループ バックアップの保持期間、頻度、その他の設定を管理する 1 つ以上のバックアップ ポリシーを作成します。
+. バックアップ ポリシーで保護する必要がある 1 つ以上のリソースを追加するためのコンテナーを作成します。
+. 障害が発生した場合は、VM 全体または特定の個別の VMDK を同じ場所に復元します。
+
+
+
+NOTE: Azure NetApp Filesスナップショット テクノロジーにより、バックアップと復元が非常に高速になります。
+
+image:vmware-dr-007.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+=====
+.Azure NetApp Files、JetStream DR、Azure VMware Solution を使用した災害復旧
+[%collapsible%open]
+=====
+クラウドへの災害復旧は、サイトの停止やデータ破損イベント (ランサムウェアなど) からワークロードを保護する、回復力がありコスト効率に優れた方法です。  VMware VAIO フレームワークを使用すると、オンプレミスの VMware ワークロードを Azure Blob ストレージに複製して回復できるため、データ損失を最小限に抑えるか、ほぼゼロにすることができ、RTO はほぼゼロになります。  JetStream DR を使用すると、オンプレミスから AVS、具体的にはAzure NetApp Filesに複製されたワークロードをシームレスに回復できます。  DR サイトでの最小限のリソースとコスト効率の高いクラウド ストレージを使用することで、コスト効率の高い災害復旧が可能になります。  JetStream DR は、Azure Blob Storage を介して ANF データストアへのリカバリを自動化します。  JetStream DR は、ネットワーク マッピングに従って、独立した VM または関連する VM のグループをリカバリ サイト インフラストラクチャに復元し、ランサムウェア保護のためのポイントインタイム リカバリを提供します。
+
+link:vmw-azure-avs-dr-jetstream.html["ANF、JetStream、AVS を使用した DR ソリューション"] 。
+
+=====
+====

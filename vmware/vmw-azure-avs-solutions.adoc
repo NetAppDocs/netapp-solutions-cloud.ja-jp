@@ -1,0 +1,50 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-azure-avs-solutions.html 
+keywords: NetApp Solutions, microsoft azure, avs, vmware managed cloud, enterprise, hybrid, cloud, migrate, migration, disaster recovery, dr 
+summary:  
+---
+= Azure VMware Solution (AVS) 向けNetAppソリューション
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp がAzure に提供するソリューションの詳細をご覧ください。
+
+VMware は、クラウド ワークロードを次の 3 つのカテゴリのいずれかに定義しています。
+
+* 保護（災害復旧とバックアップ/復元の両方を含む）
+* 移行
+* 拡張
+
+
+次のセクションで利用可能なソリューションを参照してください。
+
+[role="tabbed-block"]
+====
+.守る
+--
+* link:vmw-azure-avs-dr-jetstream.html["ANF と JetStream (補足 NFS データストア) を使用した災害復旧"]
+* link:vmw-azure-avs-guest-storage-dr.html["ANF と CVO (ゲスト接続ストレージ) による災害復旧"]
+* link:vmw-azure-avs-dro.html["ANF と AVS による災害復旧 (DRO)"]
+* link:vmw-azure-anf-avs-ds-dr-veeam.html["Veeam Replication とAzure NetApp Filesデータストアを使用して Azure VMware Solution への災害復旧を行う"]
+
+
+--
+.移行
+--
+* link:vmw-azure-avs-migrate-hcx.html["VMware HCX を使用してワークロードをAzure NetApp Filesデータストアに移行する"]
+
+
+--
+.拡張
+--
+近日公開！！
+
+--
+====

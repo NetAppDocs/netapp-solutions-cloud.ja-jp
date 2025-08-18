@@ -1,0 +1,62 @@
+---
+indexpage:
+  title: NetAppパブリックおよびハイブリッド クラウド ソリューション
+  summary: NetAppソリューションは、お客様の最も重要なビジネス ニーズをサポートするNetApp製品およびサービスのポートフォリオを重視した、戦略およびテクノロジ機能のセットです。
+  lead: NetAppソリューションは、お客様の最も重要なビジネス ニーズをサポートするNetApp製品およびサービスのポートフォリオを重視した、戦略およびテクノロジ機能のセットです。
+  tiles:
+  - title: 始めましょう
+    links:
+    - title: 新機能
+      url: "/whats-new.html"
+    - title: ブログ
+      url: "/blogs.html"
+    - title: ビデオとデモ
+      url: "/videos/index.html"
+  - title: VMware向けNetAppクラウドソリューション
+    links:
+    - title: パブリッククラウド向けVMware
+      url: "/vmware/vmw-hybrid-overview.html"
+    - title: VMware ハイブリッド クラウドのユースケース
+      url: "/vmware/vmw-hybrid-use-cases.html"
+    - title: AWS/VMC向けNetApp
+      url: "/vmware/vmw-aws-vmc-overview.html"
+    - title: AWS/EVS向けNetApp
+      url: "/vmware/evs-mount-fsxn-intro.html"
+    - title: Azure/AVS 向けNetApp
+      url: "/vmware/vmw-azure-avs-overview.html"
+    - title: GCP/GCVE 向けNetApp
+      url: "/vmware/vmw-gcp-gcve-overview.html"
+    - title: VMware 向けBlueXP disaster recovery
+      url: "/vmware/vmw-hybrid-dr-overview.html"
+  - title: OpenShift向けNetAppクラウドソリューション
+    links:
+    - title: オンプレミス向けOpenShift
+      url: "/openshift/os-op-solution.html"
+    - title: 自己管理コンポーネントを備えたハイブリッドクラウド
+      url: "/openshift/os-sm-solution.html"
+    - title: プロバイダー管理コンポーネントを備えたハイブリッドクラウド
+      url: "/openshift/os-pm-solution.html"
+    - title: Trident Protectを使用してデータを保護する
+      url: "/openshift/os-dp-tp-solution.html"
+    - title: サードパーティのツールを使用してコンテナアプリを保護する
+      url: "/openshift/os-dp-velero-solution.html"
+  - title: VMware ソブリンクラウド ソリューション
+    links:
+    - title: ソブリンクラウドについて学ぶ
+      url: https://docs.netapp.com/us-en/netapp-solutions-virtualization/vmware/vmw-sovereign-cloud.html
+    - title: NetAppとSovereign Cloudの統合
+      url: https://docs.netapp.com/us-en/netapp-solutions-virtualization/vmware/vmw-sovereign-cloud-use-cases.html
+    - title: Sovereign Cloudのソリューション概要
+      url: https://www.vmware.com/content/dam/digitalmarketing/vmware/en/pdf/docs/vmw-sovereign-cloud-solution-brief-customer.pdf
+    - title: ソブリンクラウドの説明
+      url: https://www.vmware.com/topics/glossary/content/sovereign-cloud.html
+    - title: VMware Soverine Cloud の安全でコンプライアンスに準拠したインフラストラクチャ
+      url: https://www.vmware.com/solutions/cloud-infrastructure/sovereign-cloud
+  - title: ソリューションのリクエストとフィードバック
+    links:
+    - title: リクエストの自動化
+      url: https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Request%20Automation]%0d%0a%0d%0aSolution%20Name:%20%0d%0aRequest%20Title:%20%0d%0aDescription:%0d%0aSuggestions:&title=Request%20Automation%20-%20%3Crequest_title%3E
+    - title: 新しい解決策を提案する
+      url: https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Request%20Solution]%0d%0a%0d%0aSolution%20Use%20Case:%20%0d%0aSolution%20Description:%20%0d%0aAdditional%20Comments:&title=Request%20Solution%20-%20%3Csolution%3E
+    - title: ソリューションのフィードバックを提供する
+      url: https://github.com/NetAppDocs/netapp-solutions/issues/new?body=[Solution%20Feedback]%0d%0a%0d%0aSolution%20Name:%20%0d%0aSolution%20Feedback:%20%0d%0aAdditional%20Comments:&title=Solution%20Feedback%20-%20%3Csolution%3E

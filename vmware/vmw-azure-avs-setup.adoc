@@ -1,0 +1,118 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-azure-avs-setup.html 
+keywords: NetApp Solutions, microsoft azure, avs, azure, vmware managed cloud, enterprise, hybrid, cloud, cloud volumes ontap, cvo 
+summary:  
+---
+= Azure に仮想化環境を展開して構成する
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+オンプレミスと同様に、VM の作成と移行のための実稼働対応環境を正常に構築するには、Azure VMware Solution を計画することが重要です。
+
+このセクションでは、Azure VMware Solution をセットアップおよび管理し、 NetAppストレージに接続するために使用可能なオプションと組み合わせて使用する方法について説明します。
+
+セットアッププロセスは次の手順に分けられます。
+
+.リソースプロバイダーを登録してプライベートクラウドを作成する
+[%collapsible%open]
+====
+Azure VMware Solution を使用するには、まず、識別されたサブスクリプション内にリソース プロバイダーを登録します。
+
+. Azure ポータルにSign in。
+. Azure ポータル メニューで、[すべてのサービス] を選択します。
+. [すべてのサービス] ダイアログ ボックスで、サブスクリプションを入力し、[サブスクリプション] を選択します。
+. 表示するには、サブスクリプション リストからサブスクリプションを選択します。
+. リソース プロバイダーを選択し、検索に「Microsoft.AVS」と入力します。
+. リソース プロバイダーが登録されていない場合は、[登録] を選択します。
++
+image:avs-register-create-pc-001.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
++
+image:avs-register-create-pc-002.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. リソース プロバイダーを登録したら、Azure Portal を使用して Azure VMware Solution プライベート クラウドを作成します。
+. Azure ポータルにSign in。
+. [新しいリソースの作成]を選択します。
+. [Marketplace を検索] テキスト ボックスに「Azure VMware Solution」と入力し、結果から選択します。
+. Azure VMware Solution ページで、[作成] を選択します。
+. [基本] タブで、フィールドに値を入力し、[確認 + 作成] を選択します。
+
+
+注：
+
+* 迅速に開始するには、計画段階で必要な情報を収集します。
+* 既存のリソース グループを選択するか、プライベート クラウドの新しいリソース グループを作成します。リソース グループは、Azure リソースがデプロイおよび管理される論理コンテナーです。
+* CIDR アドレスが一意であり、他の Azure 仮想ネットワークまたはオンプレミス ネットワークと重複していないことを確認します。  CIDR はプライベート クラウド管理ネットワークを表し、vCenter Server や NSX-T Manager などのクラスタ管理サービスに使用されます。 NetApp、/22 アドレス空間の使用を推奨しています。この例では、10.21.0.0/22 が使用されます。
+
+
+image:avs-register-create-pc-003.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+プロビジョニングプロセスには約 4 ～ 5 時間かかります。プロセスが完了したら、Azure ポータルからプライベート クラウドにアクセスして、デプロイが成功したことを確認します。デプロイが完了すると、「成功」というステータスが表示されます。
+
+Azure VMware Solution プライベート クラウドには、Azure Virtual Network が必要です。  Azure VMware Solution はオンプレミスの vCenter をサポートしていないため、既存のオンプレミス環境と統合するには追加の手順が必要です。 ExpressRoute 回線と仮想ネットワーク ゲートウェイの設定も必要です。クラスターのプロビジョニングが完了するまで待機中に、新しい仮想ネットワークを作成するか、既存の仮想ネットワークを使用して Azure VMware Solution に接続します。
+
+image:avs-register-create-pc-004.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+====
+.新規または既存の ExpressRoute 仮想ネットワーク ゲートウェイに接続する
+[%collapsible%open]
+====
+新しい Azure 仮想ネットワーク (VNet) を作成するには、Azure VNet Connect タブを選択します。または、Azure ポータルから仮想ネットワークの作成ウィザードを使用して手動で作成することもできます。
+
+. Azure VMware Solution プライベート クラウドに移動し、[管理] オプションの [接続] にアクセスします。
+. Azure VNet Connect を選択します。
+. 新しい VNet を作成するには、[新規作成] オプションを選択します。
++
+この機能により、VNet を Azure VMware Solution プライベート クラウドに接続できるようになります。  VNet は、ExpressRoute 経由で Azure VMware Solution に作成されたプライベート クラウドに必要なコンポーネント (ジャンプ ボックス、 Azure NetApp Filesなどの共有サービス、Cloud Volume ONTAPなど) を自動的に作成することにより、この仮想ネットワーク内のワークロード間の通信を可能にします。
+
++
+*注:* VNet アドレス空間は、プライベート クラウド CIDR と重複しないでください。
+
++
+image:azure-connect-gateway-001.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. 新しい VNet の情報を指定または更新し、[OK] を選択します。
+
+
+image:azure-connect-gateway-002.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+指定されたアドレス範囲とゲートウェイ サブネットを持つ VNet が、指定されたサブスクリプションとリソース グループに作成されます。
+
+
+NOTE: VNet を手動で作成する場合は、適切な SKU とゲートウェイの種類として ExpressRoute を使用して仮想ネットワーク ゲートウェイを作成します。デプロイが完了したら、承認キーを使用して、ExpressRoute 接続を Azure VMware Solution プライベート クラウドを含む仮想ネットワーク ゲートウェイに接続します。詳細については、以下を参照してください。 link:https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-configure-networking#create-a-vnet-manually["Azure で VMware プライベート クラウドのネットワークを構成する"] 。
+
+====
+.Azure VMware Solution プライベート クラウドへのネットワーク接続とアクセスを検証します
+[%collapsible%open]
+====
+Azure VMware Solution では、オンプレミスの VMware vCenter を使用してプライベート クラウドを管理することはできません。代わりに、Azure VMware Solution vCenter インスタンスに接続するにはジャンプ ホストが必要です。指定されたリソース グループにジャンプ ホストを作成し、Azure VMware Solution vCenter にサインインします。このジャンプ ホストは、接続用に作成された同じ仮想ネットワーク上の Windows VM である必要があり、vCenter と NSX Manager の両方へのアクセスを提供する必要があります。
+
+image:azure-validate-network-001.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+仮想マシンがプロビジョニングされたら、[接続] オプションを使用して RDP にアクセスします。
+
+image:azure-validate-network-002.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+クラウド管理者ユーザーを使用して、この新しく作成されたジャンプ ホスト仮想マシンから vCenter にSign in。資格情報にアクセスするには、Azure ポータルに移動し、(プライベート クラウド内の [管理] オプションの下の) [ID] に移動します。プライベート クラウド vCenter および NSX-T Manager の URL とユーザー資格情報はここからコピーできます。
+
+image:azure-validate-network-003.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+Windows仮想マシンでブラウザを開き、vCenter WebクライアントのURLに移動します。(`"https://10.21.0.2/"` ) にアクセスし、管理者ユーザー名として *cloudadmin@vsphere.local* を使用し、コピーしたパスワードを貼り付けます。同様に、NSX-TマネージャにもWebクライアントURLを使用してアクセスできます。(`"https://10.21.0.3/"` ) にアクセスし、管理者ユーザー名とコピーしたパスワードを貼り付けて、新しいセグメントを作成したり、既存の層ゲートウェイを変更したりします。
+
+
+NOTE: Web クライアント URL は、プロビジョニングされた SDDC ごとに異なります。
+
+image:azure-validate-network-004.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+image:azure-validate-network-005.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+Azure VMware Solution SDDC がデプロイされ、構成されました。 ExpressRoute Global Reach を活用して、オンプレミス環境を Azure VMware Solution プライベート クラウドに接続します。詳細については、以下を参照してください。 link:https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-expressroute-global-reach-private-cloud["オンプレミス環境を Azure VMware Solution にピアリングする"] 。
+
+====

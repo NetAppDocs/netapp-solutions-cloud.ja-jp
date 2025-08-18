@@ -1,0 +1,117 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-sm-azure-setup.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP, Azure, Azure Cloud. 
+summary:  
+---
+= Azure に Red Hat OpenShift Container プラットフォームをデプロイして構成する
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このセクションでは、Azure で OpenShift クラスターをセットアップおよび管理し、そこにステートフル アプリケーションをデプロイする方法の大まかなワークフローについて説明します。これは、永続ボリュームを提供するためにTridentを活用したNetApp Cloud Volumes ONTAPストレージの使用方法を示しています。  Trident Protect を使用してステートフル アプリケーションのデータ保護および移行アクティビティを実行する方法について詳しく説明します。
+
+以下は、Azure にデプロイされ、VPN を使用してデータ センターに接続されたクラスターを示す図です。
+
+image:rhhc-self-managed-azure.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+
+NOTE: Azure に Red Hat OpenShift Container Platform クラスターをデプロイする方法はいくつかあります。このセットアップの概要説明には、使用された特定の方法に関するドキュメント リンクが提供されます。その他の方法については、以下の関連リンクを参照してください。link:os-solutions-resources.html["リソースセクション"] 。
+
+セットアッププロセスは次の手順に分けられます。
+
+.CLI から Azure に OCP クラスターをインストールします。
+[%collapsible%open]
+====
+* 記載されているすべての前提条件を満たしていることを確認してくださいlink:https://docs.openshift.com/container-platform/4.13/installing/installing_azure/installing-azure-vnet.html["ここをクリックしてください。"]。
+* VPN、サブネット、ネットワーク セキュリティ グループ、およびプライベート DNS ゾーンを作成します。  VPN ゲートウェイとサイト間 VPN 接続を作成します。
+* オンプレミスと Azure 間の VPN 接続用に、pfsense VM が作成および構成されました。手順については、link:https://docs.netgate.com/pfsense/en/latest/recipes/ipsec-s2s-psk.html["ここをクリックしてください。"] 。
+* インストールプログラムとプルシークレットを取得し、ドキュメントに記載されている手順に従ってクラスターをデプロイします。link:https://docs.openshift.com/container-platform/4.13/installing/installing_azure/installing-azure-vnet.html["ここをクリックしてください。"] 。
+* クラスターのインストールが完了し、クラスターのコンソールにログインするための kubeconfig ファイルとユーザー名とパスワードが提供されます。
+
+
+サンプルの install-config.yaml ファイルを以下に示します。
+
+....
+apiVersion: v1
+baseDomain: sddc.netapp.com
+compute:
+- architecture: amd64
+  hyperthreading: Enabled
+  name: worker
+  platform:
+    azure:
+      encryptionAtHost: false
+      osDisk:
+        diskSizeGB: 512
+        diskType: "StandardSSD_LRS"
+      type: Standard_D2s_v3
+      ultraSSDCapability: Disabled
+      #zones:
+      #- "1"
+      #- "2"
+      #- "3"
+  replicas: 3
+controlPlane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  platform:
+    azure:
+      encryptionAtHost: false
+      osDisk:
+        diskSizeGB: 1024
+        diskType: Premium_LRS
+      type: Standard_D8s_v3
+      ultraSSDCapability: Disabled
+  replicas: 3
+metadata:
+  creationTimestamp: null
+  name: azure-cluster
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  machineNetwork:
+  - cidr: 10.0.0.0/16
+  networkType: OVNKubernetes
+  serviceNetwork:
+  - 172.30.0.0/16
+platform:
+  azure:
+    baseDomainResourceGroupName: ocp-base-domain-rg
+    cloudName: AzurePublicCloud
+    computeSubnet: ocp-subnet2
+    controlPlaneSubnet: ocp-subnet1
+    defaultMachinePlatform:
+      osDisk:
+        diskSizeGB: 1024
+        diskType: "StandardSSD_LRS"
+      ultraSSDCapability: Disabled
+    networkResourceGroupName: ocp-nc-us-rg
+    #outboundType: UserDefinedRouting
+    region: northcentralus
+    resourceGroupName: ocp-cluster-ncusrg
+    virtualNetwork: ocp_vnet_ncus
+publish: Internal
+pullSecret:
+....
+====
+.BlueXPを使用して Azure にCloud Volumes ONTAP をデプロイします。
+[%collapsible%open]
+====
+* Azure にコネクタをインストールします。説明書を参照してください https://docs.netapp.com/us-en/bluexp-setup-admin/task-install-connector-azure-bluexp.html["ここをクリックしてください。"]。
+* コネクタを使用して Azure に CVO インスタンスをデプロイします。手順についてはリンクhttps://docs.netapp.com/us-en/bluexp-cloud-volumes-ontap/task-getting-started-azure.html [こちら]を参照してください。
+
+
+====
+.マルチゾーンアーキテクチャにTridentのCSIトポロジ機能を使用する
+現在、クラウド プロバイダーは、Kubernetes/OpenShift クラスター管理者がゾーン ベースのクラスターのノードを生成できるようにしています。ノードは、リージョン内の異なるアベイラビリティーゾーン、または複数のリージョンに配置できます。マルチゾーン アーキテクチャでのワークロードのボリュームのプロビジョニングを容易にするために、 Trident はCSI トポロジを使用します。 CSI トポロジ機能を使用すると、リージョンとアベイラビリティーゾーンに基づいて、ボリュームへのアクセスをノードのサブセットに制限できます。参照するlink:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["ここをクリックしてください。"]詳細については、こちらをご覧ください。
+
+
+NOTE: Kubernetes は 2 つのボリューム バインディング モードをサポートしています。 - **_VolumeBindingMode_ が _Immediate_** (デフォルト) に設定されている場合、 Trident はトポロジを認識せずにボリュームを作成します。永続ボリュームは、要求元のポッドのスケジュール要件に依存せずに作成されます。 - **_VolumeBindingMode_ が _WaitForFirstConsumer_** に設定されている場合、PVC を使用するポッドがスケジュールされて作成されるまで、PVC の永続ボリュームの作成とバインドは遅延されます。このようにして、トポロジ要件によって適用されるスケジュール制約を満たすボリュームが作成されます。 Tridentストレージ バックエンドは、可用性ゾーンに基づいてボリュームを選択的にプロビジョニングするように設計できます (トポロジ対応バックエンド)。このようなバックエンドを利用する StorageClasses の場合、ボリュームは、サポートされているリージョン/ゾーンでスケジュールされているアプリケーションによって要求された場合にのみ作成されます。  （トポロジー対応ストレージクラス）参照link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["ここをクリックしてください。"]詳細については、こちらをご覧ください。

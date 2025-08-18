@@ -1,0 +1,24 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-solutions-value-prop.html 
+keywords: NetApp Solutions, hybrid cloud, container workloads, containers, Red Hat OpenShift, RedHat OpenShift, VMware, ROSA, ACC, Trident Protect, Advanced Cluster Management, ACM, Hub Cluster 
+summary:  
+---
+= Red Hat OpenShift Container ワークロード向けNetAppハイブリッド マルチクラウド ソリューションの価値提案
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+ほとんどの顧客は、既存のインフラストラクチャなしで Kubernetes ベースの環境の構築を開始するわけではありません。おそらく、ほとんどのエンタープライズ アプリケーションを仮想マシン (大規模な VMware 環境など) 上で実行している従来の IT ショップでしょう。次に、最新のアプリケーション開発チームのニーズを満たすために、小さなコンテナベースの環境の構築を開始します。こうした取り組みは通常、小規模から始まり、チームが新しいテクノロジーやスキルを習得し、それらを採用することの多くの利点を認識し始めるにつれて、より広範囲に広がり始めます。お客様にとって朗報なのは、 NetApp が両方の環境のニーズに対応できることです。 Red Hat OpenShift を使用したハイブリッド マルチクラウド向けのこのソリューション セットにより、 NetApp のお客様は、インフラストラクチャと組織全体を刷新することなく、最新のクラウド テクノロジーとサービスを導入できるようになります。顧客のアプリケーションとデータがオンプレミス、クラウド、仮想マシン、コンテナのいずれでホストされているかに関係なく、 NetApp は一貫したデータ管理、保護、セキュリティ、移植性を提供できます。これらの新しいソリューションにより、 NetAppがオンプレミス データセンター環境で数十年にわたって提供してきたのと同じ価値が、企業のデータ ホライズン全体で利用できるようになります。ツールの再構築、新しいスキルの獲得、新しいチームの構築などに多大な投資をする必要はありません。  NetApp は、お客様がクラウド導入のどの段階にいても、これらのビジネス課題の解決を支援できる体制が整っています。
+
+NetAppハイブリッド マルチクラウドと Red Hat Openshift:
+
+* Red Hat OpenShift をNetAppベースのストレージ ソリューションと組み合わせて使用する場合、データとアプリケーションを管理、保護、セキュリティ保護、移行するための最適な方法を示す検証済みの設計とプラクティスを顧客に提供します。
+* VMware 環境、ベアメタル インフラストラクチャ、またはその両方の組み合わせでNetAppストレージを使用して Red Hat OpenShift を実行している顧客向けのベスト プラクティスを紹介します。
+* オンプレミス環境とクラウド環境の両方、および両方が使用されるハイブリッド環境の戦略とオプションを示します。
+

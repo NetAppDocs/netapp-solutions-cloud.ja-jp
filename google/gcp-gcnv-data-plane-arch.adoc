@@ -1,0 +1,35 @@
+---
+sidebar: sidebar 
+permalink: google/gcp-gcnv-data-plane-arch.html 
+keywords: cloud volumes service, google cloud, service networking, vpc peering 
+summary: Google Cloud NetApp Volumes for Google Cloud は、Google Cloud プライベート サービス アクセス フレームワークを活用します。このフレームワークでは、ユーザーはGoogle Cloud NetApp Volumesに接続できます。このフレームワークは、他の Google Cloud サービスと同様にサービス ネットワーキングと VPC ピアリング構造を使用して、テナント間の完全な分離を保証します。 
+---
+= データプレーンアーキテクチャ
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Google Cloud NetApp Volumes for Google CloudはGoogle Cloudを活用しています https://cloud.google.com/vpc/docs/configure-private-services-access["プライベートサービスアクセス"^]フレームワーク。このフレームワークでは、ユーザーはGoogle Cloud NetApp Volumesに接続できます。このフレームワークは、他の Google Cloud サービスと同様にサービス ネットワーキングと VPC ピアリング構造を使用して、テナント間の完全な分離を保証します。
+
+Google Cloud NetApp Volumes for Google Cloud のアーキテクチャの概要については、以下をご覧ください。 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/architecture["Google Cloud NetApp Volumesのアーキテクチャ"^] 。
+
+ユーザー VPC（スタンドアロンまたは共有）は、ボリュームをホストするGoogle Cloud NetApp Volumes管理対象テナント プロジェクト内の VPC にピアリングされます。
+
+image:ncvs-gc-005.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+上の図は、Google Cloud NetApp Volumesに接続された 3 つの VPC ネットワークと、ボリュームを共有する複数の Compute Engine VM (GCE1～7) を含むプロジェクト (中央のNetApp Volumes コンシューマー プロジェクト) を示しています。
+
+* VPC1 は GCE1 がボリューム A と B にアクセスできるようにします。
+* VPC2 は GCE2 と GCE4 がボリューム C にアクセスできるようにします。
+* 3 番目の VPC ネットワークは、2 つのサービス プロジェクトで共有される共有 VPC です。これにより、GCE3、GCE4、GCE5、GCE6 がボリューム D と E にアクセスできるようになります。共有 VPC ネットワークは、 NetApp Volumes-Performance サービス タイプのボリュームでのみサポートされます。
+
+
+
+NOTE: GCE7 はどのボリュームにもアクセスできません。
+
+データは、転送中（Kerberos または SMB 暗号化を使用）とGoogle Cloud NetApp Volumesでの保存中の両方で暗号化できます。

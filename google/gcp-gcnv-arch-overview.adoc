@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: google/gcp-gcnv-arch-overview.html 
+keywords: architecture overview, control plane, data plane 
+summary: クラウド ソリューションを信頼するには、アーキテクチャとそのセキュリティ保護方法を理解することが重要です。このセクションでは、Google のGoogle Cloud NetApp Volumesアーキテクチャのさまざまな側面について説明し、データのセキュリティ保護方法に関する潜在的な懸念を軽減するとともに、最も安全なデプロイメントを実現するために追加の構成手順が必要になる可能性がある領域について説明します。 
+---
+= 概要
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+クラウド ソリューションを信頼するには、アーキテクチャとそのセキュリティ保護方法を理解することが重要です。このセクションでは、Google のGoogle Cloud NetApp Volumesアーキテクチャのさまざまな側面について説明し、データのセキュリティ保護方法に関する潜在的な懸念を軽減するとともに、最も安全なデプロイメントを実現するために追加の構成手順が必要になる可能性がある領域について説明します。
+
+Google Cloud NetApp Volumesの一般的なアーキテクチャは、コントロール プレーンとデータ プレーンの 2 つの主要コンポーネントに分類できます。
+
+
+
+== コントロールプレーン
+
+Google Cloud NetApp Volumesのコントロール プレーンは、Google Cloud NetApp Volumes管理者とNetAppネイティブ自動化ソフトウェアによって管理されるバックエンド インフラストラクチャです。このプレーンはエンドユーザーに対して完全に透過的であり、ネットワーク、ストレージ ハードウェア、ソフトウェア アップデートなどが含まれており、 Google Cloud NetApp Volumesなどのクラウド常駐ソリューションに価値をもたらします。
+
+
+
+== データプレーン
+
+Google Cloud NetApp Volumesのデータプレーンには、実際のデータ ボリュームと、 Google Cloud NetApp Volumes の全体的な構成（アクセス制御、Kerberos 認証など）が含まれます。データ プレーンは、エンド ユーザーとGoogle Cloud NetApp Volumesプラットフォームの消費者によって完全に制御されます。
+
+各飛行機の安全確保と管理の方法には明確な違いがあります。次のセクションでは、 Google Cloud NetApp Volumesアーキテクチャの概要から始めて、これらの違いについて説明します。

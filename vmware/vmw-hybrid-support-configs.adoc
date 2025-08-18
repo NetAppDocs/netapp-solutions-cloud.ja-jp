@@ -1,0 +1,33 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-hybrid-support-configs.html 
+keywords: NetApp Solutions, ehc, enterprise hybrid cloud, hyperscalers, vmware, supported config, config, configuration 
+summary:  
+---
+= NetAppハイブリッド マルチクラウドと VMware のサポート対象構成
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+主要なハイパースケーラーにおけるNetAppストレージ サポートの組み合わせを理解します。
+
+[cols="10%, 45%, 45%"]
+|===
+
+
+|  | *ゲスト接続* | *補足NFSデータストア* 
+
+
+| *AWS* | CVO FSx ONTAPlink:vmw-aws-vmc-guest-storage.html["詳細"] | FSx ONTAPlink:vmw-aws-vmc-nfs-ds-overview.html["詳細"] 
+
+
+| *アズール* | CVO ANFlink:vmw-azure-avs-guest-storage.html["詳細"] | ANFlink:vmw-azure-avs-nfs-ds-overview.html["詳細"] 
+
+
+| *GCP* | CVO NetAppボリュームlink:vmw-gcp-gcve-guest-storage.html["詳細"] | NetAppボリュームlink:vmw-gcp-gcve-nfs-ds-overview.html["詳細"] 
+|===

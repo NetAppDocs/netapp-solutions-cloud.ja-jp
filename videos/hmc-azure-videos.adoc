@@ -1,0 +1,40 @@
+---
+sidebar: sidebar 
+permalink: videos/hmc-azure-videos.html 
+summary: NetAppによるハイブリッド クラウド AVS ソリューションを紹介するビデオとデモ 
+keywords: hybrid cloud, rosa, fsx ontap, azure vmware, netapp hci, videos, demos 
+---
+= NetAppを使用した Azure VMware クラウド向けハイブリッド マルチクラウド ソリューションに関するビデオを見る
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetAppを使用した Azure VMware Solution (AVS) のハイブリッド マルチクラウド ソリューションを紹介する NetApp の包括的なビデオ ライブラリをご覧ください。このコレクションには、補足データストア、災害復旧、移行ワークフローに関するビデオが含まれています。
+
+
+
+== 補足データストア
+
+.Azure NetApp Filesを使用した Azure VMware Solution 補足データストアの概要
+video::8c5ddb30-6c31-4cde-86e2-b01200effbd6[panopto,width=360]
+
+
+== ディザスタ リカバリ
+
+.Cloud Volumes ONTAP、 SnapCenter 、JetStream を使用した Azure VMware Solution DR
+video::5cd19888-8314-4cfc-ba30-b01200efff4f[panopto,width=360]
+
+
+== 移行ワークフロー (HCX)
+
+.VMware HCX による AVS および ANF 向けコールド マイグレーションのデモンストレーション
+video::b7ffa5ad-5559-4e56-a166-b01200f025bc[panopto,width=360]
+.AVS および ANF 向け VMware HCX を使用した vMotion のデモンストレーション
+video::986bb505-6f3d-4a5a-b016-b01200f03f18[panopto,width=360]
+.VMware HCX による AVS および ANF の一括移行のデモ
+video::255640f5-4dff-438c-8d50-b01200f017d1[panopto,width=360]

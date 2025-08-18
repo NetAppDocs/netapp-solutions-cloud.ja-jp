@@ -1,0 +1,112 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-op-data-protection.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= Astraを使用したデータ保護
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このページでは、 Trident Protect (ACC) を使用して VMware vSphere 上で実行されている Red Hat OpenShift Container ベースのアプリケーションのデータ保護オプションを示します。
+
+ユーザーが Red Hat OpenShift を使用してアプリケーションを最新化する際には、誤った削除やその他の人為的エラーからアプリケーションを保護するためのデータ保護戦略を策定する必要があります。多くの場合、規制やコンプライアンス上の目的でデータを災害から保護するための保護戦略も必要になります。
+
+データ保護の要件は、ある時点のコピーに戻すことから、人間の介入なしに別の障害ドメインに自動的にフェイルオーバーすることまで多岐にわたります。多くのお客様が、マルチテナンシー、マルチプロトコル、高パフォーマンスと高容量の提供、複数サイトのレプリケーションとキャッシュ、セキュリティと柔軟性などの豊富な機能を備えているため、Kubernetes アプリケーション用の優先ストレージ プラットフォームとしてONTAPを選択しています。
+
+ONTAPのデータ保護は、アドホックまたはポリシー制御のスナップショット、バックアップとリストアを使用して実現できます。
+
+スナップショット コピーとバックアップはどちらも、次の種類のデータを保護します: - **アプリケーションの状態を表すアプリケーション メタデータ** - **アプリケーションに関連付けられた永続データ ボリューム** - **アプリケーションに属するリソース アーティファクト**
+
+
+
+== ACC によるスナップショット
+
+ACC を使用したスナップショットを使用して、データの特定時点のコピーをキャプチャできます。保護ポリシーは、保持するスナップショット コピーの数を定義します。利用可能な最小スケジュール オプションは時間単位です。手動のオンデマンド Snapshot コピーは、いつでも、スケジュールされた Snapshot コピーよりも短い間隔で作成できます。スナップショット コピーは、アプリと同じプロビジョニングされたボリュームに保存されます。
+
+
+
+=== ACC を使用したスナップショットの設定
+
+image:rhhc-onprem-dp-snap.png["Trident Protect スナップショットビュー"]
+
+
+
+== ACC によるバックアップと復元
+
+バックアップはスナップショットに基づいています。 Trident Protect は、CSI を使用してスナップショット コピーを取得し、ポイント イン タイム スナップショット コピーを使用してバックアップを実行できます。バックアップは外部オブジェクト ストア (別の場所にあるONTAP S3 を含む、S3 と互換性のある任意のストア) に保存されます。スケジュールされたバックアップと保持するバックアップ バージョンの数に対して保護ポリシーを構成できます。最小 RPO は 1 時間です。
+
+
+
+=== ACC を使用してバックアップからアプリケーションを復元する
+
+ACC は、バックアップが保存されている S3 バケットからアプリケーションを復元します。
+
+image:rhhc-onprem-dp-br.png["Trident Protect 復元オプション"]
+
+
+
+== アプリケーション固有の実行フック
+
+さらに、実行フックは、管理対象アプリのデータ保護操作と組み合わせて実行するように構成できます。ストレージ アレイ レベルのデータ保護機能が利用可能であっても、アプリケーションの一貫性を保ちながらバックアップと復元を行うには、追加の手順が必要になることがよくあります。アプリ固有の追加手順としては、次のものが考えられます: - スナップショット コピーが作成される前または後。  - バックアップが作成される前または後。  - スナップショット コピーまたはバックアップから復元した後。
+
+Astra Control は、実行フックと呼ばれるカスタム スクリプトとしてコーディングされたアプリ固有のステップを実行できます。
+
+https://github.com/NetApp/Verda["NetApp Verda GitHub プロジェクト"]一般的なクラウドネイティブ アプリケーションの実行フックを提供することで、アプリケーションの保護を簡単かつ堅牢にし、簡単にオーケストレーションできるようにします。リポジトリにないアプリケーションに関する十分な情報をお持ちの場合は、ぜひそのプロジェクトに貢献してください。
+
+
+
+== Redis アプリケーションの事前スナップショット用のサンプル実行フック。
+
+image:rhhc-onprem-dp-br-hook.png["Tridentプロテクト実行フック"]
+
+
+
+== ACCによるレプリケーション
+
+リージョン保護や RPO および RTO が低いソリューションの場合、アプリケーションを別のサイト (できれば別のリージョン) で実行されている別の Kubernetes インスタンスに複製できます。 Trident Protect は、最短 5 分の RPO でONTAP非同期SnapMirrorを活用します。レプリケーションはONTAPにレプリケートすることによって実行され、その後フェイルオーバーによって宛先クラスターに Kubernetes リソースが作成されます。
+
+
+NOTE: レプリケーションは、バックアップが S3 に保存され、復元が S3 から実行されるバックアップと復元とは異なることに注意してください。  2種類のデータ保護の違いについての詳細は、https://docs.netapp.com/us-en/astra-control-center/concepts/data-protection.html#replication-to-a-remote-cluster[こちら]のリンクを参照してください。
+
+参照するlink:https://docs.netapp.com/us-en/astra-control-center/use/replicate_snapmirror.html["ここをクリックしてください。"]SnapMirror のセットアップ手順については、こちらをご覧ください。
+
+
+
+=== ACC 搭載SnapMirror
+
+image:rhhc-onprem-dp-rep.png["Trident Protectレプリケーション"]
+
+
+NOTE: san-economy および nas-economy ストレージ ドライバーはレプリケーション機能をサポートしていません。参照するlink:https://docs.netapp.com/us-en/astra-control-center/get-started/requirements.html#astra-trident-requirements["ここをクリックしてください。"]詳細については、こちらをご覧ください。
+
+
+
+=== デモビデオ:
+
+link:https://www.netapp.tv/details/29504?mcid=35609780286441704190790628065560989458["Trident Protectによる災害復旧のデモビデオ"]
+
+.Trident Protectによるデータ保護
+video::0cec0c90-4c6f-4018-9e4f-b09700eefb3a[panopto,width=360]
+
+
+== MetroClusterによるビジネス継続性
+
+ONTAP向けの当社のハードウェア プラットフォームのほとんどには、デバイス障害から保護し、災害復旧を実行する必要性を回避する高可用性機能が備わっています。しかし、火災やその他の災害から保護し、RPO ゼロ、RTO の低さでビジネスを継続するために、 MetroClusterソリューションが使用されることがよくあります。
+
+現在ONTAPシステムをお持ちのお客様は、距離制限内でサポートされているONTAPシステムを追加することでMetroClusterに拡張し、ゾーン レベルの災害復旧を提供できます。 Trident 、CSI (Container Storage Interface) は、 MetroCluster構成を含むNetApp ONTAP のほか、 Cloud Volumes ONTAP、 Azure NetApp Files、AWS FSx ONTAPなどのオプションもサポートします。TridentはONTAP用に 5 つのストレージ ドライバー オプションを提供し、すべてMetroCluster構成でサポートされています。参照するlink:https://docs.netapp.com/us-en/trident/trident-use/backends.html["ここをクリックしてください。"]TridentでサポートされているONTAPストレージ ドライバーの詳細については、 を参照してください。
+
+MetroClusterソリューションでは、レイヤー 2 ネットワーク拡張または両方の障害ドメインから同じネットワーク アドレスにアクセスする機能が必要です。  MetroCluster構成が設定されると、 MetroCluster SVM 内のすべてのボリュームが保護され、 SyncMirror (ゼロ RPO) の利点が得られるため、ソリューションはアプリケーション所有者に対して透過的になります。
+
+image:rhhc-onprem-dp-bc.png["MetroClusterによるビジネス継続性ソリューション"]
+
+
+TIP: Tridentバックエンド構成 (TBC) の場合、 MetroCluster構成を使用するときは、dataLIF と SVM を指定しないでください。管理LIF の SVM 管理 IP を指定し、vsadmin ロールの資格情報を使用します。
+
+Trident Protectデータ保護機能の詳細については、link:https://docs.netapp.com/us-en/astra-control-center/concepts/data-protection.html["ここをクリックしてください。"]

@@ -1,0 +1,338 @@
+---
+sidebar: sidebar 
+permalink: google/gcp-gcnv-smb.html 
+keywords: smb, access control, name aliases, authentication dialects, NTFS, mmc, 
+summary: SMB は、Microsoft が開発したネットワーク ファイル共有プロトコルであり、イーサネット ネットワーク経由で複数の SMB クライアントに集中的なユーザー/グループ認証、権限、ロック、およびファイル共有を提供します。 
+---
+= SMB
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/hh831795(v=ws.11)["SMB"^]は、Microsoft が開発したネットワーク ファイル共有プロトコルであり、イーサネット ネットワーク経由で複数の SMB クライアントに集中的なユーザー/グループ認証、アクセス許可、ロック、およびファイル共有を提供します。ファイルとフォルダーは共有を通じてクライアントに提示されます。共有はさまざまな共有プロパティで構成でき、共有レベルの権限によるアクセス制御を提供します。  SMB は、Windows、Apple、Linux クライアントなど、プロトコルをサポートする任意のクライアントに提供できます。
+
+Google Cloud NetApp Volumes は、 SMB 2.1 および 3.x バージョンのプロトコルをサポートしています。
+
+
+
+== アクセス制御/SMB共有
+
+* Windows ユーザー名がGoogle Cloud NetApp Volumesボリュームへのアクセスを要求すると、 Google Cloud NetApp Volumes はGoogle Cloud NetApp Volumes管理者が設定した方法を使用して UNIX ユーザー名を検索します。
+* 外部 UNIX ID プロバイダー (LDAP) が設定されていて、Windows/UNIX ユーザー名が同一の場合、追加の設定を必要とせずに、Windows ユーザー名が UNIX ユーザー名に 1:1 でマップされます。  LDAP が有効になっている場合、ユーザーおよびグループ オブジェクトの UNIX 属性をホストするために Active Directory が使用されます。
+* Windows名とUNIX名が一致しない場合は、 Google Cloud NetApp VolumesがLDAP名マッピング設定を使用できるようにLDAPを設定する必要があります（セクションを参照）。link:gcp-gcnv-nas-dependencies.html#using-ldap-for-asymmetric-name-mapping["非対称名マッピングにLDAPを使用する"] ）。
+* LDAPが使用されていない場合、Windows SMBユーザーはデフォルトのローカルUNIXユーザーにマップされます。 `pcuser` Google Cloud NetApp Volumesで。これは、Windowsでユーザーが書き込んだファイルで、 `pcuser` UNIXの所有権を次のように表示する `pcuser`マルチプロトコル NAS 環境で。 `pcuser`ここでは、 `nobody` Linux 環境のユーザー (UID 65534)。
+
+
+SMBのみの展開では、 `pcuser`マッピングは依然として発生しますが、Windows ユーザーとグループの所有権が正しく表示され、SMB 専用ボリュームへの NFS アクセスは許可されないため、問題にはなりません。さらに、SMB 専用ボリュームは、作成後に NFS またはデュアルプロトコル ボリュームへの変換をサポートしません。
+
+Windows は、Active Directory ドメイン コントローラでのユーザー名認証に Kerberos を活用します。そのためには、 Google Cloud NetApp Volumesインスタンスの外部にある AD DC とのユーザー名とパスワードの交換が必要です。  Kerberos認証は、 `\\SERVERNAME` UNC パスは SMB クライアントによって使用され、次のようになります。
+
+* SERVERNAME に DNS A/AAAA エントリが存在します
+* SERVERNAME には SMB/CIFS アクセス用の有効な SPN が存在します
+
+
+Google Cloud NetApp Volumes SMBボリュームが作成されると、セクションで定義されたとおりにマシンアカウント名が作成されます。link:gcp-gcnv-ad-connections.html#how-cloud-volumes-service-shows-up-in-active-directory["Google Cloud NetApp Volumes がActive Directory にどのように表示されるか。"] Google Cloud NetApp Volumes はダイナミック DNS（DDNS）を活用して DNS に必要な A/AAAA および PTR エントリを作成し、マシン アカウント プリンシパルに必要な SPN エントリを作成するため、そのマシン アカウント名は SMB 共有アクセス パスにもなります。
+
+
+NOTE: PTR エントリを作成するには、 Google Cloud NetApp Volumesインスタンスの IP アドレスの逆引き参照ゾーンが DNS サーバー上に存在している必要があります。
+
+たとえば、このGoogle Cloud NetApp Volumesボリュームは次の UNC 共有パスを使用します。 `\\cvs-east- 433d.cvsdemo.local` 。
+
+Active Directory では、 Google Cloud NetApp Volumesによって生成された SPN エントリは次のとおりです。
+
+image:ncvs-gc-006.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+これは DNS の順方向/逆方向検索の結果です。
+
+....
+PS C:\> nslookup NetApp Volumes-EAST-433D
+Server:  activedirectory. region. lab. internal
+Address:  10. xx.0. xx
+Name:    NetApp Volumes-EAST-433D.cvsdemo.local
+Address:  10. xxx.0. x
+PS C:\> nslookup 10. xxx.0. x
+Server:  activedirectory.region.lab.internal
+Address:  10.xx.0.xx
+Name:    NetApp Volumes-EAST-433D.CVSDEMO.LOCAL
+Address:  10. xxx.0. x
+....
+オプションで、 Google Cloud NetApp Volumesの SMB 共有に対して SMB 暗号化を有効化/必須化することで、より多くのアクセス制御を適用できます。いずれかのエンドポイントで SMB 暗号化がサポートされていない場合、アクセスは許可されません。
+
+
+
+=== SMB名エイリアスの使用
+
+場合によっては、エンドユーザーがGoogle Cloud NetApp Volumesに使用されているマシン アカウント名を知ることがセキュリティ上の懸念となることがあります。場合によっては、エンド ユーザーに単純なアクセス パスを提供したいだけの場合もあります。このような場合は、SMB エイリアスを作成できます。
+
+SMB 共有パスのエイリアスを作成する場合は、DNS の CNAME レコードと呼ばれるものを活用できます。例えば、 `\\CIFS`代わりに共有にアクセスする `\\cvs-east- 433d.cvsdemo.local`ただし、Kerberos 認証を引き続き使用したい場合は、既存の A/AAAA レコードを指す DNS の CNAME と、既存のマシン アカウントに追加された追加の SPN によって Kerberos アクセスが提供されます。
+
+image:ncvs-gc-007.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+これは、CNAME を追加した後の DNS 前方参照の結果です。
+
+....
+PS C:\> nslookup cifs
+Server:  ok-activedirectory.us-east4-a.c.cv-solution-architect-lab.internal
+Address:  10. xx.0. xx
+Name:    NetApp Volumes-EAST-433D.cvsdemo.local
+Address:  10. xxx.0. x
+Aliases:  cifs.cvsdemo.local
+....
+これは、新しい SPN を追加した後の SPN クエリの結果です。
+
+image:ncvs-gc-008.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+パケット キャプチャでは、CNAME に関連付けられた SPN を使用してセッション セットアップ要求を確認できます。
+
+image:ncvs-gc-009.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+
+
+=== SMB認証方言
+
+Google Cloud NetApp Volumesは次のものをサポートしています https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-smb2/8df1a501-ce4e-4287-8848-5f1d4733e280["方言"^]SMB認証の場合:
+
+* LM
+* NTLM
+* NTLMv2
+* Kerberos
+
+
+SMB 共有アクセス用の Kerberos 認証は、使用できる認証の中で最も安全なレベルです。  AES および SMB 暗号化を有効にすると、セキュリティ レベルがさらに向上します。
+
+Google Cloud NetApp Volumes は、 LM 認証と NTLM 認証の下位互換性もサポートしています。 Kerberos が誤って構成されている場合 (SMB エイリアスを作成する場合など)、共有アクセスはより弱い認証方法 (NTLMv2 など) にフォールバックします。これらのメカニズムは安全性が低いため、一部の Active Directory 環境では無効になっています。弱い認証方法が無効になっており、Kerberos が適切に構成されていない場合、フォールバックできる有効な認証方法がないため、共有アクセスは失敗します。
+
+Active Directoryでサポートされている認証レベルを構成/表示する方法の詳細については、以下を参照してください。 https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/network-security-lan-manager-authentication-level["ネットワークセキュリティ: LAN Manager認証レベル"^] 。
+
+
+
+== 権限モデル
+
+
+
+=== NTFS/ファイル権限
+
+NTFS アクセス許可は、NTFS ロジックに準拠したファイル システム内のファイルとフォルダーに適用されるアクセス許可です。  NTFS権限を適用できるのは `Basic`または `Advanced`設定できる `Allow`または `Deny`アクセス制御用。
+
+基本的な権限には次のものが含まれます。
+
+* フル コントロール
+* 変更
+* 読み取りと実行
+* 読み取り
+* 書き込み
+
+
+ユーザーまたはグループに権限（ACE と呼ばれる）を設定すると、それは ACL に存在します。  NTFS アクセス許可は、UNIX モード ビットと同じ読み取り/書き込み/実行の基本を使用しますが、所有権の取得、フォルダーの作成/データの追加、属性の書き込みなど、よりきめ細かな拡張アクセス制御 (特殊なアクセス許可とも呼ばれます) に拡張することもできます。
+
+標準の UNIX モード ビットでは、NTFS アクセス許可と同じレベルの細分性 (ACL 内の個々のユーザーおよびグループ オブジェクトに対するアクセス許可の設定や拡張属性の設定など) は提供されません。ただし、NFSv4.1 ACL は NTFS ACL と同じ機能を提供します。
+
+NTFS アクセス許可は共有アクセス許可よりも具体的であり、共有アクセス許可と組み合わせて使用できます。 NTFS アクセス許可構造では、最も制限の厳しいものが適用されます。そのため、アクセス権を定義するときに、ユーザーまたはグループに対する明示的な拒否はフル コントロールよりも優先されます。
+
+NTFS アクセス許可は Windows SMB クライアントから制御されます。
+
+
+
+=== 共有権限
+
+共有アクセス許可は、NTFS アクセス許可 (読み取り/変更/フル コントロールのみ) よりも一般的であり、NFS エクスポート ポリシー ルールの動作と同様に、SMB 共有への最初のエントリを制御します。
+
+NFS エクスポート ポリシー ルールは、IP アドレスやホスト名などのホストベースの情報を通じてアクセスを制御しますが、SMB 共有アクセス許可は、共有 ACL 内のユーザーおよびグループ ACE を使用してアクセスを制御できます。共有 ACL は、Windows クライアントまたはGoogle Cloud NetApp Volumes管理 UI から設定できます。
+
+デフォルトでは、共有 ACL と初期ボリューム ACL にはフル コントロールを持つ Everyone が含まれます。ファイル ACL を変更する必要がありますが、共有のアクセス許可は共有内のオブジェクトのファイルアクセス許可によって上書きされます。
+
+たとえば、ユーザーにGoogle Cloud NetApp Volumesボリューム ファイル ACL への読み取りアクセスのみが許可されている場合、次の図に示すように、共有 ACL が「フル コントロールを持つすべてのユーザー」に設定されているにもかかわらず、ファイルやフォルダを作成するアクセスは拒否されます。
+
+image:ncvs-gc-010.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+image:ncvs-gc-011.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+最高のセキュリティ結果を得るには、次の操作を行ってください。
+
+* 共有およびファイル ACL から Everyone を削除し、代わりにユーザーまたはグループの共有アクセスを設定します。
+* 管理を容易にし、グループ管理を通じて ACL を共有するためにユーザーの削除/追加を高速化するために、個々のユーザーの代わりにグループを使用してアクセス制御を行います。
+* 共有権限の ACE に対して、制限の少ない、より一般的な共有アクセスを許可し、ファイル権限を持つユーザーとグループへのアクセスをロックダウンして、よりきめ細かなアクセス制御を実現します。
+* 明示的な拒否 ACL は許可 ACL を上書きするため、一般的な使用は避けてください。ファイル システムへのアクセスをすぐに制限する必要があるユーザーまたはグループに対して、明示的な拒否 ACL の使用を制限します。
+* 必ず注意してください https://www.varonis.com/blog/permission-propagation/["ACL継承"^]権限を変更するときの設定。ファイル数が多いディレクトリまたはボリュームの最上位レベルで継承フラグを設定すると、そのディレクトリまたはボリュームの下にある各ファイルに継承された権限が追加されるため、各ファイルが調整されるたびに、意図しないアクセス/拒否や権限変更の長時間にわたる変更などの望ましくない動作が発生する可能性があります。
+
+
+
+
+== SMB共有のセキュリティ機能
+
+Google Cloud NetApp Volumesで SMB アクセスを使用してボリュームを初めて作成すると、そのボリュームを保護するための一連の選択肢が表示されます。
+
+これらの選択肢の一部は、Google Cloud NetApp Volumes のレベル（パフォーマンスまたはソフトウェア）によって異なり、次のような選択肢があります。
+
+* *スナップショット ディレクトリを表示します ( NetApp Volumes-Performance とNetApp Volumes-SW の両方で使用可能)。*このオプションは、SMBクライアントがSMB共有内のスナップショットディレクトリにアクセスできるかどうかを制御します。(`\\server\share\~snapshot`および/または以前のバージョンタブ)。デフォルト設定は「チェックなし」で、ボリュームはデフォルトで非表示になり、アクセスが禁止されます。 `~snapshot`ディレクトリが存在し、ボリュームの [以前のバージョン] タブにスナップショット コピーが表示されません。
+
+
+image:ncvs-gc-012.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+セキュリティ上の理由、パフォーマンス上の理由 (これらのフォルダを AV スキャンから非表示にする)、または設定により、エンド ユーザーからスナップショット コピーを非表示にすることが望ましい場合があります。 Google Cloud NetApp Volumesスナップショットは読み取り専用であるため、これらのスナップショットが表示されていても、エンドユーザーはスナップショット ディレクトリ内のファイルを削除したり変更したりすることはできません。スナップショット コピーが作成された時点のファイルまたはフォルダに対するファイル権限が適用されます。ファイルまたはフォルダの権限がスナップショット コピー間で変更された場合、その変更はスナップショット ディレクトリ内のファイルまたはフォルダにも適用されます。ユーザーとグループは、権限に基づいてこれらのファイルまたはフォルダーにアクセスできます。スナップショット ディレクトリ内のファイルの削除や変更はできませんが、スナップショット ディレクトリからファイルまたはフォルダをコピーすることは可能です。
+
+* *SMB 暗号化を有効にします ( NetApp Volumes-Performance とNetApp Volumes-SW の両方で使用可能)。* SMB 暗号化は、SMB 共有ではデフォルトで無効になっています (チェックなし)。このボックスをチェックすると SMB 暗号化が有効になり、SMB クライアントとサーバー間のトラフィックは、サポートされている最高の暗号化レベルがネゴシエートされて、転送中に暗号化されます。  Google Cloud NetApp Volumes は、 SMB に対して最大 AES-256 暗号化をサポートします。  SMB 暗号化を有効にすると、SMB クライアントで目立たない程度のパフォーマンスの低下 (約 10 ～ 20 %) が発生します。  NetApp、パフォーマンスの低下が許容できるかどうかを確認するためのテストを強く推奨しています。
+* *SMB 共有を非表示にします ( NetApp Volumes-Performance とNetApp Volumes-SW の両方で使用可能)。*このオプションを設定すると、SMB 共有パスが通常のブラウジングから非表示になります。つまり、共有パスを知らないクライアントは、デフォルトのUNCパス（ `\\NetApp Volumes-SMB` ）。チェックボックスをオンにすると、SMB 共有パスを明示的に認識しているクライアント、またはグループ ポリシー オブジェクトによって共有パスが定義されているクライアントのみがアクセスできるようになります (難読化によるセキュリティ)。
+* *アクセスベースの列挙 (ABE) を有効にします (NetApp Volumes-SW のみ)。*これは SMB 共有を非表示にするのと似ていますが、共有またはファイルは、オブジェクトにアクセスする権限を持たないユーザーまたはグループに対してのみ非表示になります。例えば、Windowsユーザーの場合 `joe`権限によって少なくとも読み取りアクセスが許可されていない場合、Windowsユーザーは `joe`SMB 共有またはファイルをまったく見ることができません。これはデフォルトでは無効になっていますが、チェックボックスを選択することで有効にすることができます。  ABEの詳細については、 NetAppナレッジベースの記事を参照してください。 https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/How_does_Access_Based_Enumeration_(ABE)_work["アクセスベースの列挙 (ABE) はどのように機能しますか?"^]
+* *継続的可用性 (CA) 共有サポートを有効にします (NetApp Volumes-Performance のみ)。* https://kb.netapp.com/Advice_and_Troubleshooting/Data_Storage_Software/ONTAP_OS/What_are_SMB_Continuously_Available_(CA)_Shares["継続的に利用可能なSMB共有"^] Google Cloud NetApp Volumesバックエンド システム内のノード間でロック状態を複製することにより、フェイルオーバー イベント中のアプリケーションの中断を最小限に抑える方法を提供します。これはセキュリティ機能ではありませんが、全体的な回復力が向上します。現在、この機能は SQL Server および FSLogix アプリケーションのみでサポートされています。
+
+
+
+
+== デフォルトの隠し共有
+
+Google Cloud NetApp VolumesにSMBサーバーを作成すると、 https://library.netapp.com/ecmdocs/ECMP1366834/html/GUID-5B56B12D-219C-4E23-B3F8-1CB1C4F619CE.html["隠し管理共有"^] ($ 命名規則を使用) データ ボリューム SMB 共有に加えて作成されます。これらには、C$ (名前空間アクセス) と IPC$ (Microsoft 管理コンソール (MMC) アクセスに使用されるリモート プロシージャ コール (RPC) などのプログラム間の通信用の名前付きパイプの共有) が含まれます。
+
+IPC$共有には共有ACLが含まれず、変更できません。RPC呼び出しと https://docs.microsoft.com/en-us/troubleshoot/windows-server/networking/inter-process-communication-share-null-session["Windowsはデフォルトでこれらの共有への匿名アクセスを許可しません"^]。
+
+C$ 共有はデフォルトで BUILTIN/Administrators アクセスを許可しますが、 Google Cloud NetApp Volumes の自動化により共有 ACL が削除され、誰に対してもアクセスが許可されなくなります。これは、C$ 共有へのアクセスにより、Google Cloud NetApp Volumesファイル システムにマウントされているすべてのボリュームが可視化されるためです。その結果、 `\\SERVER\C$`失敗。
+
+
+
+== ローカル/組み込み管理者/バックアップ権限を持つアカウント
+
+Google Cloud NetApp Volumes SMB サーバーは、選択したドメイン ユーザーとグループにアクセス権を適用するローカル グループ (BUILTIN\Administrators など) があるという点で、通常の Windows SMB サーバーと同様の機能を維持しています。
+
+バックアップユーザーに追加するユーザーを指定すると、そのユーザーは、そのActive Directory接続を使用するGoogle Cloud NetApp VolumesインスタンスのBUILTIN\Backup Operatorsグループに追加され、 https://docs.microsoft.com/en-us/windows-hardware/drivers/ifs/privileges["SeBackupPrivilege と SeRestorePrivilege"^] 。
+
+セキュリティ権限ユーザーにユーザーを追加すると、ユーザーにはSeSecurityPrivilegeが付与されます。これは、次のような一部のアプリケーションの使用例で役立ちます。 https://docs.netapp.com/us-en/ontap/smb-hyper-v-sql/add-sesecurityprivilege-user-account-task.html["SMB 共有上の SQL Server"^] 。
+
+image:ncvs-gc-013.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+適切な権限があれば、MMC を通じてGoogle Cloud NetApp Volumes のローカル グループ メンバーシップを表示できます。次の図は、Google Cloud NetApp Volumesコンソールを使用して追加されたユーザーを示しています。
+
+image:ncvs-gc-014.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+次の表は、デフォルトの BUILTIN グループのリストと、デフォルトで追加されるユーザー/グループを示しています。
+
+|===
+| ローカル/BUILTINグループ | デフォルトメンバー 
+
+
+| 組み込み\管理者* | ドメイン\ドメイン管理者 
+
+
+| 組み込み\バックアップオペレーター* | なし 
+
+
+| ビルトインゲスト | ドメイン\ドメインゲスト 
+
+
+| BUILTIN\Power Users | なし 
+
+
+| BUILTIN\ドメインユーザー | ドメイン\ドメインユーザー 
+|===
+*グループ メンバーシップは、Google Cloud NetApp Volumes Active Directory 接続構成で制御されます。
+
+MMC ウィンドウではローカル ユーザーとグループ (およびグループ メンバー) を表示できますが、このコンソールからオブジェクトを追加または削除したり、グループ メンバーシップを変更したりすることはできません。デフォルトでは、 Google Cloud NetApp Volumesの BUILTIN\Administrators グループには、Domain Admins グループと管理者のみが追加されます。現在、これを変更することはできません。
+
+image:ncvs-gc-015.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+image:ncvs-gc-016.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+
+
+== MMC/コンピュータ管理アクセス
+
+Google Cloud NetApp Volumesの SMB アクセスは、コンピュータ管理 MMC への接続を提供し、共有の表示、共有 ACL の管理、SMB セッションの表示/管理、ファイルのオープンを可能にします。
+
+MMC を使用してGoogle Cloud NetApp Volumes内の SMB 共有とセッションを表示するには、現在ログインしているユーザーがドメイン管理者である必要があります。他のユーザーには、MMC から SMB サーバーを表示または管理するアクセス権が付与されており、 Google Cloud NetApp Volumes SMB インスタンス上の共有またはセッションを表示しようとすると、「権限がありません」というダイアログ ボックスが表示されます。
+
+SMB サーバーに接続するには、「コンピューターの管理」を開き、「コンピューターの管理」を右クリックして、「別のコンピューターに接続」を選択します。これにより、[コンピュータの選択] ダイアログ ボックスが開き、SMB サーバー名 ( Google Cloud NetApp Volumes のボリューム情報に記載) を入力できます。
+
+適切な権限を持つ SMB 共有を表示すると、Active Directory 接続を共有するGoogle Cloud NetApp Volumesインスタンスで利用可能なすべての共有が表示されます。この動作を制御するには、 Google Cloud NetApp Volumesボリューム インスタンスで SMB 共有を非表示にするオプションを設定します。
+
+リージョンごとに 1 つの Active Directory 接続のみが許可されることに注意してください。
+
+image:ncvs-gc-017.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+image:ncvs-gc-018.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+次の表は、MMC でサポートされている機能とサポートされていない機能の一覧を示しています。
+
+|===
+| サポートされている機能 | サポートされていない機能 
+
+
+ a| 
+* シェアを見る
+* アクティブなSMBセッションを表示する
+* 開いているファイルを表示する
+* ローカルユーザーとグループを表示する
+* ローカルグループのメンバーシップを表示する
+* システム内のセッション、ファイル、ツリー接続のリストを列挙する
+* システム内の開いているファイルを閉じる
+* 開いているセッションを閉じる
+* 共有の作成/管理
+
+ a| 
+* 新しいローカルユーザー/グループの作成
+* 既存のローカルユーザー/グループの管理/表示
+* イベントまたはパフォーマンスログを表示する
+* ストレージの管理
+* サービスとアプリケーションの管理
+
+
+|===
+
+
+== SMBサーバーのセキュリティ情報
+
+Google Cloud NetApp Volumesの SMB サーバーは、Kerberos クロック スキュー、チケットの有効期間、暗号化など、SMB 接続のセキュリティ ポリシーを定義する一連のオプションを使用します。
+
+次の表には、これらのオプション、その機能、デフォルト構成、 Google Cloud NetApp Volumesで変更できるかどうかのリストが含まれています。一部のオプションはGoogle Cloud NetApp Volumesには適用されません。
+
+|===
+| セキュリティオプション | 何をするのか | デフォルト値 | 変更できますか? 
+
+
+| 最大 Kerberos クロック スキュー (分) | Google Cloud NetApp Volumesとドメイン コントローラ間の最大時間差。時間のずれが 5 分を超えると、Kerberos 認証は失敗します。これは Active Directory のデフォルト値に設定されています。 | 5 | いいえ 
+
+
+| Kerberos チケットの有効期間 (時間) | Kerberos チケットの更新が必要になるまでの最大有効期間。  10 時間以内に更新が行われない場合は、新しいチケットを取得する必要があります。  Google Cloud NetApp Volumes はこれらの更新を自動的に実行します。  10 時間は Active Directory のデフォルト値です。 | 10 | いいえ 
+
+
+| Kerberos チケットの最大更新日数（日数） | 新しい承認要求が必要になる前に Kerberos チケットを更新できる最大日数。  Google Cloud NetApp Volumes は、 SMB 接続のチケットを自動的に更新します。  7 日は Active Directory のデフォルト値です。 | 7 | いいえ 
+
+
+| Kerberos KDC 接続タイムアウト (秒) | KDC 接続がタイムアウトするまでの秒数。 | 3 | いいえ 
+
+
+| 受信SMBトラフィックに署名を要求 | SMB トラフィックに署名を要求する設定。  true に設定すると、署名をサポートしていないクライアントは接続に失敗します。 | 間違い |  
+
+
+| ローカル ユーザ アカウントに複雑なパスワードを要求 | ローカル SMB ユーザーのパスワードに使用されます。  Google Cloud NetApp Volumes はローカル ユーザーの作成をサポートしていないため、このオプションはGoogle Cloud NetApp Volumesには適用されません。 | True | いいえ 
+
+
+| Active Directory LDAP 接続に start_tls を使用する | Active Directory LDAP の TLS 接続の開始を有効にするために使用されます。  Google Cloud NetApp Volumes は現在、これの有効化をサポートしていません。 | 間違い | いいえ 
+
+
+| KerberosのAES-128およびAES-256暗号化は有効になっていますか | これは、Active Directory 接続に AES 暗号化を使用するかどうかを制御し、Active Directory 接続の作成/変更時に「Active Directory 認証に AES 暗号化を有効にする」オプションで制御されます。 | 間違い | はい 
+
+
+| LM互換性レベル | Active Directory 接続でサポートされている認証方言のレベル。  「<<SMB認証方言>>詳細については、「」を参照してください。 | ntlmv2-krb | いいえ 
+
+
+| 受信CIFSトラフィックにSMB暗号化を要求 | すべての共有に SMB 暗号化が必要です。これはGoogle Cloud NetApp Volumesでは使用されません。代わりに、ボリュームごとに暗号化を設定します（「<<SMB共有のセキュリティ機能>> 」）。 | 間違い | いいえ 
+
+
+| クライアントセッションセキュリティ | LDAP 通信の署名および/または封印を設定します。これは現在Google Cloud NetApp Volumesでは設定されていませんが、将来のリリースで対処するために必要になる可能性があります。  WindowsパッチによるLDAP認証の問題の修復については、次のセクションで説明します。link:gcp-gcnv-nas-dependencies.html#ldap-channel-binding["LDAP チャネル バインディング。"] 。 | なし | いいえ 
+
+
+| DC接続用のSMB2対応 | DC 接続には SMB2 を使用します。デフォルトは有効です。 | システムデフォルト | いいえ 
+
+
+| LDAP 参照追跡 | 複数の LDAP サーバーを使用する場合、参照追跡により、最初のサーバーにエントリが見つからないときにクライアントはリスト内の他の LDAP サーバーを参照できます。これは現在、Google Cloud NetApp Volumesではサポートされていません。 | 間違い | いいえ 
+
+
+| 安全な Active Directory 接続には LDAPS を使用する | SSL 経由の LDAP の使用を有効にします。現在、 Google Cloud NetApp Volumesではサポートされていません。 | 間違い | いいえ 
+
+
+| DC接続には暗号化が必要です | DC 接続を正常に行うには暗号化が必要です。  Google Cloud NetApp Volumesではデフォルトで無効になっています。 | 間違い | いいえ 
+|===

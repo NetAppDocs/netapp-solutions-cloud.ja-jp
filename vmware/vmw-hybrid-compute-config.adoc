@@ -1,0 +1,70 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-hybrid-compute-config.html 
+keywords: NetApp Solutions, amazon, vmc, aws, microsoft azure, avs, azure, google cloud, gcp, gcve, vmware managed cloud, enterprise, hybrid, cloud, config, configuration 
+summary:  
+---
+= クラウドプロバイダーでの仮想化環境の構成
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+サポートされている各ハイパースケーラーで仮想化環境を構成する方法の詳細については、ここで説明します。
+
+[role="tabbed-block"]
+====
+.AWS / VMC
+--
+このセクションでは、VMware Cloud on AWS SDDC を設定および管理し、 NetAppストレージに接続するために利用可能なオプションと組み合わせて使用する方法について説明します。
+
+
+NOTE: ゲスト内ストレージは、Cloud Volumes ONTAP をAWS VMC に接続するためにサポートされている唯一の方法です。
+
+セットアッププロセスは次の手順に分けられます。
+
+* VMware Cloud for AWS の導入と構成
+* VMware Cloud を FSx ONTAPに接続する
+
+
+詳細を表示link:../vmware/vmw-aws-vmc-setup.html["VMCの設定手順"]。
+
+--
+.Azure / AVS
+--
+このセクションでは、Azure VMware Solution をセットアップおよび管理し、 NetAppストレージに接続するために使用可能なオプションと組み合わせて使用する方法について説明します。
+
+
+NOTE: ゲスト内ストレージは、Cloud Volumes ONTAP をAzure VMware Solution に接続するためにサポートされている唯一の方法です。
+
+セットアッププロセスは次の手順に分けられます。
+
+* リソースプロバイダーを登録してプライベートクラウドを作成する
+* 新規または既存の ExpressRoute 仮想ネットワーク ゲートウェイに接続する
+* ネットワーク接続を検証し、プライベートクラウドにアクセスする
+
+
+詳細を表示link:azure-setup.html["AVSの設定手順"]。
+
+--
+.GCP / GCVE
+--
+このセクションでは、GCVE を設定および管理する方法と、 NetAppストレージに接続するために使用可能なオプションと組み合わせて使用する方法について説明します。
+
+
+NOTE: ゲスト内ストレージは、Cloud Volumes ONTAPおよびGoogle Cloud NetApp Volumes をGCVE に接続するためにサポートされている唯一の方法です。
+
+セットアッププロセスは次の手順に分けられます。
+
+* GCVE の導入と構成
+* GCVEへのプライベートアクセスを有効にする
+
+
+詳細を表示link:gcp-setup.html["GCVEの設定手順"]。
+
+--
+====

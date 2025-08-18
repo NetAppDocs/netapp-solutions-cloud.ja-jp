@@ -1,0 +1,29 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-sm-solution.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= ハイブリッドクラウドにおける Red Hat OpenShift Container プラットフォームのワークロードに対応したNetAppソリューション
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+顧客は、モダナイゼーションの取り組みの中で、一部の選択したワークロードまたはすべてのワークロードをデータセンターからクラウドに移行する準備が整っている場合があります。さまざまな理由から、クラウドでセルフ管理型 OpenShift コンテナとセルフ管理型NetAppストレージを使用することを選択する場合があります。データセンターからコンテナ ワークロードを移行するための本番環境を正常に構築するには、クラウドで Red Hat OpenShift コンテナ プラットフォーム (OCP) を計画して導入する必要があります。  OCP クラスターは、データセンター内の VMware またはベアメタル、およびクラウド環境内の AWS、Azure、または Google Cloud に展開できます。
+
+NetApp Cloud Volumes ONTAPストレージは、AWS、Azure、Google Cloud でのコンテナ導入にデータ保護、信頼性、柔軟性を提供します。  Trident は、顧客のステートフル アプリケーション用に永続的なCloud Volumes ONTAPストレージを使用する動的ストレージ プロビジョナーとして機能します。  Trident Protect は、データ保護、移行、ビジネス継続性などのステートフル アプリケーションのデータ管理要件に使用できます。
+
+
+
+== Trident Protectを使用したハイブリッド クラウドにおける OpenShift Container ワークロードのデータ保護および移行ソリューション
+
+オンプレミスとAWSimage:rhhc-self-managed-aws.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+オンプレミスとGoogle Cloudimage:rhhc-self-managed-gcp.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+オンプレミスとAzureクラウドimage:rhhc-self-managed-azure.png["入出力ダイアログまたは書かれたコンテンツを示す図"]

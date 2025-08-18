@@ -1,0 +1,86 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-op-setup.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= VMware 上で Red Hat OpenShift Container プラットフォームをデプロイおよび構成する
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このセクションでは、OpenShift クラスターをセットアップおよび管理し、その上でステートフル アプリケーションを管理する方法の大まかなワークフローについて説明します。これは、永続ボリュームを提供するためにTridentを活用したNetApp ONTAPストレージ アレイの使用方法を示しています。
+
+
+NOTE: Red Hat OpenShift Container プラットフォーム クラスターをデプロイする方法はいくつかあります。このセットアップの概要説明には、使用された特定の方法に関するドキュメント リンクが提供されます。その他の方法については、以下の関連リンクを参照してください。link:os-solutions-resources.html["リソースセクション"] 。
+
+以下は、データセンター内の VMware に展開されたクラスターを示す図です。
+
+image:rhhc-on-premises.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+セットアッププロセスは次の手順に分けられます。
+
+.CentOS VMのデプロイと構成
+[%collapsible%open]
+====
+* VMware vSphere 環境に展開されます。
+* この VM は、ソリューションのNetApp TridentやNetApp Trident Protect などのコンポーネントを展開するために使用されます。
+* インストール中にこの VM にルート ユーザーが構成されます。
+
+
+====
+.VMware vSphere (ハブ クラスター) 上に OpenShift Container Platform クラスターをデプロイして構成する
+[%collapsible%open]
+====
+の説明書を参照してくださいlink:https://docs.openshift.com/container-platform/4.17/installing/installing_vsphere/installing-vsphere-assisted-installer.html["支援展開"]OCP クラスターをデプロイする方法。
+
+
+TIP: 次の点に注意してください: - インストーラーに提供する ssh 公開キーと秘密キーを作成します。これらのキーは、必要に応じてマスターノードとワーカーノードにログインするために使用されます。 - アシストインストーラーからインストーラー プログラムをダウンロードします。このプログラムは、マスター ノードとワーカー ノード用に VMware vSphere 環境で作成した VM を起動するために使用されます。  - VM には最低限の CPU、メモリ、ハード ディスクの要件が必要です。  （vm createコマンドについては、link:https://docs.redhat.com/en/documentation/assisted_installer_for_openshift_container_platform/2024/html/installing_openshift_container_platform_with_the_assisted_installer/installing-on-vsphere["事項を"]この情報を提供するマスター ノードとワーカー ノードのページ - すべての VM でディスク UUID を有効にする必要があります。  - マスター用に最低 3 つのノード、ワーカー用に最低 3 つのノードを作成します。  - インストーラーによって検出されたら、VMware vSphere 統合トグル ボタンをオンにします。
+
+====
+.ハブクラスタに高度なクラスタ管理をインストールする
+[%collapsible%open]
+====
+これは、ハブ クラスター上の Advanced Cluster Management Operator を使用してインストールされます。説明書を参照してくださいlink:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/install/installing#doc-wrapper["ここをクリックしてください。"]。
+
+====
+.2つの追加のOCPクラスタ（ソースと宛先）をインストールする
+[%collapsible%open]
+====
+* 追加のクラスターは、ハブ クラスター上の ACM を使用してデプロイできます。
+* 説明書を参照してくださいlink:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/clusters/cluster_mce_overview#vsphere_prerequisites["ここをクリックしてください。"]。
+
+
+====
+.NetApp ONTAPストレージを構成する
+[%collapsible%open]
+====
+* VMWare 環境内の OCP VM に接続できるONTAPクラスターをインストールします。
+* SVMを作成する
+* SVM 内のストレージにアクセスできるように NAS データ ライフを設定します。
+
+
+====
+.OCP クラスタにNetApp Tridentをインストールする
+[%collapsible%open]
+====
+* ハブ、ソース、および宛先クラスタの3つのクラスタすべてにNetApp Tridentをインストールします。
+* 説明書を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-operator.html["ここをクリックしてください。"]。
+* ontap-nas のストレージ バックエンドを作成します。
+* ontap-nas のストレージ クラスを作成します。
+* 説明書を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/create-stor-class.html["ここをクリックしてください。"]。
+
+
+====
+.ソースクラスタにアプリケーションをデプロイする
+[%collapsible%open]
+====
+OpenShift GitOps を使用してアプリケーションをデプロイします。  (例: Postgres、Ghost)
+
+====
+次のステップは、 Trident Protect を使用してデータ保護と、ソース クラスターから宛先クラスターへのデータ移行を行うことです。参照するlink:os-dp-tp-solution.html["ここをクリックしてください。"]手順についてはこちらをご覧ください。

@@ -1,0 +1,83 @@
+---
+section: rhhc
+title: NetAppハイブリッド マルチクラウドと Red Hat OpenShift
+url: "/rhhc/index.html"
+entries:
+- title: 始めましょう
+  pdf-filename: ハイブリッドマルチクラウド向け Red Hat Openshift
+  entries:
+  - title: ソリューションの概要
+    url: "/openshift/os-solutions-overview.html"
+  - title: 価値提案
+    url: "/openshift/os-solutions-value-prop.html"
+  - title: 検証済みのソリューション
+    url: "/openshift/os-solutions-validated.html"
+  - title: 検証済みバージョン
+    url: "/openshift/os-solutions-versions.html"
+  - title: サポートされているストレージオプション
+    url: "/openshift/os-solutions-storage-options.html"
+  - title: その他のリソース
+    url: "/openshift/os-solutions-resources.html"
+- title: オンプレミス向けOpenShift
+  pdf-filename: オンプレミス向け Red Hat Openshift
+  entries:
+  - title: ソリューションの概要
+    url: "/openshift/os-op-solution.html"
+  - title: VMware 上で OpenShift コンテナ ワークロードを構成する
+    url: "/openshift/os-op-setup.html"
+  - title: VMware 上のコンテナ ワークロードを保護する
+    url: "/openshift/os-op-data-protection.html"
+  - title: VMware 上のコンテナ ワークロードを移行する
+    url: "/openshift/os-op-data-migration.html"
+- title: 自己管理コンポーネントを備えたハイブリッドクラウド
+  pdf-filename: Red Hat OpenShift セルフマネージド コンポーネントを使用したハイブリッド クラウド (オンプレミス/AWS/GCP/Azure)
+  entries:
+  - title: ソリューションの概要
+    url: "/openshift/os-sm-solution.html"
+  - title: AWS 上で OpenShift コンテナ ワークロードを構成する
+    url: "/openshift/os-sm-setup.html"
+  - title: GCP 上で OpenShift コンテナ ワークロードを構成する
+    url: "/openshift/os-sm-gcp-setup.html"
+  - title: Azure で OpenShift コンテナー ワークロードを構成する
+    url: "/openshift/os-sm-azure-setup.html"
+  - title: AWS/GCP/Azure 上のコンテナ ワークロードを保護する
+    url: "/openshift/os-sm-data-protection.html"
+  - title: コンテナワークロードをAWS/GCP/Azureに移行する
+    url: "/openshift/os-sm-data-migration.html"
+- title: プロバイダー管理コンポーネントを備えたハイブリッドクラウド
+  pdf-filename: Red Hat OpenShift プロバイダー管理コンポーネントを使用したハイブリッドクラウド
+  entries:
+  - title: ソリューションの概要
+    url: "/openshift/os-pm-solution.html"
+  - title: AWS 上で OpenShift コンテナ ワークロードを構成する
+    url: "/openshift/os-pm-setup.html"
+  - title: Google Cloud で OpenShift Dedicated を構成する
+    url: "/openshift/os-pm-gcnv-setup.html"
+  - title: AWS 上のコンテナワークロードを保護する
+    url: "/openshift/os-pm-aws-dp.html"
+  - title: AWS 上のコンテナワークロードの移行
+    url: "/openshift/os-pm-aws-data-migration.html"
+  - title: コンテナと仮想化のための追加のROSAソリューション
+    url: "/openshift/os-pm-rosa-additional.html"
+- title: Trident Protectを使用してデータを保護する
+  pdf-filename: Trident Protectを使用したデータ保護
+  entries:
+  - title: Trident Protect を使用してコンテナ アプリを保護する
+    url: "/openshift/os-dp-tp-solution.html"
+  - title: Trident Protect を使用して VM を保護する
+    url: "/openshift/osv-vm-dp-using-tp.html"
+- title: サードパーティのツールを使用してコンテナアプリを保護する
+  pdf-filename: サードパーティツールを使用したコンテナアプリのデータ保護
+  entries:
+  - title: ソリューションの概要
+    url: "/openshift/os-dp-velero-solution.html"
+  - title: OADPをインストールする
+    url: "/openshift/os-dp-velero-installation.html"
+  - title: Velero を使用してコンテナ アプリをバックアップする
+    url: "/openshift/os-dp-velero-backup.html"
+  - title: アプリを移行する
+    url: "/openshift/os-dp-velero-migrate.html"
+  - title: Veleroを使用してバックアップから復元する
+    url: "/openshift/os-dp-velero-restore.html"
+  - title: バックアップと復元を削除する
+    url: "/openshift/os-dp-velero-delete.html"

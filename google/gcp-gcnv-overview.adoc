@@ -1,0 +1,47 @@
+---
+sidebar: sidebar 
+permalink: google/gcp-gcnv-overview.html 
+keywords: 4918, tr4918, overview, introduction, scope, audience, abbreviation, definition 
+summary: 特にインフラストラクチャがストレージ管理者の制御外にあるクラウドでは、セキュリティは、クラウド プロバイダーが提供するサービス オファリングにデータを信頼する上で最も重要です。このドキュメントは、Google Cloud NetApp Volumes がGoogle Cloud で提供するセキュリティ サービスの概要です。 
+---
+= TR-4918: セキュリティの概要 - Google Cloud のGoogle Cloud NetApp Volumes
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+オリバー・クラウス、ジャスティン・パリシ、 NetApp
+
+[role="lead"]
+特にインフラストラクチャがストレージ管理者の制御外にあるクラウドでは、セキュリティは、クラウド プロバイダーが提供するサービス オファリングにデータを信頼する上で最も重要です。この文書は、セキュリティ製品の概要です。 https://cloud.netapp.com/cloud-volumes-service-for-gcp["Google Cloud NetApp VolumesはGoogle Cloudで"^] 。
+
+
+
+== 対象読者
+
+このドキュメントの対象読者には、以下の役割を持つ方が含まれますが、これに限定されません。
+
+* クラウドプロバイダー
+* ストレージ管理者
+* ストレージアーキテクト
+* フィールドリソース
+* ビジネス意思決定者
+
+
+この技術レポートの内容についてご質問がある場合は、link:../vmware/gcp-gcnv-additional-info.html#contact-us["お問い合わせ。"]
+
+|===
+| 略語 | 定義 
+
+
+| NetAppボリューム-SW | Google Cloud NetApp Volumes、サービスタイプNetApp Volumes 
+
+
+| NetAppボリュームパフォーマンス | クラウド ボリューム サービス、サービス タイプNetApp Volumes-Performance 
+
+
+| 公共広告 |  
+|===

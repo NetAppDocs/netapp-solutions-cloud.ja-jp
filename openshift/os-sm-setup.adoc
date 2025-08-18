@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-sm-setup.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= AWS 上で Red Hat OpenShift Container プラットフォームをデプロイおよび構成する
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このセクションでは、AWS で OpenShift クラスターをセットアップおよび管理し、そこにステートフルアプリケーションをデプロイする方法の高レベルのワークフローについて説明します。これは、永続ボリュームを提供するためにTridentを活用したNetApp Cloud Volumes ONTAPストレージの使用方法を示しています。  Trident Protect を使用してステートフル アプリケーションのデータ保護および移行アクティビティを実行する方法について詳しく説明します。
+
+
+NOTE: AWS に Red Hat OpenShift Container プラットフォーム クラスターをデプロイする方法はいくつかあります。このセットアップの概要説明には、使用された特定の方法に関するドキュメント リンクが提供されます。その他の方法については、以下の関連リンクを参照してください。link:os-solutions-resources.html["リソースセクション"] 。
+
+以下は、AWS にデプロイされ、VPN を使用してデータセンターに接続されたクラスターを示す図です。
+
+image:rhhc-self-managed-aws.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+セットアッププロセスは次の手順に分けられます。
+
+.高度なクラスター管理から AWS に OCP クラスターをインストールします。
+[%collapsible%open]
+====
+* オンプレミス ネットワークに接続するために、サイト間 VPN 接続 (pfsense を使用) を持つ VPC を作成します。
+* オンプレミス ネットワークにはインターネット接続があります。
+* 3 つの異なる AZ に 3 つのプライベート サブネットを作成します。
+* VPC 用の Route 53 プライベートホストゾーンと DNS リゾルバーを作成します。
+
+
+高度なクラスター管理 (ACM) ウィザードから AWS 上に OpenShift クラスターを作成します。説明書を参照してくださいlink:https://docs.openshift.com/dedicated/osd_install_access_delete_cluster/creating-an-aws-cluster.html["ここをクリックしてください。"]。
+
+
+NOTE: OpenShift Hybrid Cloud コンソールから AWS にクラスターを作成することもできます。参照するlink:https://docs.openshift.com/container-platform/4.10/installing/installing_aws/installing-aws-default.html["ここをクリックしてください。"]手順についてはこちらをご覧ください。
+
+
+TIP: ACM を使用してクラスターを作成する場合、フォーム ビューに詳細を入力した後に yaml ファイルを編集してインストールをカスタマイズできます。クラスターが作成された後、トラブルシューティングや追加の手動構成のために、クラスターのノードに SSH ログインできます。インストール時に指定した SSH キーとユーザー名 core を使用してログインします。
+
+====
+.BlueXPを使用して AWS にCloud Volumes ONTAP をデプロイします。
+[%collapsible%open]
+====
+* オンプレミスの VMware 環境にコネクタをインストールします。説明書を参照してくださいlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-install-connector-on-prem.html#install-the-connector["ここをクリックしてください。"]。
+* コネクタを使用して AWS に CVO インスタンスをデプロイします。説明書を参照してくださいlink:https://docs.netapp.com/us-en/cloud-manager-cloud-volumes-ontap/task-getting-started-aws.html["ここをクリックしてください。"]。
+
+
+
+NOTE: コネクタはクラウド環境にもインストールできます。参照するlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/concept-connectors.html["ここをクリックしてください。"]追加情報については。
+
+====
+.OCP クラスターにTridentをインストールする
+[%collapsible%open]
+====
+* Helm を使用してTrident Operator をデプロイします。説明書を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-helm.html["ここをクリックしてください。"]
+* バックエンドとストレージ クラスを作成します。説明書を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/backends.html["ここをクリックしてください。"]。
+
+
+====
+.マルチゾーンアーキテクチャにTridentのCSIトポロジ機能を使用する
+現在、クラウド プロバイダーは、Kubernetes/OpenShift クラスター管理者がゾーン ベースのクラスターのノードを生成できるようにしています。ノードは、リージョン内の異なるアベイラビリティーゾーン、または複数のリージョンに配置できます。マルチゾーン アーキテクチャでのワークロードのボリュームのプロビジョニングを容易にするために、 Trident はCSI トポロジを使用します。 CSI トポロジ機能を使用すると、リージョンとアベイラビリティーゾーンに基づいて、ボリュームへのアクセスをノードのサブセットに制限できます。参照するlink:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["ここをクリックしてください。"]詳細については、こちらをご覧ください。
+
+
+NOTE: Kubernetes は 2 つのボリューム バインディング モードをサポートしています。 - **_VolumeBindingMode_ が _Immediate_** (デフォルト) に設定されている場合、 Trident はトポロジを認識せずにボリュームを作成します。永続ボリュームは、要求元のポッドのスケジュール要件に依存せずに作成されます。 - **_VolumeBindingMode_ が _WaitForFirstConsumer_** に設定されている場合、PVC を使用するポッドがスケジュールされて作成されるまで、PVC の永続ボリュームの作成とバインドは遅延されます。このようにして、トポロジ要件によって適用されるスケジュール制約を満たすボリュームが作成されます。 Tridentストレージ バックエンドは、可用性ゾーンに基づいてボリュームを選択的にプロビジョニングするように設計できます (トポロジ対応バックエンド)。このようなバックエンドを利用する StorageClasses の場合、ボリュームは、サポートされているリージョン/ゾーンでスケジュールされているアプリケーションによって要求された場合にのみ作成されます。  （トポロジー対応ストレージクラス）参照link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["ここをクリックしてください。"]詳細については、こちらをご覧ください。

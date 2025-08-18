@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: google/gcp-gcnv-multiprotocol.html 
+keywords: access control, user mapping, permission model 
+summary: Google Cloud NetApp Volumes は、適切なアクセス権限デュアルプロトコルを維持しながら、SMB クライアントと NFS クライアントの両方に同じデータセットを共有する機能を提供します。これは、プロトコル間の ID マッピングを調整し、集中型のバックエンド LDAP サーバーを使用して UNIX ID をGoogle Cloud NetApp Volumesに提供することによって行われます。  Windows Active Directory を使用すると、Windows ユーザーと UNIX ユーザーの両方に使いやすさを提供できます。 
+---
+= デュアルプロトコル/マルチプロトコル
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Google Cloud NetApp Volumes は、適切なアクセス権限を維持しながら、SMB クライアントと NFS クライアントの両方に同じデータセットを共有する機能を提供します。(https://cloud.google.com/architecture/partners/netapp-cloud-volumes/managing-dual-protocol-access["デュアルプロトコル"^] ）。これは、プロトコル間の ID マッピングを調整し、集中型のバックエンド LDAP サーバーを使用して UNIX ID をGoogle Cloud NetApp Volumesに提供することによって行われます。  Windows Active Directory を使用すると、Windows ユーザーと UNIX ユーザーの両方に使いやすさを提供できます。
+
+
+
+== アクセス制御
+
+* *アクセス制御を共有します。*  NAS 共有にアクセスできるクライアント、ユーザー、グループを決定します。  NFS の場合、エクスポート ポリシーとルールによってエクスポートへのクライアント アクセスが制御されます。  NFS エクスポートは、Google Cloud NetApp Volumesインスタンスから管理されます。  SMB は CIFS/SMB 共有と共有 ACL を利用して、ユーザーおよびグループ レベルでよりきめ細かな制御を提供します。  SMBクライアントから共有レベルのACLを構成するには、https://library.netapp.com/ecmdocs/ECMP1401220/html/GUID-C1772CDF-8AEE-422B-AB87-CFCB7E50FF94.html[MMC/コンピューターの管理^]を使用し、 Google Cloud NetApp Volumesインスタンスの管理者権限を持つアカウントを使用する必要があります（「link:gcp-gcnv-smb.html#Accounts with local/BUILTIN administrator/backup rights["Accounts with local/BUILTIN administrator/backup rights."]」のセクションを参照してください）。
+* *ファイル アクセス制御。*ファイルまたはフォルダー レベルでアクセス許可を制御し、常に NAS クライアントから管理します。  NFS クライアントは、従来のモード ビット (rwx) または NFSv4 ACL を利用できます。  SMB クライアントは NTFS アクセス許可を活用します。
+
+
+NFS と SMB の両方にデータを提供するボリュームのアクセス制御は、使用されているプロトコルによって異なります。デュアルプロトコルの権限の詳細については、「<<権限モデル>> 。"
+
+
+
+== ユーザ マッピング
+
+クライアントがボリュームにアクセスすると、 Google Cloud NetApp Volumes は、着信ユーザーを反対方向の有効なユーザーにマッピングしようとします。これは、プロトコル全体で適切なアクセスを決定し、アクセスを要求しているユーザーが実際に本人であることを確認するために必要です。
+
+たとえば、Windowsユーザーが `joe`SMB経由でUNIX権限を持つボリュームにアクセスしようとすると、 Google Cloud NetApp Volumesは検索を実行し、対応するUNIXユーザーを見つけます。 `joe` 。存在する場合、WindowsユーザーとしてSMB共有に書き込まれたファイルは `joe`UNIXユーザーとして表示される `joe`NFS クライアントから。
+
+あるいは、UNIXユーザーが `joe`Windows 権限を使用してGoogle Cloud NetApp Volumesボリュームにアクセスしようとする場合、UNIX ユーザーは有効な Windows ユーザーにマップできる必要があります。それ以外の場合、ボリュームへのアクセスは拒否されます。
+
+現在、LDAP を使用した外部 UNIX ID 管理では Active Directory のみがサポートされています。このサービスへのアクセス設定の詳細については、以下を参照してください。 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-smb-volumes["AD接続の作成"^] 。
+
+
+
+== 権限モデル
+
+デュアルプロトコル設定を使用する場合、 Google Cloud NetApp Volumes はボリュームのセキュリティ スタイルを使用して ACL のタイプを決定します。これらのセキュリティ スタイルは、指定された NAS プロトコルに基づいて設定されます。デュアル プロトコルの場合は、 Google Cloud NetApp Volumesボリュームの作成時に選択されます。
+
+* NFS のみを使用している場合、 Google Cloud NetApp Volumesボリュームは UNIX 権限を使用します。
+* SMB のみを使用している場合、 Google Cloud NetApp Volumesボリュームは NTFS 権限を使用します。
+
+
+デュアルプロトコル ボリュームを作成する場合は、ボリュームの作成時に ACL スタイルを選択できます。この決定は、必要な権限管理に基づいて行う必要があります。ユーザーが Windows/SMB クライアントから権限を管理する場合は、NTFS を選択します。ユーザーが NFS クライアントと chmod/chown の使用を好む場合は、UNIX セキュリティ スタイルを使用します。

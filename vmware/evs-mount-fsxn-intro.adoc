@@ -1,0 +1,57 @@
+---
+sidebar: sidebar 
+permalink: vmware/evs-mount-fsxn-intro.html 
+keywords: Amazon, AWS, EVS, Elastic VMware Service, ONTAP, FSx 
+summary: 'このドキュメントでは、FSx for ONTAPファイルシステムを作成し、Amazon EVS で使用するために Internet Small Computer System Interface (iSCSI) または Network File System (NFS) データストアとして使用するために接続するための詳細な手順を説明します。' 
+---
+= Amazon FSx for NetApp ONTAP をAmazon Elastic VMware Service の外部データストアとしてマウントする方法
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このドキュメントでは、FSx for ONTAPファイルシステムを作成し、Amazon EVS で使用するために Internet Small Computer System Interface (iSCSI) または Network File System (NFS) データストアとして使用するために接続するための詳細な手順を説明します。
+
+
+
+== はじめに
+
+オンプレミスの VMware に既に投資している組織は、AWS でコピーを移行、バースト、拡張、または保護 (バックアップ、災害復旧) することで、効率的かつコスト効率の高い方法で展開を最新化することを模索しており、いくつかの課題に直面しています。  Amazon Elastic VMware Service (Amazon EVS) のリリースにより、Amazon Virtual Private Cloud (VPC) で VMware Cloud Foundation (VCF) を直接実行できるネイティブ AWS サービスが提供されるようになりました。
+
+Amazon EVS を使用すると、既存の VCF デプロイメントを AWS に拡張し、ピーク使用時にパフォーマンスを拡張するために AWS にバーストし、AWS 上で VCF ワークロードを完全に実行して、近代化、データセンターの撤退、統合、その他のユースケースを促進することが可能になります。
+
+Amazon EVS は大きなメリットをもたらしますが、デフォルトのハイパーコンバージドアーキテクチャではコンピューティングとストレージが結合されているため、ビジネスニーズに応じて一方を独立して拡張することはできません。今日のデータ中心の世界では、多くの組織においてストレージの需要がコンピューティングの需要よりも高くなっています。ただし、VMware ハイパーコンバージド アーキテクチャでは、ストレージ リソースがコンピューティング リソースと結合されます。つまり、ストレージの拡張は、決して使用されないコンピューティング ホストを追加することによってのみ実行できます。これは、特にストレージを多用するワークロードでは、コストが大幅に上昇する可能性がある状況です。
+
+この問題を解決するために、AWS とNetApp は、Amazon EVS の外部ストレージサービスとしてAmazon FSx for NetApp ONTAP (FSx for ONTAP) を提供しています。  FSx for ONTAPは、 NetApp ONTAPソフトウェアの高パフォーマンス、データ復元力、コスト効率の機能を実現する AWS ネイティブのストレージサービスです。  FSx for ONTAP を外部ストレージとして使用することで、Amazon EVS ユーザーはコンピューティング リソースとストレージ リソースを個別に拡張でき、総所有コスト (TCO) を最適化できます。
+
+
+
+== 概要
+
+このドキュメントでは、FSx for ONTAPファイルシステムを作成し、Amazon EVS で使用するために Internet Small Computer System Interface (iSCSI) または Network File System (NFS) データストアとして使用するために接続するための詳細な手順を説明します。
+
+
+
+== このガイドの目的
+
+このガイドでは、Amazon EVS 用の FSx for ONTAPデータストアを設定する方法のほか、ベストプラクティス、サポート要件、サイズに関する考慮事項、および統合の計画、設計、実装に役立つその他の情報について説明します。
+
+
+
+== 観客
+
+このチュートリアルは、VMware vSphere、Amazon EVS、AWS コンソール、FSx for ONTAPに精通しているクラウドアーキテクトおよびクラウド管理者を対象としています。
+
+
+
+== 高レベルアーキテクチャ
+
+このセクションでは、FSx for ONTAP をAmazon EVS のデータストアとして使用するためのソリューション アーキテクチャの概要を説明します。
+
+以下に、AWS VPC 内の Amazon EVS 環境を備えた FSx for ONTAPデータストアのアーキテクチャの概要を示します。
+
+image:evs-mount-fsxn-001.png["このソリューションの高レベルアーキテクチャを表す図"]

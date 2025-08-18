@@ -1,0 +1,25 @@
+---
+sidebar: sidebar 
+permalink: google/gcp-gcnv-data-encrypt-at-rest.html 
+keywords: aes-256 encryption, cmek 
+summary: Google Cloud NetApp Volumesのすべてのボリュームは、AES-256 暗号化を使用して保存時に暗号化されます。つまり、メディアに書き込まれたすべてのユーザー データは暗号化され、ボリュームごとのキーでのみ復号化できます。 
+---
+= 保存時のデータ暗号化
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Google Cloud NetApp Volumesのすべてのボリュームは、AES-256 暗号化を使用して保存時に暗号化されます。つまり、メディアに書き込まれたすべてのユーザー データは暗号化され、ボリュームごとのキーでのみ復号化できます。
+
+* NetApp Volumes-SW の場合、Google が生成したキーが使用されます。
+* NetApp Volumes-Performance の場合、ボリュームごとのキーは、 Google Cloud NetApp Volumesに組み込まれたキー マネージャーに保存されます。
+
+
+2021 年 11 月から、プレビュー版の顧客管理暗号化キー (CMEK) 機能が利用可能になりました。これにより、ボリュームごとのキーを、プロジェクトごと、リージョンごとにホストされているマスターキーで暗号化できるようになります。 https://cloud.google.com/kms/docs["Google キー管理サービス (KMS)。"^] KMS を使用すると、外部キー マネージャーを接続できます。
+
+NetApp Volumes-PerformanceのKMSの設定については、以下を参照してください。 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/customer-managed-keys?hl=en_US["顧客管理暗号化キーの設定"^] 。

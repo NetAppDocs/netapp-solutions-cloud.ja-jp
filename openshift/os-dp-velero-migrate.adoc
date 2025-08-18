@@ -1,0 +1,126 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-dp-velero-migrate.html 
+keywords: OpenShift, OCP, Trident, NetApp ONTAP, Red Hat OpenShift, OADP operator, Openshift Data Protection Application operator, Velero 
+summary: NetApp ONTAPによる Red Hat OpenShift Container アプリケーションのデータ保護 
+---
+= あるクラスターから別のクラスターにアプリを移行する
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Velero のバックアップおよび復元機能は、クラスター間でデータを移行するための貴重なツールになります。このセクションでは、あるクラスターのオブジェクト ストレージにアプリのバックアップを作成し、同じオブジェクト ストレージから別のクラスターにアプリを復元することで、あるクラスターから別のクラスターにアプリを移行する方法について説明します。  。
+
+.最初のクラスターからのバックアップ
+[%collapsible%open]
+====
+**クラスター 1 の前提条件**
+
+* クラスターにTridentをインストールする必要があります。
+* トライデント バックエンドとストレージ クラスを作成する必要があります。
+* OADP オペレータをクラスターにインストールする必要があります。
+* DataProtectionApplication を構成する必要があります。
+
+
+DataProtectionApplication オブジェクトを構成するには、次の仕様を使用します。
+
+....
+spec:
+  backupLocations:
+    - velero:
+        config:
+          insecureSkipTLSVerify: 'false'
+          profile: default
+          region: us-east-1
+          s3ForcePathStyle: 'true'
+          s3Url: 'https://10.61.181.161'
+        credential:
+          key: cloud
+          name: ontap-s3-credentials
+        default: true
+        objectStorage:
+          bucket: velero
+          caCert: <base-64 encoded tls certificate>
+          prefix: container-backup
+        provider: aws
+  configuration:
+    nodeAgent:
+      enable: true
+      uploaderType: kopia
+    velero:
+      defaultPlugins:
+        - csi
+        - openshift
+        - aws
+        - kubevirt
+....
+* クラスター上にアプリケーションを作成し、このアプリケーションのバックアップを取得します。例として、postgres アプリケーションをインストールします。
+
+
+image:redhat-openshift-oadp-migrate-001.png["postgresアプリをインストールする"]
+
+* バックアップ CR には次の仕様を使用します。
+
+
+....
+spec:
+  csiSnapshotTimeout: 10m0s
+  defaultVolumesToFsBackup: false
+  includedNamespaces:
+    - postgresql
+  itemOperationTimeout: 4h0m0s
+  snapshotMoveData: true
+  storageLocation: velero-sample-1
+  ttl: 720h0m0s
+....
+image:redhat-openshift-oadp-migrate-002.png["postgresアプリをインストールする"]
+
+**すべてのインスタンス** タブをクリックすると、さまざまなオブジェクトが作成され、さまざまなフェーズを経て最終的にバックアップが **完了** フェーズに到達する様子を確認できます。
+
+名前空間 postgresql 内のリソースのバックアップは、OADP 仕様の backupLocation で指定されたオブジェクト ストレージの場所 (ONTAP S3) に保存されます。
+
+====
+.2番目のクラスターに復元する
+[%collapsible%open]
+====
+**クラスター 2 の前提条件**
+
+* Trident はクラスター 2 にインストールする必要があります。
+* postgresql アプリは postgresql 名前空間にまだインストールされていない必要があります。
+* OADP オペレータはクラスター 2 にインストールする必要があり、BackupStorage Location は最初のクラスターからバックアップが保存されたのと同じオブジェクト ストレージの場所を指している必要があります。
+* バックアップ CR は 2 番目のクラスターから見える必要があります。
+
+
+image:redhat-openshift-oadp-migrate-003.png["トライデントを設置"]
+
+image:redhat-openshift-oadp-migrate-004.png["postgresがまだインストールされていない"]
+
+image:redhat-openshift-oadp-migrate-005.png["クラスタ2にOADPがインストール済み"]
+
+image:redhat-openshift-oadp-migrate-006.png["同じオブジェクト ストアを指すバックアップ ストレージの場所"]
+
+このクラスター上のアプリをバックアップから復元します。次の yaml を使用して復元 CR を作成します。
+
+....
+apiVersion: velero.io/v1
+kind: Restore
+apiVersion: velero.io/v1
+metadata:
+  name: restore
+  namespace: openshift-adp
+spec:
+  backupName: backup
+  restorePVs: true
+....
+復元が完了すると、postgresql アプリがこのクラスター上で実行されており、pvc および対応する pv に関連付けられていることがわかります。アプリの状態はバックアップを取ったときと同じです。
+
+image:redhat-openshift-oadp-migrate-007.png["成功を回復する"]
+
+image:redhat-openshift-oadp-migrate-008.png["postgresの移行"]
+
+====

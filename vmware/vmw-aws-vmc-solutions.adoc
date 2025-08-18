@@ -1,0 +1,50 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-aws-vmc-solutions.html 
+keywords: NetApp Solutions, amazon, vmc, vmware managed cloud, enterprise, hybrid, cloud, migrate, migration, disaster recovery, dr 
+summary:  
+---
+= Amazon VMware Managed Cloud (VMC) 向けNetAppソリューション
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp がAWS に提供するソリューションの詳細をご覧ください。
+
+VMware は、クラウド ワークロードを次の 3 つのカテゴリのいずれかに定義しています。
+
+* 保護（災害復旧とバックアップ/復元の両方を含む）
+* 移行
+* 拡張
+
+
+次のセクションで利用可能なソリューションを参照してください。
+
+[role="tabbed-block"]
+====
+.守る
+--
+* link:vmw-aws-vmc-guest-storage-dr.html["VMC on AWS による災害復旧 (ゲスト接続)"]
+* link:vmw-aws-vmc-backup-restore-veeam.html["FSx ONTAPを使用した VMC での Veeam バックアップ  リストア"]
+* link:vmw-aws-vmc-dro.html["FSx ONTAPと VMC による災害復旧 (DRO)"]
+* link:vmw-aws-fsxn-vmc-ds-dr-veeam.html["Veeam Replication と FSx ONTAPを使用して VMware Cloud on AWS への災害復旧を行う"]
+
+
+--
+.移行
+--
+* link:vmw-aws-vmc-migrate-hcx.html["VMware HCX を使用してワークロードを FSx ONTAPデータストアに移行する"]
+
+
+--
+.拡張
+--
+近日公開！！
+
+--
+====

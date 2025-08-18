@@ -1,0 +1,206 @@
+---
+section: ehc
+title: NetAppハイブリッド マルチクラウドと VMware
+url: "/ehc/index.html"
+entries:
+- title: パブリッククラウド向けVMware
+  pdf-filename: NetApp上のパブリック クラウド向け VMware
+  entries:
+  - title: ソリューションの概要
+    url: "/vmware/vmw-hybrid-overview.html"
+  - title: ハイパースケーラークラウド上の VMware Cloud
+    url: "/vmware/vmw-hybrid-hyperscalers.html"
+  - title: サポートされている構成
+    url: "/vmware/vmw-hybrid-support-configs.html"
+  - title: ハイパースケーラー構成におけるVMware
+    entries:
+    - title: はじめに
+      url: "/vmware/vmw-hybrid-compute-config.html"
+    - title: AWS 用に VMC を構成する
+      url: "/vmware/vmw-aws-vmc-setup.html"
+    - title: Azure 用に AVS を構成する
+      url: "/vmware/vmw-azure-avs-setup.html"
+    - title: GCP 用に GCVE を構成する
+      url: "/vmware/vmw-gcp-gcve-setup.html"
+  - title: パブリッククラウドにおけるNetAppストレージ
+    entries:
+    - title: パブリッククラウドプロバイダーのストレージオプション
+      url: "/vmware/vmw-hybrid-storage.html"
+    - title: AWS における VMC のストレージ オプション
+      url: "/vmware/vmw-aws-vmc-storage.html"
+    - title: VMC の補足 NFS データストアについて
+      url: "/vmware/vmw-aws-vmc-nfs-ds-overview.html"
+    - title: AWS に追加の NFS データストアを作成する
+      url: "/vmware/vmw-aws-vmc-nfs-ds-config.html"
+    - title: VMC のゲスト接続ストレージ
+      url: "/vmware/vmw-aws-vmc-guest-storage.html"
+    - title: Azure の AVS のストレージ オプション
+      url: "/vmware/vmw-azure-avs-storage.html"
+    - title: AVS の補足 NFS データストアについて
+      url: "/vmware/vmw-azure-avs-nfs-ds-overview.html"
+    - title: Azure に追加の NFS データストアを作成する
+      url: "/vmware/vmw-azure-avs-nfs-ds-config.html"
+    - title: AVS のゲスト接続ストレージ
+      url: "/vmware/vmw-azure-avs-guest-storage.html"
+    - title: Google Cloud の GCVE のストレージ オプション
+      url: "/vmware/vmw-gcp-gcve-storage.html"
+    - title: GCVE の補足 NFS データストアについて
+      url: "/vmware/vmw-gcp-gcve-nfs-ds-overview.html"
+    - title: GCVE のゲスト接続ストレージ
+      url: "/vmware/vmw-gcp-gcve-guest-storage.html"
+  - title: 要約と結論
+    url: "/vmware/vmw-hybrid-summary.html"
+- title: VMware ハイブリッド クラウドのユースケース
+  pdf-filename: VMware ハイブリッド クラウドのユースケース
+  entries:
+  - title: ユースケースの概要
+    url: "/vmware/vmw-hybrid-use-cases.html"
+  - title: ソリューションの概要
+    url: "/vmware/vmw-hybrid-solutions.html"
+  - title: AWS/VMC向けソリューション
+    url: "/vmware/vmw-aws-vmc-solutions.html"
+  - title: Azure/AVS向けソリューション
+    url: "/vmware/vmw-azure-avs-solutions.html"
+  - title: GCP/GCVE向けソリューション
+    url: "/vmware/vmw-gcp-gcve-solutions.html"
+- title: AWS/VMC向けNetApp
+  entries:
+  - title: 概要
+    pdf-filename: AWS向けNetAppについて
+    url: "/vmware/vmw-aws-vmc-overview.html"
+  - title: AWS/VMC 上のワークロードを保護する
+    entries:
+    - title: VMC on AWS による災害復旧
+      pdf-filename: VMC on AWS による災害復旧 (ゲスト接続)
+      url: "/vmware/vmw-aws-vmc-guest-storage-dr.html"
+    - title: VMware Cloud での Veeam のバックアップとリストア
+      pdf-filename: AWS FSx ONTAPを使用した VMware Cloud での Veeam のバックアップとリストア
+      url: "/vmware/vmw-aws-vmc-backup-restore-veeam.html"
+    - title: FSx ONTAPとVMCによる災害復旧
+      pdf-filename: FSx ONTAPと VMC による災害復旧 (DRO)
+      url: "/vmware/vmw-aws-vmc-dro.html"
+    - title: Veeam レプリケーションと FSx ONTAPを使用した災害復旧
+      pdf-filename: Veeam Replication と FSx ONTAPを使用して VMware Cloud on AWS への災害復旧を行う
+      url: "/vmware/vmw-aws-fsxn-vmc-ds-dr-veeam.html"
+  - title: AWS/VMC 上のワークロードを移行する
+    entries:
+    - title: VMware HCX を使用してワークロードを FSx ONTAPデータストアに移行する
+      pdf-filename: VMware HCX を使用して FSx ONTAPデータストアにワークロードを移行する
+      url: "/vmware/vmw-aws-vmc-migrate-hcx.html"
+- title: AWS / EVS 向けNetApp
+  entries:
+  - title: FSx ONTAPをEVSの外部データストアとしてマウントする
+    entries:
+    - title: はじめに
+      url: "/vmware/evs-mount-fsxn-intro.html"
+    - title: NFSデータストアとして展開
+      url: "/vmware/evs-mount-fsxn-nfs.html"
+    - title: iSCSIデータストアとして展開
+      url: "/vmware/evs-mount-fsxn-iscsi.html"
+    - title: まとめ
+      url: "/vmware/evs-mount-fsxn-conclusion.html"
+- title: Azure / AVS 向けNetApp
+  entries:
+  - title: Azure向けNetAppの概要
+    pdf-filename: Azure向けNetAppの概要
+    url: "/vmware/vmw-azure-avs-overview.html"
+  - title: Azure / AVS 上のワークロードを保護する
+    entries:
+    - title: ANFとJetStreamによる災害復旧
+      pdf-filename: ANF と JetStream (補足 NFS データストア) を使用した災害復旧
+      url: "/vmware/vmw-azure-avs-dr-jetstream.html"
+    - title: ANFとCVOによる災害復旧
+      pdf-filename: ANF と CVO (ゲスト接続ストレージ) による災害復旧
+      url: "/vmware/vmw-azure-avs-guest-storage-dr.html"
+    - title: Azure NetApp Filesと AVS による災害復旧
+      pdf-filename: Azure NetApp Filesと AVS を使用した災害復旧 (DRO)
+      url: "/vmware/vmw-azure-avs-dro.html"
+    - title: Veeam レプリケーションとAzure NetApp Filesによる災害復旧
+      pdf-filename: Veeam Replication とAzure NetApp Filesデータストアを使用して Azure VMware
+        Solution への災害復旧を行う
+      url: "/vmware/vmw-azure-anf-avs-ds-dr-veeam.html"
+  - title: Azure/AVS 上のワークロードを移行する
+    entries:
+    - title: VMware HCX を使用してワークロードを ANF データストアに移行する
+      pdf-filename: VMware HCX を使用してワークロードを ANF データストアに移行する
+      url: "/vmware/vmw-azure-avs-migrate-hcx.html"
+- title: GCP/GCVE 向けNetApp
+  entries:
+  - title: Google Cloud 向け NetApp の概要
+    pdf-filename: Google Cloud 向け NetApp の概要
+    url: "/vmware/vmw-gcp-gcve-overview.html"
+  - title: GCP/GCVE 上のワークロードを保護する
+    entries:
+    - title: Veeam 補足 NFS データストアによる災害復旧
+      pdf-filename: Veeam による災害復旧 (補足 NFS データストア)
+      url: "/vmware/vmw-gcp-gcve-app-dr-ds-veeam.html"
+    - title: Veeamゲスト接続ストレージによる災害復旧
+      pdf-filename: Veeam による災害復旧 (ゲスト接続ストレージ)
+      url: "/vmware/vmw-gcp-gcve-app-dr-guest-veeam.html"
+    - title: Veeam レプリケーションとGoogle Cloud NetApp Volumesによる災害復旧
+      pdf-filename: Veeam Replication とGoogle Cloud NetApp Volumesデータストアを使用した GCVE
+        への災害復旧
+      url: "/vmware/vmw-gcp-gcnv-gcve-ds-dr-veeam.html"
+  - title: GCP/GCVE 上のワークロードを移行する
+    entries:
+    - title: VMware HCX を使用してワークロードを Cloud Volume Service に移行する
+      pdf-filename: VMware HCX を使用してワークロードを Cloud Volume Service NFS データストアに移行する
+      url: "/vmware/vmw-gcp-gcve-migrate-hcx.html"
+    - title: Veeam Replication を使用して VM ワークロードをGoogle Cloud NetApp Volumesに移行する
+      pdf-filename: Veeam Replication を使用して VM ワークロードをGoogle Cloud NetApp Volumes
+        NFS データストアに移行する
+      url: "/vmware/vmw-gcp-gcve-migrate-veeam.html"
+  - title: Google Cloud のGoogle Cloud NetApp Volumesでデータを保護
+    entries:
+    - title: セキュリティの概要
+      url: "/google/gcp-gcnv-overview.html"
+    - title: Google Cloud NetApp Volumes がデータを保護する仕組み
+      url: "/google/gcp-gcnv-security-overview.html"
+    - title: セキュリティ上の考慮事項と攻撃対象領域
+      url: "/google/gcp-gcnv-security-considerations.html"
+    - title: アーキテクチャの概要
+      url: "/google/gcp-gcnv-arch-overview.html"
+    - title: Google Cloud NetApp Volumesアーキテクチャ
+      url: "/google/gcp-gcnv-arch-detail.html"
+    - title: コントロールプレーンアーキテクチャ
+      url: "/google/gcp-gcnv-control-plane-arch.html"
+    - title: データプレーンアーキテクチャ
+      url: "/google/gcp-gcnv-data-plane-arch.html"
+    - title: 転送中のデータ暗号化
+      url: "/google/gcp-gcnv-data-encrypt-in-transit.html"
+    - title: 保存時のデータ暗号化
+      url: "/google/gcp-gcnv-data-encrypt-at-rest.html"
+    - title: ファイアウォール
+      url: "/google/gcp-gcnv-firewall.html"
+    - title: NASプロトコルの概要
+      url: "/google/gcp-gcnv-nas-overview.html"
+    - title: NASプロトコルの基礎
+      url: "/google/gcp-gcnv-nas-basics.html"
+    - title: NFS
+      url: "/google/gcp-gcnv-nfs.html"
+    - title: SMB
+      url: "/google/gcp-gcnv-smb.html"
+    - title: デュアルプロトコル/マルチプロトコル
+      url: "/google/gcp-gcnv-multiprotocol.html"
+    - title: Active Directory 接続を作成する際の考慮事項
+      url: "/google/gcp-gcnv-ad-connections.html"
+    - title: その他の NAS インフラストラクチャ サービスの依存関係 (KDC、LDAP、DNS)
+      url: "/google/gcp-gcnv-nas-dependencies.html"
+    - title: サービス運営
+      url: "/google/gcp-gcnv-service-operation.html"
+    - title: 追加情報
+      url: "/vmware/gcp-gcnv-additional-info.html"
+- title: BlueXP disaster recovery
+  entries:
+  - title: SnapCenterプラグインとBlueXPでVMwareのデータを保護する
+    pdf-filename: SnapCenterプラグインとBlueXP backup and recoveryによる VMware の 3-2-1 データ保護
+    url: "/vmware/vmw-hybrid-321-dp-scv.html"
+  - title: BlueXP DRaaSを使用した災害復旧
+    pdf-filename: BlueXP DRaaS を使用した災害復旧
+    entries:
+    - title: ソリューションの概要
+      url: "/vmware/vmw-hybrid-dr-overview.html"
+    - title: NFSデータストアの災害復旧
+      url: "/vmware/vmw-hybrid-dr-nfs.html"
+    - title: VMFSデータストアの災害復旧
+      url: "/vmware/vmw-hybrid-dr-vmfs.html"

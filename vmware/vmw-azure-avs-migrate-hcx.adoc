@@ -1,0 +1,352 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-azure-avs-migrate-hcx.html 
+keywords: azure, avs, hybrid multicloud, migrate, vmware hcx, hcx 
+summary:  
+---
+= TR-4940: VMware HCX を使用してワークロードをAzure NetApp Filesデータストアに移行する - クイックスタート ガイド
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Azure VMware Solution とAzure NetApp Filesデータストアの最も一般的なユース ケースの 1 つは、VMware ワークロードの移行です。  VMware HCX は推奨されるオプションであり、オンプレミスの仮想マシン (VM) とそのデータをAzure NetApp Filesデータストアに移動するためのさまざまな移行メカニズムを提供します。
+
+
+
+== 概要: VMware HCX、 Azure NetApp Filesデータストア、Azure VMware ソリューションを使用した仮想マシンの移行
+
+VMware HCX は主に、アプリケーションの移行、ワークロードの再調整、さらにはクラウド間のビジネス継続性を簡素化するように設計された移行プラットフォームです。これは Azure VMware Solution プライベート クラウドの一部として含まれており、ワークロードを移行するためのさまざまな方法を提供し、ディザスター リカバリー (DR) 操作に使用できます。
+
+このドキュメントでは、 Azure NetApp Filesデータストアをプロビジョニングし、その後、オンプレミスと Azure VMware Solution 側のすべての主要コンポーネント (相互接続、ネットワーク拡張、さまざまな VM 移行メカニズムを有効にするための WAN 最適化など) を含む VMware HCX をダウンロード、デプロイ、構成するための手順を詳しく説明します。
+
+
+NOTE: VMware HCX は、移行が VM レベルで行われるため、どのデータストア タイプでも動作します。したがって、このドキュメントは、コスト効率の高い VMware クラウド展開のために Azure VMware Solution を使用してAzure NetApp Filesを展開することを計画している既存のNetApp顧客と非NetApp顧客に適用されます。
+
+.大まかな手順
+[%collapsible%open]
+====
+このリストには、Azure クラウド側に HCX Cloud Manager をインストールして構成し、オンプレミスに HCX Connector をインストールするために必要な手順の概要が示されています。
+
+. Azure ポータルから HCX をインストールします。
+. オンプレミスの VMware vCenter Server に HCX コネクタ Open Virtualization Appliance (OVA) インストーラーをダウンロードしてデプロイします。
+. ライセンス キーを使用して HCX をアクティブ化します。
+. オンプレミスの VMware HCX コネクタを Azure VMware Solution HCX Cloud Manager とペアリングします。
+. ネットワーク プロファイル、コンピューティング プロファイル、およびサービス メッシュを構成します。
+. (オプション) 移行中に IP の再割り当てを避けるためにネットワーク拡張を実行します。
+. アプライアンスのステータスを検証し、移行が可能であることを確認します。
+. VM ワークロードを移行します。
+
+
+====
+.前提条件
+[%collapsible%open]
+====
+始める前に、次の前提条件が満たされていることを確認してください。詳細については、こちらをご覧ください https://docs.microsoft.com/en-us/azure/azure-vmware/configure-vmware-hcx["リンク"^]。接続などの前提条件が整ったら、Azure VMware Solution ポータルからライセンス キーを生成して、HCX を構成してアクティブ化します。  OVA インストーラをダウンロードしたら、以下の説明に従ってインストール プロセスを続行します。
+
+
+NOTE: HCX アドバンスドはデフォルトのオプションであり、VMware HCX エンタープライズ エディションもサポート チケットを通じて利用可能で、追加費用なしでサポートされます。
+
+* 既存のAzure VMwareソリューションのソフトウェア定義データセンター（SDDC）を使用するか、これを使用してプライベートクラウドを作成します。link:vmw-azure-avs-setup.html["NetAppリンク"^]またはこれ https://docs.microsoft.com/en-us/azure/azure-vmware/deploy-azure-vmware-solution?tabs=azure-portal["マイクロソフトリンク"^]。
+* オンプレミスの VMware vSphere 対応データセンターから VM と関連データを移行するには、データセンターから SDDC 環境へのネットワーク接続が必要です。ワークロードを移行する前に、 https://docs.microsoft.com/en-us/azure/azure-vmware/tutorial-expressroute-global-reach-private-cloud["サイト間VPNまたはExpress Route Global Reach接続を設定する"^]オンプレミス環境とそれぞれのプライベート クラウド間。
+* オンプレミスの VMware vCenter Server 環境から Azure VMware Solution プライベート クラウドへのネットワーク パスは、vMotion を使用した VM の移行をサポートする必要があります。
+* 必要な https://learn.microsoft.com/en-us/azure/azure-vmware/tutorial-network-checklist?source=recommendations["ファイアウォールルールとポート"^]オンプレミスの vCenter Server と SDDC vCenter 間の vMotion トラフィックが許可されます。プライベート クラウドでは、vMotion ネットワーク上のルーティングがデフォルトで構成されています。
+* Azure NetApp Files NFS ボリュームは、Azure VMware Solution のデータストアとしてマウントする必要があります。この手順に従ってください https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal["リンク"^]Azure NetApp Filesデータストアを Azure VMware Solutions ホストに接続します。
+
+
+====
+.高レベルアーキテクチャ
+[%collapsible%open]
+====
+テストの目的で、この検証に使用されたオンプレミスのラボ環境は、オンプレミスから Azure VMware Solution への接続を可能にするサイト間 VPN を介して接続されました。
+
+image:anfd-hcx-001.png["この画像は、このソリューションで使用される高レベルのアーキテクチャを示しています。"]
+
+====
+
+
+== ソリューションの展開
+
+このソリューションの展開を完了するには、次の一連の手順に従います。
+
+.ステップ 1: アドオン オプションを使用して Azure Portal から HCX をインストールする
+[%collapsible%open]
+====
+インストールを実行するには、次の手順を実行します。
+
+. Azure Portal にログインし、Azure VMware Solution プライベート クラウドにアクセスします。
+. 適切なプライベート クラウドを選択し、アドオンにアクセスします。これは、*管理 > アドオン*に移動することで実行できます。
+. HCX ワークロード モビリティ セクションで、[開始] をクリックします。
++
+image:anfd-hcx-002.png["HCX ワークロード モビリティ セクションのスクリーンショット。"]
+
+. *利用規約に同意します*オプションを選択し、*有効化してデプロイ*をクリックします。
++
+
+NOTE: デフォルトの展開は HCX Advanced です。エンタープライズ エディションを有効にするには、サポート リクエストを開きます。
+
++
+
+NOTE: 展開には約 25 ～ 30 分かかります。
+
++
+image:anfd-hcx-003.png["HCX ワークロード モビリティ セクションの完了のスクリーンショット。"]
+
+
+
+====
+.ステップ2: オンプレミスのvCenter ServerにインストーラOVAを展開する
+[%collapsible%open]
+====
+オンプレミスのコネクタを Azure VMware Solution の HCX マネージャーに接続するには、オンプレミス環境で適切なファイアウォール ポートが開いていることを確認してください。
+
+オンプレミスの vCenter Server に HCX コネクタをダウンロードしてインストールするには、次の手順を実行します。
+
+. Azure ポータルから Azure VMware Solution に移動し、プライベート クラウドを選択して、HCX を使用して *管理 > アドオン > 移行* を選択し、HCX Cloud Manager ポータルをコピーして OVA ファイルをダウンロードします。
++
+
+NOTE: デフォルトの CloudAdmin ユーザー資格情報を使用して HCX ポータルにアクセスします。
+
++
+image:anfd-hcx-004.png["HCX OVA ファイルをダウンロードするための Azure ポータルのスクリーンショット。"]
+
+. ジャンプホストを使用して mailto:cloudadmin@vsphere.local[cloudadmin@vsphere.local^] で HCX ポータルにアクセスした後、*管理 > システム更新* に移動し、*ダウンロード リンクの要求* をクリックします。
++
+
+NOTE: OVA へのリンクをダウンロードするかコピーしてブラウザに貼り付け、オンプレミスの vCenter Server にデプロイする VMware HCX Connector OVA ファイルのダウンロード プロセスを開始します。
+
++
+image:anfd-hcx-005.png["OVAダウンロードリンクのスクリーンショット。"]
+
+. OVA をダウンロードしたら、[OVF テンプレートのデプロイ] オプションを使用して、オンプレミスの VMware vSphere 環境にデプロイします。
++
+image:anfd-hcx-006.png["正しい OVA テンプレートを選択するためのスクリーンショット。"]
+
+. OVA 展開に必要なすべての情報を入力し、[次へ] をクリックしてから [完了] をクリックして VMware HCX コネクタ OVA を展開します。
++
+
+NOTE: 仮想アプライアンスを手動で電源オンします。
+
+
+
+詳しい手順については、 https://docs.vmware.com/en/VMware-HCX/services/user-guide/GUID-BFD7E194-CFE5-4259-B74B-991B26A51758.html["VMware HCX ユーザーガイド"^] 。
+
+====
+.ステップ3: ライセンスキーを使用してHCXコネクタをアクティブ化する
+[%collapsible%open]
+====
+VMware HCX コネクタ OVA をオンプレミスにデプロイし、アプライアンスを起動したら、次の手順を実行して HCX コネクタをアクティブ化します。  Azure VMware Solution ポータルからライセンス キーを生成し、VMware HCX Manager でアクティブ化します。
+
+. Azure ポータルから Azure VMware Solution に移動し、プライベート クラウドを選択して、*管理 > アドオン > HCX を使用した移行* を選択します。
+. *オンプレミスの HCX キーを使用して接続* の下で、*追加* をクリックしてアクティベーション キーをコピーします。
++
+image:anfd-hcx-007.png["HCX キーを追加するためのスクリーンショット。"]
+
++
+
+NOTE: 展開されるオンプレミスの HCX コネクタごとに個別のキーが必要です。
+
+. オンプレミスのVMware HCX Managerにログインします。 `"https://hcxmanagerIP:9443"`管理者の資格情報を使用します。
++
+
+NOTE: OVA 展開時に定義されたパスワードを使用します。
+
+. ライセンスで、手順 3 でコピーしたキーを入力し、[アクティブ化] をクリックします。
++
+
+NOTE: オンプレミスの HCX コネクタにはインターネット アクセスが必要です。
+
+. *データセンターの場所* で、オンプレミスの VMware HCX Manager をインストールするための最も近い場所を指定します。  *続行*をクリックします。
+. *システム名*の下で名前を更新し、*続行*をクリックします。
+. *はい、続行*をクリックします。
+. *vCenter への接続* で、vCenter Server の完全修飾ドメイン名 (FQDN) または IP アドレスと適切な資格情報を入力し、*続行* をクリックします。
++
+
+NOTE: 後で接続の問題を回避するには、FQDN を使用します。
+
+. *SSO/PSC の構成* で、Platform Services Controller の FQDN または IP アドレスを入力し、*続行* をクリックします。
++
+
+NOTE: VMware vCenter Server の FQDN または IP アドレスを入力します。
+
+. 入力した情報が正しいことを確認して、[再起動] をクリックします。
+. サービスが再起動すると、表示されるページで vCenter Server が緑色で表示されます。  vCenter Server と SSO の両方に適切な構成パラメータが設定されている必要があります。これは前のページと同じである必要があります。
++
+
+NOTE: このプロセスには、プラグインが vCenter Server に追加されるまでに約 10 ～ 20 分かかります。
+
++
+image:anfd-hcx-008.png["完了したプロセスを示すスクリーンショット。"]
+
+
+
+====
+.ステップ 4: オンプレミスの VMware HCX コネクタと Azure VMware Solution HCX Cloud Manager をペアリングする
+[%collapsible%open]
+====
+HCX コネクタをオンプレミスと Azure VMware Solution の両方にインストールした後、ペアリングを追加して、Azure VMware Solution プライベート クラウド用にオンプレミスの VMware HCX コネクタを構成します。サイトのペアリングを構成するには、次の手順を実行します。
+
+. オンプレミスの vCenter 環境と Azure VMware Solution SDDC の間にサイト ペアを作成するには、オンプレミスの vCenter Server にログインし、新しい HCX vSphere Web Client プラグインにアクセスします。
+
+
+image:anfd-hcx-009.png["HCX vSphere Web Client プラグインのスクリーンショット。"]
+
+. インフラストラクチャの下で、[*サイトペアリングを追加*]をクリックします。
+
+
+
+NOTE: プライベート クラウドにアクセスするための Azure VMware Solution HCX Cloud Manager の URL または IP アドレスと CloudAdmin ロールの資格情報を入力します。
+
+image:anfd-hcx-010.png["CloudAdmin ロールのスクリーンショット URL または IP アドレスと資格情報。"]
+
+. *接続*をクリックします。
+
+
+
+NOTE: VMware HCX コネクタは、ポート 443 経由で HCX Cloud Manager IP にルーティングできる必要があります。
+
+. ペアリングが作成されると、新しく構成されたサイト ペアリングが HCX ダッシュボードで利用できるようになります。
+
+
+image:anfd-hcx-011.png["HCX ダッシュボード上の完了したプロセスのスクリーンショット。"]
+
+====
+.ステップ5: ネットワークプロファイル、コンピューティングプロファイル、サービスメッシュを構成する
+[%collapsible%open]
+====
+VMware HCX Interconnect サービス アプライアンスは、インターネット経由およびターゲット サイトへのプライベート接続を介したレプリケーションおよび vMotion ベースの移行機能を提供します。相互接続は、暗号化、トラフィック エンジニアリング、VM モビリティを提供します。  Interconnect サービス アプライアンスを作成するには、次の手順を実行します。
+
+. [インフラストラクチャ] で、*[相互接続] > [マルチサイト サービス メッシュ] > [コンピューティング プロファイル] > [コンピューティング プロファイルの作成]* を選択します。
+
+
+
+NOTE: コンピューティング プロファイルは、展開されるアプライアンスや、HCX サービスにアクセス可能な VMware データセンターの部分などの展開パラメータを定義します。
+
+image:anfd-hcx-012.png["vSphere クライアントの Interconnect ページのスクリーンショット。"]
+
+. コンピューティング プロファイルが作成されたら、*マルチサイト サービス メッシュ > ネットワーク プロファイル > ネットワーク プロファイルの作成* を選択して、ネットワーク プロファイルを作成します。
+
+
+ネットワーク プロファイルは、HCX が仮想アプライアンスに使用する IP アドレスとネットワークの範囲を定義します。
+
+
+NOTE: この手順では 2 つ以上の IP アドレスが必要です。これらの IP アドレスは、管理ネットワークから Interconnect Appliances に割り当てられます。
+
+image:anfd-hcx-013.png["vSphere クライアントの Interconnect ページに IP アドレスを追加するスクリーンショット。"]
+
+. この時点で、コンピューティング プロファイルとネットワーク プロファイルが正常に作成されました。
+. *Interconnect* オプション内の *Service Mesh* タブを選択して Service Mesh を作成し、オンプレミスと Azure SDDC サイトを選択します。
+. サービス メッシュは、ローカルおよびリモートのコンピューティングとネットワーク プロファイルのペアを指定します。
+
+
+
+NOTE: このプロセスの一環として、安全なトランスポート ファブリックを作成するために、HCX アプライアンスがソース サイトとターゲット サイトの両方に展開され、自動的に構成されます。
+
+image:anfd-hcx-014.png["vSphere クライアントの Interconnect ページの Service Mesh タブのスクリーンショット。"]
+
+. これは設定の最終ステップです。デプロイメントが完了するまでに約 30 分かかります。サービス メッシュが構成されると、ワークロード VM を移行するための IPsec トンネルが正常に作成され、環境が準備されます。
+
+
+image:anfd-hcx-015.png["vSphere クライアントの Interconnect ページで完了したプロセスのスクリーンショット。"]
+
+====
+.ステップ6: ワークロードを移行する
+[%collapsible%open]
+====
+さまざまな VMware HCX 移行テクノロジを使用して、オンプレミスと Azure SDDC 間でワークロードを双方向に移行できます。  HCX 一括移行、HCX vMotion、HCX コールド移行、HCX レプリケーション アシスト vMotion (HCX Enterprise エディションで利用可能)、HCX OS アシスト移行 (HCX Enterprise エディションで利用可能) などの複数の移行テクノロジーを使用して、VMware HCX がアクティブ化されたエンティティ間で VM を移動できます。
+
+さまざまなHCX移行メカニズムの詳細については、以下を参照してください。 https://learn.microsoft.com/en-us/azure/azure-vmware/architecture-migrate#vmware-hcx-migration-options["VMware HCX 移行の種類"^] 。
+
+*一括移行*
+
+このセクションでは、一括移行のメカニズムについて詳しく説明します。一括移行中、HCX の一括移行機能は vSphere Replication を使用してディスク ファイルを移行し、同時に宛先 vSphere HCX インスタンス上に VM を再作成します。
+
+一括 VM 移行を開始するには、次の手順を実行します。
+
+. *サービス > 移行* の *移行* タブにアクセスします。
+
+
+image:anfd-hcx-016.png["vSphere クライアントの移行セクションのスクリーンショット。"]
+
+. *リモート サイト接続* の下で、リモート サイト接続を選択し、ソースと宛先を選択します。この例では、宛先は Azure VMware Solution SDDC HCX エンドポイントです。
+. *移行するVMを選択*をクリックします。これにより、オンプレミスのすべての VM のリストが提供されます。  match:value 式に基づいて VM を選択し、[*追加*] をクリックします。
+. *転送と配置*セクションで、移行プロファイルを含む必須フィールド（*クラスター*、*ストレージ*、*宛先*、および*ネットワーク*）を更新し、*検証*をクリックします。
+
+
+image:anfd-hcx-017.png["vSphere クライアントの転送と配置セクションのスクリーンショット。"]
+
+. 検証チェックが完了したら、[Go] をクリックして移行を開始します。
+
+
+image:anfd-hcx-018.png["移行開始のスクリーンショット。"]
+
+
+NOTE: この移行中に、ターゲット vCenter 内の指定されたAzure NetApp Filesデータストアにプレースホルダー ディスクが作成され、ソース VM ディスクのデータをプレースホルダー ディスクにレプリケーションできるようになります。 HBR はターゲットへの完全同期のためにトリガーされ、ベースラインが完了した後、復旧ポイント目標 (RPO) サイクルに基づいて増分同期が実行されます。完全同期または増分同期が完了すると、特定のスケジュールが設定されていない限り、切り替えが自動的にトリガーされます。
+
+. 移行が完了したら、移行先の SDDC vCenter にアクセスして移行を検証します。
+
+
+image:anfd-hcx-019.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+さまざまな移行オプションと、HCX を使用してオンプレミスから Azure VMware Solution にワークロードを移行する方法の詳細については、以下を参照してください。 https://learn.microsoft.com/en-us/azure/azure-vmware/architecture-migrate["VMware HCX 移行の考慮事項"^] 。
+
+このプロセスについて詳しく知りたい場合は、次のビデオをご覧ください。
+
+.HCX を使用したワークロード移行
+video::255640f5-4dff-438c-8d50-b01200f017d1[panopto]
+以下は HCX vMotion オプションのスクリーンショットです。
+
+image:anfd-hcx-020.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+このプロセスについて詳しく知りたい場合は、次のビデオをご覧ください。
+
+.HCX vMotion
+video::986bb505-6f3d-4a5a-b016-b01200f03f18[panopto]
+
+NOTE: 移行を処理するために十分な帯域幅が利用可能であることを確認してください。
+
+
+NOTE: ターゲット ANF データストアには、移行を処理するのに十分なスペースが必要です。
+
+====
+
+
+== まとめ
+
+オールクラウドまたはハイブリッド クラウドをターゲットにしていて、データがオンプレミスのあらゆるタイプ/ベンダーのストレージに存在する場合でも、 Azure NetApp Filesと HCX は、データ要件をアプリケーション レイヤーにシームレスにすることで TCO を削減しながら、アプリケーション ワークロードを展開および移行するための優れたオプションを提供します。ユース ケースがどのようなものであっても、Azure VMware Solution とAzure NetApp Filesを併せて選択すると、クラウドのメリットを迅速に実現でき、オンプレミスと複数のクラウドにわたる一貫したインフラストラクチャと運用、ワークロードの双方向の移植性、エンタープライズ レベルの容量とパフォーマンスが得られます。これは、VMware vSphere Replication、VMware vMotion、またはネットワーク ファイル コピー (NFC) を使用してストレージを接続し、VMware 仮想マシンを移行するために使用される、使い慣れたプロセスと手順と同じです。
+
+
+
+== まとめ
+
+このドキュメントの主なポイントは次のとおりです。
+
+* Azure VMware Solution SDDC 上のデータストアとしてAzure NetApp Files を使用できるようになりました。
+* オンプレミスからAzure NetApp Filesデータストアにデータを簡単に移行できます。
+* 移行アクティビティ中の容量とパフォーマンスの要件を満たすために、 Azure NetApp Filesデータストアを簡単に拡大および縮小できます。
+
+
+
+
+== 詳細情報の入手方法
+
+このドキュメントに記載されている情報の詳細については、次の Web サイト リンクを参照してください。
+
+* Azure VMware ソリューションのドキュメント
+
+
+https://docs.microsoft.com/en-us/azure/azure-vmware/["https://docs.microsoft.com/en-us/azure/azure-vmware/"^]
+
+* Azure NetApp Files のドキュメント
+
+
+https://docs.microsoft.com/en-us/azure/azure-netapp-files/["https://docs.microsoft.com/en-us/azure/azure-netapp-files/"^]
+
+* VMware HCX 移行の考慮事項
+
+
+https://learn.microsoft.com/en-us/azure/azure-vmware/architecture-migrate["https://learn.microsoft.com/en-us/azure/azure-vmware/architecture-migrate"^]

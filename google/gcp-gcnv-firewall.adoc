@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: google/gcp-gcnv-firewall.html 
+keywords: tcp, nfs, smb share, kerberos, active directory, dns 
+summary: Google Cloud NetApp Volumes は、 NFS および SMB 共有を提供するために複数の TCP ポートを公開します。 
+---
+= ファイアウォール
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Google Cloud NetApp Volumes は、 NFS および SMB 共有を提供するために複数の TCP ポートを公開します。
+
+* https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["NFS アクセスに必要なポート"^]
+* https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["SMBアクセスに必要なポート"^]
+
+
+さらに、SMB、Kerberos を含む LDAP を使用した NFS、およびデュアルプロトコル構成では、Windows Active Directory ドメインへのアクセスが必要です。  Active Directory接続は https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-smb-volumes?hl=en_US["構成された"^]地域ごとに。 Active Directoryドメインコントローラ（DC）は、以下を使用して識別されます。 https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/7fcdce70-5205-44d6-9c3a-260e616a2f04["DNSベースのDC検出"^]指定された DNS サーバーを使用します。返された DC のいずれかが使用されます。  Active Directory サイトを指定することにより、適格な DC のリストを制限できます。
+
+Google Cloud NetApp Volumesは、割り当てられたCIDR範囲のIPアドレスを使用してアクセスします。 `gcloud compute address`コマンド中 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/setting-up-private-services-access?hl=en_US["Google Cloud NetApp Volumesのオンボーディング"^]。この CIDR を送信元アドレスとして使用して、Active Directory ドメイン コントローラーへの受信ファイアウォールを構成できます。
+
+Active Directoryドメインコントローラは https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["ここで述べたように、ポートをGoogle Cloud NetApp Volumes CIDR に公開します。"^]。

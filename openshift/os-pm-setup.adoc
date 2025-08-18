@@ -1,0 +1,63 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-pm-setup.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP, ROSA, ROSA clusters 
+summary:  
+---
+= AWS 上でマネージド Red Hat OpenShift Container プラットフォームをデプロイおよび構成する
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このセクションでは、AWS (ROSA) 上でマネージド Red Hat OpenShift クラスターをセットアップするための高レベルのワークフローについて説明します。これは、永続ボリュームを提供するためにTridentがストレージバックエンドとしてマネージドAmazon FSx for NetApp ONTAP (FSx ONTAP ) を使用する方法を示しています。 BlueXPを使用して AWS に FSx ONTAPを導入する方法について詳細に説明します。また、ROSA クラスター上のステートフル アプリケーションのデータ保護と移行アクティビティを実行するためにBlueXPと OpenShift GitOps (Argo CD) を使用する方法についても詳しく説明します。
+
+以下は、AWS にデプロイされ、バックエンドストレージとして FSx ONTAPを使用している ROSA クラスターを示す図です。
+
+image:rhhc-rosa-with-fsxn.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+
+NOTE: このソリューションは、AWS の 2 つの VPC 内の 2 つの ROSA クラスターを使用して検証されました。各 ROSA クラスターは、 Tridentを使用して FSx ONTAPと統合されました。 AWS に ROSA クラスターと FSx ONTAPをデプロイする方法はいくつかあります。このセットアップの概要説明には、使用された特定の方法に関するドキュメント リンクが提供されます。その他の方法については、以下の関連リンクを参照してください。link:os-solutions-resources.html["リソースセクション"] 。
+
+セットアッププロセスは次の手順に分けられます。
+
+.ROSAクラスタをインストールする
+* 2 つの VPC を作成し、VPC 間に VPC ピアリング接続を設定します。
+* 参照するlink:https://docs.openshift.com/rosa/welcome/index.html["ここをクリックしてください。"]ROSA クラスターのインストール手順については、こちらをご覧ください。
+
+
+.FSx ONTAPをインストールする
+* BlueXPから VPC に FSx ONTAPをインストールします。参照するlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["ここをクリックしてください。"]BlueXPアカウントを作成して開始するには。参照するlink:https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/index.html["ここをクリックしてください。"]FSx ONTAPをインストールするためのものです。参照するlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["ここをクリックしてください。"]FSx ONTAP を管理するためのコネクタを AWS で作成します。
+* AWS を使用して FSx ONTAPをデプロイします。参照するlink:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["ここをクリックしてください。"]AWS コンソールを使用してデプロイします。
+
+
+.ROSA クラスターにTridentをインストールする (Helm チャートを使用)
+* Helm チャートを使用して、ROSA クラスターにTridentをインストールします。ドキュメントリンクを参照してください: https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-helm.html[ここ]。
+
+
+.ROSA クラスタ向け FSx ONTAPとTridentの統合
+video::621ae20d-7567-4bbf-809d-b01200fa7a68[panopto]
+
+NOTE: OpenShift GitOps を利用すると、ApplicationSet を使用して ArgoCD に登録されたすべての管理対象クラスターにTrident CSI をデプロイできます。
+
+image:rhhc-trident-helm.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+.Tridentを使用してバックエンドとストレージ クラスを作成する (FSx ONTAP用)
+* 参照するlink:https://docs.netapp.com/us-en/trident/trident-use/backends.html["ここをクリックしてください。"]バックエンドとストレージ クラスの作成の詳細については、こちらをご覧ください。
+* OpenShift コンソールから、 Trident CSI を使用して FsxN 用に作成されたストレージ クラスをデフォルトにします。下のスクリーンショットを参照してください。
+
+
+image:rhhc-default-storage-class.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+.OpenShift GitOps (Argo CD) を使用してアプリケーションをデプロイする
+* クラスターに OpenShift GitOps オペレーターをインストールします。説明書を参照してくださいlink:https://docs.openshift.com/container-platform/4.10/cicd/gitops/installing-openshift-gitops.html["ここをクリックしてください。"]。
+* クラスターに新しい Argo CD インスタンスをセットアップします。説明書を参照してくださいlink:https://docs.openshift.com/container-platform/4.10/cicd/gitops/setting-up-argocd-instance.html["ここをクリックしてください。"]。
+
+
+Argo CD のコンソールを開き、アプリを展開します。たとえば、Helm Chart を使用した Argo CD を使用して Jenkins アプリをデプロイできます。アプリケーションを作成するときに、次の詳細が指定されました: プロジェクト: デフォルト クラスター:'https://kubernetes.default.svc'[] (引用符なし) 名前空間: Jenkins Helm Chart の URL:'https://charts.bitnami.com/bitnami'[] （引用符なし）
+
+Helm パラメータ: global.storageClass: fsxn-nas

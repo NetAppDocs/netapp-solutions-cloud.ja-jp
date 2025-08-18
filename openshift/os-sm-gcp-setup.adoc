@@ -1,0 +1,77 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-sm-gcp-setup.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP, Google Cloud Platform, Google Cloud, GCP 
+summary:  
+---
+= Google Cloud に Red Hat OpenShift Container Platform をデプロイして構成する
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このセクションでは、GCP で OpenShift クラスターをセットアップおよび管理し、そこにステートフル アプリケーションをデプロイする方法のワークフローの概要について説明します。これは、永続ボリュームを提供するためにTridentを利用してGoogle Cloud NetApp VolumesとNetApp Cloud Volumes ONTAPストレージを使用する方法を示しています。
+
+以下は、GCP にデプロイされ、VPN を使用してデータセンターに接続されたクラスターを示す図です。
+
+image:rhhc-self-managed-gcp.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+
+NOTE: GCP に Red Hat OpenShift Container Platform クラスターをデプロイする方法はいくつかあります。このセットアップの概要説明には、使用された特定の方法に関するドキュメント リンクが提供されます。その他の方法については、以下の関連リンクを参照してください。link:os-solutions-resources.html["リソースセクション"] 。
+
+セットアッププロセスは次の手順に分けられます。
+
+.CLI から GCP に OCP クラスタをインストールする
+* 記載されているすべての前提条件を満たしていることを確認してくださいlink:https://docs.openshift.com/container-platform/4.13/installing/installing_gcp/installing-gcp-default.html["ここをクリックしてください。"]。
+* オンプレミスと GCP 間の VPN 接続用に、pfsense VM が作成および構成されました。手順については、 https://docs.netgate.com/pfsense/en/latest/recipes/ipsec-s2s-psk.html["ここをクリックしてください。"] 。
++
+** pfsense のリモート ゲートウェイ アドレスは、Google Cloud Platform で VPN ゲートウェイを作成した後にのみ構成できます。
+** フェーズ 2 のリモート ネットワーク IP アドレスは、OpenShift クラスター インストール プログラムが実行され、クラスターのインフラストラクチャ コンポーネントが作成された後にのみ構成できます。
+** Google Cloud の VPN は、インストール プログラムによってクラスタのインフラストラクチャ コンポーネントが作成された後にのみ構成できます。
+
+
+* 次に、GCP に OpenShift クラスターをインストールします。
++
+** インストールプログラムとプルシークレットを取得し、ドキュメントに記載されている手順に従ってクラスターをデプロイします。 https://docs.openshift.com/container-platform/4.13/installing/installing_gcp/installing-gcp-default.html["ここをクリックしてください。"] 。
+** インストールにより、Google Cloud Platform に VPC ネットワークが作成されます。また、Cloud DNS にプライベート ゾーンを作成し、A レコードを追加します。
++
+*** VPC ネットワークの CIDR ブロック アドレスを使用して pfsense を設定し、VPN 接続を確立します。ファイアウォールが正しく設定されていることを確認します。
+*** Google Cloud DNS の A レコードの IP アドレスを使用して、オンプレミス環境の DNS に A レコードを追加します。
+
+
+** クラスターのインストールが完了し、クラスターのコンソールにログインするための kubeconfig ファイルとユーザー名とパスワードが提供されます。
+
+
+
+
+.Google Cloud NetApp Volumesをデプロイする
+* Google Cloud NetApp Volumesは、概要に従ってプロジェクトに追加できます。link:https://cloud.google.com/netapp/volumes/docs/discover/overview["ここをクリックしてください。"] 。
+
+
+.BlueXPを使用して GCP にCloud Volumes ONTAPを導入する
+* Google Cloud にコネクタをインストールします。説明書を参照してください https://docs.netapp.com/us-en/bluexp-setup-admin/task-install-connector-google-bluexp-gcloud.html["ここをクリックしてください。"]。
+* コネクタを使用して Google Cloud に CVO インスタンスをデプロイします。こちらの手順を参照してください。 https://docs.netapp.com/us-en/bluexp-cloud-volumes-ontap/task-getting-started-gcp.html[]
+
+
+.GCP の OCP クラスタにTridentをインストールする
+* Tridentを展開する方法は数多くある。 https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["ここをクリックしてください。"] 。
+* このプロジェクトでは、以下の手順に従ってTrident Operatorを手動で展開することでTridentをインストールしました。 https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-operator.html["ここをクリックしてください。"] 。
+* バックエンドとストレージ クラスを作成します。説明書を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/backends.html["ここをクリックしてください。"]。
+
+
+.マルチゾーンアーキテクチャにTridentのCSIトポロジ機能を使用する
+現在、クラウド プロバイダーは、Kubernetes/OpenShift クラスター管理者がゾーン ベースのクラスターのノードを生成できるようにしています。ノードは、リージョン内の異なるアベイラビリティーゾーン、または複数のリージョンに配置できます。マルチゾーン アーキテクチャでのワークロードのボリュームのプロビジョニングを容易にするために、 Trident はCSI トポロジを使用します。 CSI トポロジ機能を使用すると、リージョンとアベイラビリティーゾーンに基づいて、ボリュームへのアクセスをノードのサブセットに制限できます。参照するlink:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["ここをクリックしてください。"]詳細については、こちらをご覧ください。
+
+
+NOTE: Kubernetes は 2 つのボリューム バインディング モードをサポートしています。 - **_VolumeBindingMode_ が _Immediate_** (デフォルト) に設定されている場合、 Trident はトポロジを認識せずにボリュームを作成します。永続ボリュームは、要求元のポッドのスケジュール要件に依存せずに作成されます。 - **_VolumeBindingMode_ が _WaitForFirstConsumer_** に設定されている場合、PVC を使用するポッドがスケジュールされて作成されるまで、PVC の永続ボリュームの作成とバインドは遅延されます。このようにして、トポロジ要件によって適用されるスケジュール制約を満たすボリュームが作成されます。 Tridentストレージ バックエンドは、可用性ゾーンに基づいてボリュームを選択的にプロビジョニングするように設計できます (トポロジ対応バックエンド)。このようなバックエンドを利用する StorageClasses の場合、ボリュームは、サポートされているリージョン/ゾーンでスケジュールされているアプリケーションによって要求された場合にのみ作成されます。  （トポロジー対応ストレージクラス）参照link:https://docs.netapp.com/us-en/trident/trident-use/csi-topology.html["ここをクリックしてください。"]詳細については、こちらをご覧ください。
+
+[下線]#*デモビデオ*#
+
+.Google Cloud Platform への OpenShift Cluster のインストール
+video::4efc68f1-d37f-4cdd-874a-b09700e71da9[panopto,width=360]
+.OpenShift クラスターをTrident Protect にインポートする
+video::57b63822-6bf0-4d7b-b844-b09700eac6ac[panopto,width=360]

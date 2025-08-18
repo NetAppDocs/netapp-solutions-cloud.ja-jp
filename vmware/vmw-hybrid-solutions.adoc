@@ -1,0 +1,37 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-hybrid-solutions.html 
+keywords: NetApp Solutions, aws, amazon, vmc, vmware managed cloud, azure, avs, gcp, gcve, enterprise, hybrid, cloud, migrate, migration, disaster recovery, dr, backup, burst 
+summary:  
+---
+= ハイパースケーラー向け VMware 向けNetAppソリューション
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+ワークフローの移行、クラウドへの拡張/バースト、バックアップ/リストア、災害復旧など、 NetApp が各ハイパースケーラーに VMware 環境をもたらすソリューションについて詳しくご覧ください。
+
+
+
+== VMware 環境向けNetAppソリューション
+
+ハイブリッド クラウド モデルで運用している場合も、「クラウド ファースト」モデルで運用している場合も、 NetApp は、クラウドまたはハイブリッド クラウド モデルでワークロードを管理するための最も一般的なユースケースに対応する幅広いソリューションを提供します。
+
+NetApp は、ゲスト内 (ゲスト接続) ストレージとして、または各ハイパースケーラー内の補足 NFS データストアとしてプロビジョニングされるストレージ向けのソリューションも提供しています。すべてのソリューションは、VMware のクラウド ワークロードの分類に従って分類されます。これらの分類には次のものが含まれます。
+
+* 保護（災害復旧とバックアップ/復元の両方を含む）
+* 移行
+* 拡張
+
+
+各ハイパースケーラーで利用可能なソリューションの詳細については、以下をご覧ください。
+
+* link:vmw-aws-vmc-solutions.html["AWS / VMC向けソリューション"]
+* link:vmw-azure-avs-solutions.html["Azure / AVS向けソリューション"]
+* link:vmw-gcp-gcve-solutions.html["GCP / GCVE向けソリューション"]
+

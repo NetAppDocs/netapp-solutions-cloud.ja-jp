@@ -1,0 +1,19 @@
+---
+sidebar: sidebar 
+permalink: google/gcp-gcnv-contact-us.html 
+keywords:  
+summary:  
+---
+= お問い合わせ
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+本テクニカル レポートの品質向上について、ご意見をお寄せください。
+
+mailto:doccomments@netapp.com[doccomments@netapp.com^] までお問い合わせください。ご連絡の際は、件名に「TECHNICAL REPORT 4918」と添えてください。

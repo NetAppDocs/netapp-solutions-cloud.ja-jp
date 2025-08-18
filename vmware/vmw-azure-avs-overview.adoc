@@ -1,0 +1,74 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-azure-avs-overview.html 
+keywords: NetApp Solutions, hyperscalers, azure, avs, enterprise, hybrid, cloud, migrate, migration, disaster recovery, dr 
+summary:  
+---
+= Azure AVS 向けNetApp の機能
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp がAzure VMware Solution (AVS) にもたらす機能について詳しく説明します。ゲスト接続ストレージ デバイスまたは補助的な NFS データストアとしてのNetAppから、ワークフローの移行、クラウドへの拡張/バースト、バックアップ/リストア、ディザスター リカバリーまで、さまざまな機能について説明します。
+
+次のオプションから選択して、目的のコンテンツのセクションに移動します。
+
+* link:#config["Azure での AVS の構成"]
+* link:#datastore["AVS 向けNetAppストレージ オプション"]
+* link:#solutions["NetApp / VMware クラウド ソリューション"]
+
+
+
+
+== Azure での AVS の構成
+
+オンプレミスの場合と同様に、VM の作成と移行のための本番環境を正常に構築するには、クラウド ベースの仮想化環境を計画することが重要です。
+
+このセクションでは、Azure VMware Solution をセットアップおよび管理し、 NetAppストレージに接続するために使用可能なオプションと組み合わせて使用する方法について説明します。
+
+
+NOTE: ゲスト内ストレージは、Cloud Volumes ONTAP をAzure VMware Solution に接続するためにサポートされている唯一の方法です。
+
+セットアッププロセスは次の手順に分けられます。
+
+* リソースプロバイダーを登録してプライベートクラウドを作成する
+* 新規または既存の ExpressRoute 仮想ネットワーク ゲートウェイに接続する
+* ネットワーク接続を検証し、プライベートクラウドにアクセスする
+
+
+詳細を表示link:azure-setup.html["AVSの設定手順"]。
+
+
+
+== AVS 向けNetAppストレージ オプション
+
+NetAppストレージは、Azure AVS 内で、仮想接続として、または補助的な NFS データストアとして、さまざまな方法で利用できます。
+
+ぜひご覧くださいlink:vmw-hybrid-support-configs.html["サポートされているNetAppストレージオプション"]詳細についてはこちらをご覧ください。
+
+Azure は、次の構成のNetAppストレージをサポートしています。
+
+* ゲスト接続ストレージとしてのAzure NetApp Files (ANF)
+* ゲスト接続ストレージとしてのCloud Volumes ONTAP (CVO)
+* 補助的な NFS データストアとしてのAzure NetApp Files (ANF)
+
+
+詳細を表示link:azure-guest.html["AVS のゲスト接続ストレージ オプション"]。詳細を表示link:azure-native-nfs-datastore-option.html["AVS の補足 NFS データストア オプション"]。
+
+
+
+== ソリューションのユースケース
+
+NetAppおよび VMware クラウド ソリューションを使用すると、多くのユース ケースを Azure AVS に簡単に展開できます。VMware が定義したクラウド領域ごとに、次のようなユース ケースが定義されています。
+
+* 保護（災害復旧とバックアップ/復元の両方を含む）
+* 拡張
+* 移行
+
+
+link:vmw-azure-avs-solutions.html["Azure AVS 向けNetAppソリューションを参照する"]

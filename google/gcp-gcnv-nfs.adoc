@@ -1,0 +1,469 @@
+---
+sidebar: sidebar 
+permalink: google/gcp-gcnv-nfs.html 
+keywords: default, local, unix users, groups, root user, anonymous user, acls for NFSv3, 
+summary: 'NFS は、RFC (Request for Comments) で定義されたオープンな IETF 標準である分散ファイル システム プロトコルであり、誰でもプロトコルを実装できます。' 
+---
+= NFS
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NFS は、RFC (Request for Comments) で定義されたオープンな IETF 標準である分散ファイル システム プロトコルであり、誰でもプロトコルを実装できます。
+
+Google Cloud NetApp Volumes内のボリュームは、クライアントまたはクライアント セットがアクセスできるパスをエクスポートすることによって NFS クライアントに共有されます。これらのエクスポートをマウントする権限は、 Google Cloud NetApp Volumes管理者が構成できるエクスポート ポリシーとルールによって定義されます。
+
+NetApp NFS 実装はプロトコルのゴールド スタンダードとみなされており、数え切れないほどのエンタープライズ NAS 環境で使用されています。次のセクションでは、Google Cloud NetApp Volumesで利用できる NFS と特定のセキュリティ機能、およびそれらの実装方法について説明します。
+
+
+
+== デフォルトのローカルUNIXユーザーとグループ
+
+Google Cloud NetApp Volumes には、さまざまな基本機能のためのデフォルトの UNIX ユーザーとグループがいくつか含まれています。現在、これらのユーザーとグループを変更または削除することはできません。現在、新しいローカル ユーザーとグループをGoogle Cloud NetApp Volumesに追加することはできません。デフォルトのユーザーとグループ以外の UNIX ユーザーとグループは、外部の LDAP ネーム サービスによって提供される必要があります。
+
+次の表は、デフォルトのユーザーとグループ、およびそれらに対応する数値 ID を示しています。  NetApp、これらの数値 ID を再利用する LDAP またはローカル クライアントに新しいユーザーまたはグループを作成しないことを推奨しています。
+
+|===
+| デフォルトユーザー: 数値ID | デフォルトグループ: 数値ID 
+
+
+ a| 
+* ルート:0
+* pcuser:65534
+* 誰も:65535
+
+ a| 
+* ルート:0
+* デーモン:1
+* pcuser:65534
+* 誰も:65535
+
+
+|===
+
+NOTE: NFSv4.1 を使用する場合、NFS クライアントでディレクトリ一覧コマンドを実行すると、ルート ユーザーが anyone として表示される場合があります。これは、クライアントの ID ドメイン マッピング構成によるものです。セクションを参照してください<<NFSv4.1とnobodyユーザー/グループ>>この問題の詳細と解決方法については、こちらをご覧ください。
+
+
+
+== ルートユーザー
+
+Linux では、root アカウントは Linux ベースのファイル システム内のすべてのコマンド、ファイル、およびフォルダーにアクセスできます。このアカウントの権限が大きいため、セキュリティのベスト プラクティスでは、多くの場合、ルート ユーザーを無効にするか、何らかの方法で制限する必要があります。  NFS エクスポートでは、 Google Cloud NetApp Volumesで、エクスポート ポリシーとルール、およびルート スカッシュと呼ばれる概念を通じて、ファイルとフォルダに対するルートユーザーの権限を制御できます。
+
+ルートスカッシングは、NFSマウントにアクセスするルートユーザーが匿名の数値ユーザー65534にスカッシュされることを保証します（「<<匿名ユーザー>> ）であり、現在はエクスポート ポリシー ルールの作成時にルート アクセスに対してオフを選択して、 NetApp Volumes-Performance を使用する場合にのみ使用できます。ルートユーザーが匿名ユーザーに変更された場合、chown を実行する権限がなくなり、 https://en.wikipedia.org/wiki/Setuid["setuid/setgid コマンド (スティッキー ビット)"^] NFS マウント内のファイルまたはフォルダー、およびルート ユーザーによって作成されたファイルまたはフォルダーには、所有者/グループとして anon UID が表示されます。さらに、NFSv4 ACL は root ユーザーによって変更できません。ただし、ルート ユーザーは、明示的な権限がない chmod および削除されたファイルには引き続きアクセスできます。ルートユーザーのファイルとフォルダの権限へのアクセスを制限したい場合は、NTFS ACLを持つボリュームの使用を検討し、次の名前のWindowsユーザーを作成します。 `root`ファイルまたはフォルダーに必要な権限を適用します。
+
+
+
+== 匿名ユーザー
+
+匿名 (anon) ユーザー ID は、有効な NFS 資格情報なしで到着するクライアント要求にマップされる UNIX ユーザー ID またはユーザー名を指定します。ルート スカッシングが使用される場合、これにはルート ユーザーが含まれる場合があります。  Google Cloud NetApp Volumesの匿名ユーザーは 65534 です。
+
+このUIDは通常ユーザー名に関連付けられています `nobody`または `nfsnobody`Linux 環境では。  Google Cloud NetApp Volumesは、ローカルUNIXユーザー`pcuser`として65534も使用します（「<<デフォルトのローカルUNIXユーザーとグループ>> （）は、LDAP 内に有効な一致する UNIX ユーザーが見つからない場合に、Windows から UNIX への名前マッピングのデフォルトのフォールバック ユーザーでもあります。
+
+Linux とGoogle Cloud NetApp Volumesの UID 65534 のユーザー名が異なるため、NFSv4.1 を使用する場合、65534 にマッピングされたユーザーの名前文字列が一致しない可能性があります。その結果、次のようなことが起こります `nobody`一部のファイルおよびフォルダーのユーザーとして。  「<<NFSv4.1とnobodyユーザー/グループ>>この問題とその解決方法については、「」を参照してください。
+
+
+
+== アクセス制御/エクスポート
+
+NFS マウントの初期エクスポート/共有アクセスは、エクスポート ポリシー内に含まれるホストベースのエクスポート ポリシー ルールによって制御されます。 NFS 共有をマウントするためのアクセスと、ホストに許可されるアクセス レベルを許可するために、ホスト IP、ホスト名、サブネット、ネットグループ、またはドメインが定義されます。エクスポート ポリシー ルールの構成オプションは、Google Cloud NetApp Volumes のレベルによって異なります。
+
+NetApp Volumes-SW の場合、エクスポート ポリシー構成には次のオプションを使用できます。
+
+* *クライアントの一致。*  IP アドレスのコンマ区切りリスト、ホスト名、サブネット、ネットグループ、ドメイン名のコンマ区切りリスト。
+* *RO/RW アクセス ルール*エクスポートへのアクセスレベルを制御するには、読み取り/書き込みまたは読み取り専用を選択します。NetApp Volumes-Performance では、以下のオプションが提供されます。
+* *クライアントの一致。*  IP アドレスのコンマ区切りリスト、ホスト名、サブネット、ネットグループ、ドメイン名のコンマ区切りリスト。
+* *RO/RW アクセス ルール*エクスポートへのアクセス レベルを制御するには、読み取り/書き込みまたは読み取り専用を選択します。
+* *ルートアクセス（オン/オフ）*ルートスカッシュを設定します（「<<ルートユーザー>>詳細は「」をご覧ください。
+* *プロトコルタイプ*これにより、NFS マウントへのアクセスが特定のプロトコル バージョンに制限されます。ボリュームに NFSv3 と NFSv4.1 の両方を指定する場合は、両方を空白のままにするか、両方のボックスをオンにします。
+* *Kerberos セキュリティ レベル (Kerberos を有効にするを選択した場合)。*読み取り専用または読み取り/書き込みアクセス用の krb5、krb5i、および/または krb5p のオプションを提供します。
+
+
+
+
+== 所有権の変更（chown）とグループの変更（chgrp）
+
+Google Cloud NetApp Volumes上の NFS では、ファイルとフォルダに対して chown/chgrp を実行できるのは root ユーザーのみです。他のユーザーは `Operation not permitted`所有するファイルであってもエラーが発生します。根カボチャを使用する場合（「<<ルートユーザー>> （）の場合、ルートは非ルートユーザーに変更され、chown および chgrp へのアクセスは許可されません。現在、 Google Cloud NetApp Volumesには、非 root ユーザーに chown と chgrp を許可するための回避策はありません。所有権の変更が必要な場合は、デュアル プロトコル ボリュームの使用を検討し、セキュリティ スタイルを NTFS に設定して、Windows 側からアクセス許可を制御します。
+
+
+
+== 権限管理
+
+Google Cloud NetApp Volumes は、 UNIX セキュリティ スタイルを使用するボリュームの NFS クライアントの権限を制御するために、モード ビット（rwx の場合は 644、777 など）と NFSv4.1 ACL の両方をサポートしています。これらには標準の権限管理 (chmod、chown、nfs4_setfacl など) が使用され、それらをサポートする任意の Linux クライアントで動作します。
+
+さらに、NTFS に設定されたデュアル プロトコル ボリュームを使用する場合、NFS クライアントは Windows ユーザーへのGoogle Cloud NetApp Volumes の名前マッピングを活用でき、これを使用して NTFS 権限を解決できます。  Google Cloud NetApp Volumes有効な UNIX ユーザー名を Windows ユーザー名に適切にマッピングする必要があるため、数値 ID からユーザー名への変換を行うにはGoogle Cloud NetApp Volumesへの LDAP 接続が必要です。
+
+
+
+=== NFSv3にきめ細かなACLを提供する
+
+モード ビットの権限は、セマンティクスにおいて所有者、グループ、およびその他すべてのユーザーのみを対象とします。つまり、基本的な NFSv3 にはきめ細かなユーザー アクセス制御は用意されていません。  Google Cloud NetApp Volumes はPOSIX ACL も拡張属性（chattr など）もサポートしていないため、きめ細かな ACL は NFSv3 を使用した次のシナリオでのみ可能です。
+
+* 有効な UNIX から Windows へのユーザー マッピングを備えた NTFS セキュリティ スタイルのボリューム (CIFS サーバーが必要)。
+* ACL を適用するために NFSv4.1 をマウントする管理クライアントを使用して適用された NFSv4.1 ACL。
+
+
+どちらの方法でも、UNIX ID管理用のLDAP接続と、有効なUNIXユーザーおよびグループ情報の入力が必要です（セクションを参照）。link:gcp-gcnv-nas-dependencies.html#ldap["LDAP"] ) であり、 NetApp Volumes-Performance インスタンスでのみ使用できます。  NFS で NTFS セキュリティ スタイルのボリュームを使用するには、SMB 接続が確立されていない場合でも、デュアル プロトコル (SMB と NFSv3) またはデュアル プロトコル (SMB と NFSv4.1) を使用する必要があります。  NFSv3マウントでNFSv4.1 ACLを使用するには、以下を選択する必要があります。 `Both (NFSv3/NFSv4.1)`プロトコルタイプとして。
+
+通常の UNIX モード ビットでは、NTFS または NFSv4.x ACL が提供するのと同じレベルの細分化されたアクセス許可は提供されません。次の表は、NFSv3 モード ビットと NFSv4.1 ACL 間の権限の粒度を比較したものです。  NFSv4.1 ACLの詳細については、以下を参照してください。 https://linux.die.net/man/5/nfs4_acl["nfs4_acl - NFSv4 アクセス制御リスト"^] 。
+
+|===
+| NFSv3モード ビット | NFSv4.1 ACL 
+
+
+ a| 
+* 実行時にユーザーIDを設定する
+* 実行時にグループIDを設定する
+* 交換されたテキストを保存する（POSIXでは定義されていません）
+* 所有者の読み取り権限
+* 所有者の書き込み権限
+* ファイルの所有者の実行権限、またはディレクトリ内の所有者の権限の検索
+* グループの読み取り権限
+* グループの書き込み権限
+* ファイルに対するグループの実行権限、またはディレクトリ内のグループの権限を検索します。
+* 他の人の読み取り権限
+* 他の人の書き込み権限
+* ファイルに対する他のユーザーの実行権限、またはディレクトリ内の他のユーザーの権限を参照（検索）する
+
+ a| 
+アクセス制御エントリ（ACE）の種類（許可/拒否/監査） * 継承フラグ * ディレクトリ継承 * ファイル継承 * 非伝播継承 * 継承のみ
+
+権限 * データの読み取り (ファイル) / ディレクトリの一覧表示 (ディレクトリ) * データの書き込み (ファイル) / ファイルの作成 (ディレクトリ) * データの追加 (ファイル) / サブディレクトリの作成 (ディレクトリ) * 実行 (ファイル) / ディレクトリの変更 (ディレクトリ) * 削除 * 子の削除 * 属性の読み取り * 属性の書き込み * 名前付き属性の読み取り * 名前付き属性の書き込み * ACL の読み取り * ACL の書き込み * 所有者の書き込み * 同期
+
+|===
+最後に、NFS グループ メンバーシップ (NFSv3 と NFSV4.x の両方) は、RPC パケット制限に従って、AUTH_SYS のデフォルトの最大値 16 に制限されます。  NFS Kerberos は最大 32 個のグループを提供し、NFSv4 ACL はきめ細かなユーザーおよびグループ ACL (ACE あたり最大 1024 エントリ) によって制限を解除します。
+
+さらに、 Google Cloud NetApp Volumes は拡張グループ サポートを提供し、サポートされるグループの最大数を 32 まで拡張します。これには、有効な UNIX ユーザーおよびグループ ID を含む LDAP サーバーへの LDAP 接続が必要です。設定方法の詳細については、以下を参照してください。 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-nfs-volumes?hl=en_US["NFSボリュームの作成と管理"^] Google ドキュメントに記載されています。
+
+
+
+== NFSv3 ユーザーおよびグループ ID
+
+NFSv3 のユーザー ID とグループ ID は、名前ではなく数値 ID として送信されます。  Google Cloud NetApp Volumes は、 NFSv3 ではこれらの数値 ID のユーザー名解決を行わず、UNIX セキュリティ スタイルのボリュームではモード ビットのみを使用します。  NFSv4.1 ACL が存在する場合、NFSv3 を使用している場合でも、ACL を適切に解決するには数値 ID の検索や名前文字列の検索が必要です。  NTFS セキュリティ スタイルのボリュームでは、 Google Cloud NetApp Volumes は数値 ID を有効な UNIX ユーザーに解決し、有効な Windows ユーザーにマッピングしてアクセス権をネゴシエートする必要があります。
+
+
+
+=== NFSv3 ユーザーおよびグループ ID のセキュリティ制限
+
+NFSv3 では、クライアントとサーバーは、数値 ID を使用して読み取りまたは書き込みを試行するユーザーが有効なユーザーであることを確認する必要はなく、暗黙的に信頼されるだけです。これにより、数値 ID を偽装するだけでファイル システムが侵害される可能性があります。このようなセキュリティ ホールを防ぐために、 Google Cloud NetApp Volumesにはいくつかのオプションが用意されています。
+
+* NFS に Kerberos を実装すると、マウントへのアクセスを許可する Kerberos チケットを取得するために、ユーザーはユーザー名とパスワードまたはキータブ ファイルを使用して認証を行う必要があります。  Kerberos は、 NetApp Volumes-Performance インスタンスでのみ NFSv4.1 で使用できます。
+* エクスポート ポリシー ルールでホストのリストを制限すると、 Google Cloud NetApp Volumesボリュームにアクセスできる NFSv3 クライアントが制限されます。
+* デュアルプロトコル ボリュームを使用し、ボリュームに NTFS ACL を適用すると、NFSv3 クライアントは数値 ID を有効な UNIX ユーザー名に解決して、マウントへのアクセスを適切に認証するようになります。これには、LDAP を有効にし、UNIX ユーザーおよびグループ ID を構成する必要があります。
+* ルート ユーザーを潰すと、ルート ユーザーが NFS マウントに与える損害は制限されますが、リスクが完全になくなるわけではありません。詳細については、「<<ルートユーザー>> 。"
+
+
+結局のところ、NFS セキュリティは、使用しているプロトコル バージョンが提供するものに制限されます。  NFSv3 は、一般的に NFSv4.1 よりもパフォーマンスが優れていますが、同じレベルのセキュリティは提供しません。
+
+
+
+== NFSv4.1
+
+NFSv4.1 は、次の理由により、NFSv3 と比較してセキュリティと信頼性が向上しています。
+
+* リースベースのメカニズムによる統合ロック
+* ステートフルセッション
+* すべての NFS 機能を単一ポート (2049) で実行
+* TCPのみ
+* IDドメインマッピング
+* Kerberos 統合 (NFSv3 は Kerberos を使用できますが、NFS のみで使用でき、NLM などの補助プロトコルでは使用できません)
+
+
+
+
+=== NFSv4.1 の依存関係
+
+NFSv4.1 の追加のセキュリティ機能により、NFSv3 を使用するには必要のなかったいくつかの外部依存関係が関係しています (SMB が Active Directory などの依存関係を必要とするのと同様)。
+
+
+
+=== NFSv4.1 ACL
+
+Google Cloud NetApp Volumes はNFSv4.x ACL をサポートしており、次のような通常の POSIX スタイルの権限に比べて明確な利点があります。
+
+* ファイルやディレクトリへのユーザ アクセスの詳細な制御
+* NFSセキュリティの向上
+* CIFS/SMBとの相互運用性の向上
+* AUTH_SYSセキュリティでのユーザあたりの最大NFSグループ数（16）の解除
+* ACL はグループ ID（GID）解決の必要性を回避し、GID 制限を事実上排除します。NFSv4.1 ACL は、 Google Cloud NetApp Volumesからではなく、NFS クライアントから制御されます。  NFSv4.1 ACL を使用するには、クライアントのソフトウェア バージョンがそれをサポートしており、適切な NFS ユーティリティがインストールされていることを確認してください。
+
+
+
+
+=== NFSv4.1 ACLとSMBクライアント間の互換性
+
+NFSv4 ACL は Windows ファイル レベル ACL (NTFS ACL) とは異なりますが、同様の機能を備えています。ただし、マルチプロトコル NAS 環境では、NFSv4.1 ACL が存在し、デュアルプロトコル アクセス (同じデータセット上の NFS と SMB) を使用している場合、SMB2.0 以降を使用するクライアントは Windows セキュリティ タブから ACL を表示または管理できません。
+
+
+
+=== NFSv4.1 ACLの仕組み
+
+参考までに、次の用語が定義されています。
+
+* *アクセス制御リスト (ACL)*権限エントリのリスト。
+* *アクセス制御エントリ (ACE)。*リスト内の権限エントリ。
+
+
+クライアントが SETATTR 操作中にファイルに NFSv4.1 ACL を設定すると、 Google Cloud NetApp Volumes はオブジェクトにその ACL を設定し、既存の ACL を置き換えます。ファイルにACLが設定されていない場合、ファイルのモード権限はOWNER@、GROUP@、およびEVERYONE@から計算されます。ファイルにSUID / SGID / STICKYのいずれかのビットが設定されている場合、それらのビットは影響を受けません。
+
+クライアントが GETATTR 操作中にファイルの NFSv4.1 ACL を取得すると、 Google Cloud NetApp Volumes はオブジェクトに関連付けられた NFSv4.1 ACL を読み取り、ACE のリストを作成して、そのリストをクライアントに返します。ファイルにNT ACLまたはモード ビットが設定されている場合は、モード ビットからACLが作成されてクライアントに返されます。
+
+ACLにDENY ACEが存在する場合はアクセスが拒否され、ALLOW ACEが存在する場合はアクセスが許可されます。ただし、ACLにどちらのACEも存在しない場合も、アクセスが拒否されます。
+
+セキュリティ記述子は、セキュリティ ACL (SACL) と任意 ACL (DACL) で構成されます。 NFSv4.1 が CIFS/SMB と相互運用する場合、DACL は NFSv4 と CIFS に 1 対 1 でマッピングされます。DACLは、ALLOW ACEとDENY ACEで構成されます。
+
+基本的な `chmod`NFSv4.1 ACL が設定されたファイルまたはフォルダーで実行すると、既存のユーザーおよびグループ ACL は保持されますが、デフォルトの OWNER@、GROUP@、EVERYONE@ ACL は変更されます。
+
+NFSv4.1 ACLを使用しているクライアントは、システム上のファイルとディレクトリにACLを設定し、そのACLを表示することができます。ACLを持つディレクトリに新しいファイルまたはサブディレクトリが作成されると、そのオブジェクトは適切なタグが付けられたACL内のすべてのACEを継承します。 http://linux.die.net/man/5/nfs4_acl["継承フラグ"^] 。
+
+ファイルまたはディレクトリに NFSv4.1 ACL がある場合、ファイルまたはディレクトリへのアクセスにどのプロトコルが使用されるかに関係なく、その ACL を使用してアクセスが制御されます。
+
+親ディレクトリのNFSv4 ACLのACEに正しい継承フラグが設定されていれば、ファイルやディレクトリは該当するACEを継承します（必要な変更が加えられる可能性があります）。
+
+ファイルやディレクトリがNFSv4要求によって作成される場合、作成されるファイルやディレクトリのACLは、ファイル作成要求にACLが含まれているか、または標準のUNIXファイル アクセス権限のみが含まれているかによって異なります。また、親ディレクトリにACLが設定されているかどうかによっても異なります。
+
+* 要求にACLが含まれる場合は、そのACLが使用されます。
+* 要求に標準のUNIXファイル アクセス権限のみが含まれ、親ディレクトリにACLがない場合は、クライアントのファイル モードを使用して標準のUNIXファイル アクセス権限が設定されます。
+* 要求に標準の UNIX ファイル アクセス権限のみが含まれ、親ディレクトリに継承不可能な ACL がある場合、要求に渡されたモード ビットに基づくデフォルトの ACL が新しいオブジェクトに設定されます。
+* 要求に標準のUNIXファイル アクセス権限のみが含まれ、親ディレクトリにACLがある場合、親ディレクトリのACLのACEに該当する継承フラグが設定されていれば、それらのACEが新しいファイルやディレクトリに継承されます。
+
+
+
+
+=== ACE権限
+
+NFSv4.1 ACLの権限は、大文字と小文字の一連の値（例： `rxtncy` ) を使用してアクセスを制御します。これらの文字値の詳細については、 https://www.osc.edu/book/export/html/4523["NFSv4 ACLを使用する方法"^] 。
+
+
+
+=== NFSv4.1 ACL の動作（umask と ACL 継承）
+
+http://linux.die.net/man/5/nfs4_acl["NFSv4 ACLはACL継承を提供する機能を提供する"^] 。ACL継承とは、NFSv4.1 ACLが設定されたオブジェクトの下に作成されたファイルやフォルダが、 http://linux.die.net/man/5/nfs4_acl["ACL継承フラグ"^] 。
+
+https://man7.org/linux/man-pages/man2/umask.2.html["umask"^]管理者の介入なしにディレクトリ内にファイルとフォルダが作成される際の権限レベルを制御するために使用されます。デフォルトでは、 Google Cloud NetApp Volumesはumaskが継承されたACLを上書きすることを許可しており、これは期待される動作です。 https://datatracker.ietf.org/doc/html/rfc5661["RFC 5661"^] 。
+
+
+
+=== ACLの形式
+
+NFSv4.1のACLには独自の形式があります。次の例は、ファイルに設定された ACE です。
+
+....
+A::ldapuser@domain.netapp.com:rwatTnNcCy
+....
+上記の例は、次の ACL 形式のガイドラインに従っています。
+
+....
+type:flags:principal:permissions
+....
+一種の `A`「許可する」という意味です。この場合、プリンシパルはグループではなく、継承が含まれていないため、継承フラグは設定されません。また、ACEは監査エントリではないため、監査フラグを設定する必要もありません。  NFSv4.1 ACLの詳細については、以下を参照してください。 http://linux.die.net/man/5/nfs4_acl["http://linux.die.net/man/5/nfs4_acl"^] 。
+
+NFSv4.1 ACL が適切に設定されていない場合 (または名前文字列がクライアントとサーバーによって解決できない場合)、ACL が期待どおりに動作しないか、ACL の変更が適用されずエラーが発生する可能性があります。
+
+サンプルエラーには次のようなものがあります:
+
+....
+Failed setxattr operation: Invalid argument
+Scanning ACE string 'A:: user@rwaDxtTnNcCy' failed.
+....
+
+
+=== 明示的なDENY
+
+NFSv4.1 権限には、OWNER、GROUP、EVERYONE に対する明示的な DENY 属性を含めることができます。これは、NFSv4.1 ACL がデフォルトで拒否されているためです。つまり、ACL が ACE によって明示的に許可されていない場合は拒否されます。明示的な DENY 属性は、明示的かどうかに関係なく、すべての ACCESS ACE をオーバーライドします。
+
+DENY ACEは属性タグで設定されます `D`。
+
+以下の例では、GROUP@ にはすべての読み取りおよび実行権限が許可されていますが、すべての書き込みアクセスは拒否されています。
+
+....
+sh-4.1$ nfs4_getfacl /mixed
+A::ldapuser@domain.netapp.com:ratTnNcCy
+A::OWNER@:rwaDxtTnNcCy
+D::OWNER@:
+A:g:GROUP@:rxtncy
+D:g:GROUP@:waDTC
+A::EVERYONE@:rxtncy
+D::EVERYONE@:waDTC
+....
+DENY ACE は混乱を招き、複雑になる可能性があるため、可能な限り使用を避ける必要があります。明示的に定義されていない ALLOW ACL は暗黙的に拒否されます。DENY ACEを設定すると、アクセスを許可されるはずのユーザがアクセスを拒否される場合があります。
+
+上記の ACE セットはモード ビット 755 に相当し、次のことを意味します。
+
+* 所有者にはフル アクセス権がある。
+* グループには読み取り専用アクセス権がある。
+* それ以外には読み取り専用アクセス権がある。
+
+
+ただし、775と等しくなるように権限が調整されていても、EVERYONEに明示的なDENYが設定されているとアクセスが拒否される可能性があります。
+
+
+
+=== NFSv4.1 IDドメインマッピングの依存関係
+
+NFSv4.1 は、ID ドメイン マッピング ロジックをセキュリティ レイヤーとして活用し、NFSv4.1 マウントにアクセスしようとしているユーザーが本当に本人であるかどうかを確認します。このような場合、NFSv4.1 クライアントから取得されたユーザー名とグループ名に名前文字列が追加され、 Google Cloud NetApp Volumesインスタンスに送信されます。ユーザー名/グループ名とID文字列の組み合わせが一致しない場合は、ユーザーまたはグループは、 `/etc/idmapd.conf`クライアント上のファイル。
+
+この ID 文字列は、特に NFSv4.1 ACL や Kerberos が使用されている場合に、適切な権限を遵守するための要件です。その結果、適切なユーザー名とグループ名 ID 解決のために、クライアントとGoogle Cloud NetApp Volumes間の一貫性を確保するには、LDAP サーバーなどの名前サービス サーバーの依存関係が必要になります。
+
+Google Cloud NetApp Volumesは、静的なデフォルトIDドメイン名値を使用します。 `defaultv4iddomain.com` 。  NFSクライアントはIDドメイン名設定にDNSドメイン名をデフォルトとして設定しますが、IDドメイン名を手動で調整することができます。 `/etc/idmapd.conf` 。
+
+Google Cloud NetApp Volumesで LDAP が有効になっている場合、 Google Cloud NetApp Volumes はNFS ID ドメインを DNS の検索ドメインに設定されているものに自動的に変更するため、クライアントは異なる DNS ドメイン検索名を使用しない限り変更する必要はありません。
+
+Google Cloud NetApp Volumes がローカル ファイルまたは LDAP 内のユーザー名またはグループ名を解決できる場合、ドメイン文字列が使用され、一致しないドメイン ID は anyone に押し下げられます。  Google Cloud NetApp Volumes がローカル ファイルまたは LDAP でユーザー名またはグループ名を見つけられない場合は、数値 ID 値が使用され、NFS クライアントが名前を適切に解決します (これは NFSv3 の動作に似ています)。
+
+Google Cloud NetApp Volumesボリュームが使用しているものと一致するようにクライアントの NFSv4.1 ID ドメインを変更しないと、次の動作が見られます。
+
+* Google Cloud NetApp Volumesにローカル エントリを持つ UNIX ユーザーとグループ（ローカル UNIX ユーザーとグループで定義されている root など）は、nobody 値に圧縮されます。
+* NFS クライアントと Google Google Cloud NetApp Volumes Google Cloud NetApp Volumes Volumes が LDAP を使用するように設定されている場合）は、nobody に押しつぶされます。
+* ローカル エントリまたは LDAP エントリを持たない UNIX ユーザーとグループは、数値 ID 値を使用し、NFS クライアントで指定された名前に解決されます。クライアントに名前が存在しない場合は、数値 ID のみが表示されます。
+
+
+次は、前述のシナリオの結果を示しています。
+
+....
+# ls -la /mnt/home/prof1/nfs4/
+total 8
+drwxr-xr-x 2 nobody nobody 4096 Feb  3 12:07 .
+drwxrwxrwx 7 root   root   4096 Feb  3 12:06 ..
+-rw-r--r-- 1   9835   9835    0 Feb  3 12:07 client-user-no-name
+-rw-r--r-- 1 nobody nobody    0 Feb  3 12:07 ldap-user-file
+-rw-r--r-- 1 nobody nobody    0 Feb  3 12:06 root-user-file
+....
+クライアントとサーバーの ID ドメインが一致する場合、同じファイル リストは次のようになります。
+
+....
+# ls -la
+total 8
+drwxr-xr-x 2 root   root         4096 Feb  3 12:07 .
+drwxrwxrwx 7 root   root         4096 Feb  3 12:06 ..
+-rw-r--r-- 1   9835         9835    0 Feb  3 12:07 client-user-no-name
+-rw-r--r-- 1 apache apache-group    0 Feb  3 12:07 ldap-user-file
+-rw-r--r-- 1 root   root            0 Feb  3 12:06 root-user-file
+....
+この問題とその解決方法の詳細については、「<<NFSv4.1とnobodyユーザー/グループ>> 。"
+
+
+
+=== Kerberosの依存関係
+
+NFS で Kerberos を使用する予定の場合は、 Google Cloud NetApp Volumesで次のものが必要です。
+
+* Kerberos 配布センター サービス (KDC) 用の Active Directory ドメイン
+* LDAP 機能のために UNIX 情報が設定されたユーザー属性とグループ属性を持つ Active Directory ドメイン（ Google Cloud NetApp Volumesの NFS Kerberos では、適切に機能するためにユーザー SPN と UNIX ユーザーのマッピングが必要です）。
+* Google Cloud NetApp Volumesインスタンスで LDAP が有効になっています
+* DNS サービス用の Active Directory ドメイン
+
+
+
+
+=== NFSv4.1とnobodyユーザー/グループ
+
+NFSv4.1構成でよく見られる問題の一つは、ファイルまたはフォルダが以下のコマンドでリストに表示される場合です。 `ls`所有されているものとして `user:group`の組み合わせ `nobody:nobody`。
+
+例えば：
+
+....
+sh-4.2$ ls -la | grep prof1-file
+-rw-r--r-- 1 nobody nobody    0 Apr 24 13:25 prof1-file
+....
+そして数値IDは `99`。
+
+....
+sh-4.2$ ls -lan | grep prof1-file
+-rw-r--r-- 1 99 99    0 Apr 24 13:25 prof1-file
+....
+場合によっては、ファイルに正しい所有者が表示されることがありますが、 `nobody`グループとして。
+
+....
+sh-4.2$ ls -la | grep newfile1
+-rw-r--r-- 1 prof1  nobody    0 Oct  9  2019 newfile1
+....
+誰でもない人は誰ですか?
+
+その `nobody`NFSv4.1のユーザーは、 `nfsnobody`ユーザー。  NFSクライアントが各ユーザーをどのように認識しているかを確認するには、 `id`指示：
+
+....
+# id nobody
+uid=99(nobody) gid=99(nobody) groups=99(nobody)
+# id nfsnobody
+uid=65534(nfsnobody) gid=65534(nfsnobody) groups=65534(nfsnobody)
+....
+NFSv4.1では、 `nobody`ユーザーは、 `idmapd.conf`ファイルであり、使用したい任意のユーザーとして定義できます。
+
+....
+# cat /etc/idmapd.conf | grep nobody
+#Nobody-User = nobody
+#Nobody-Group = nobody
+....
+なぜこのようなことが起こるのでしょうか?
+
+名前文字列のマッピングによるセキュリティは NFSv4.1 操作の重要な原則であるため、名前文字列が適切に一致しない場合のデフォルトの動作では、そのユーザーは、通常、ユーザーとグループが所有するファイルとフォルダーにアクセスできない状態に押し込められます。
+
+見ると `nobody`ファイル リスト内のユーザーおよび/またはグループの場合、これは通常、NFSv4.1 で何かが誤って構成されていることを意味します。ここでは大文字と小文字の区別が重要になります。
+
+たとえば、user1@CVSDEMO.LOCAL (uid 1234、gid 1234) がエクスポートにアクセスしている場合、 Google Cloud NetApp Volumes はuser1@CVSDEMO.LOCAL (uid 1234、gid 1234) を見つけることができる必要があります。 Google Cloud NetApp Volumesのユーザーが USER1@CVSDEMO.LOCAL の場合、一致しません (大文字の USER1 と小文字の user1)。多くの場合、クライアントのメッセージ ファイルには次の内容が表示されます。
+
+....
+May 19 13:14:29 centos7 nfsidmap[17481]: nss_getpwnam: name 'root@defaultv4iddomain.com' does not map into domain 'CVSDEMO.LOCAL'
+May 19 13:15:05 centos7 nfsidmap[17534]: nss_getpwnam: name 'nobody' does not map into domain 'CVSDEMO.LOCAL'
+....
+クライアントとサーバーの両方が、ユーザーが実際にその本人であることに同意する必要があるため、クライアントが認識するユーザーの情報がGoogle Cloud NetApp Volumes が認識するユーザーの情報と同じであることを確認するために、次の点を確認する必要があります。
+
+* *NFSv4.x ID ドメイン。*クライアント： `idmapd.conf`ファイル; Google Cloud NetApp Volumesは `defaultv4iddomain.com`手動で変更することはできません。  NFSv4.1 で LDAP を使用する場合、 Google Cloud NetApp Volumes はID ドメインを DNS 検索ドメインが使用しているもの（AD ドメインと同じ）に変更します。
+* *ユーザー名と数値 ID。*これにより、クライアントがユーザー名を検索する場所が決定され、ネーム サービス スイッチ構成 (クライアント: `nsswitch.conf`および/またはローカルの passwd ファイルと group ファイル。Google Google Cloud NetApp Volumesこれに対する変更は許可されませんが、LDAP が有効になっている場合は自動的に構成に追加されます。
+* *グループ名と数値 ID。*これにより、クライアントがグループ名を検索する場所が決定され、ネーム サービス スイッチ構成 (クライアント: `nsswitch.conf`および/またはローカルの passwd ファイルと group ファイル。Google Google Cloud NetApp Volumesこれに対する変更は許可されませんが、LDAP が有効になっている場合は自動的に構成に追加されます。
+
+
+ほとんどの場合、 `nobody`クライアントからのユーザーとグループのリストでは、 Google Cloud NetApp Volumesと NFS クライアント間のユーザー名またはグループ名ドメイン ID の変換に問題があります。このシナリオを回避するには、LDAP を使用して、クライアントとGoogle Cloud NetApp Volumes間のユーザーとグループの情報を解決します。
+
+
+
+=== クライアント上の NFSv4.1 の名前 ID 文字列の表示
+
+NFSv4.1 を使用している場合は、前述のように、NFS 操作中に名前と文字列のマッピングが行われます。
+
+使用に加えて `/var/log/messages`NFSv4 IDの問題を見つけるには、 https://man7.org/linux/man-pages/man5/nfsidmap.5.html["nfsidmap -l"^] NFS クライアントでコマンドを実行して、どのユーザー名が NFSv4 ドメインに適切にマッピングされているかを確認します。
+
+たとえば、クライアントで検出できるユーザーとGoogle Cloud NetApp Volumes がNFSv4.x マウントにアクセスした後のコマンドの出力は次のとおりです。
+
+....
+# nfsidmap -l
+4 .id_resolver keys found:
+  gid:daemon@CVSDEMO.LOCAL
+  uid:nfs4@CVSDEMO.LOCAL
+  gid:root@CVSDEMO.LOCAL
+  uid:root@CVSDEMO.LOCAL
+....
+NFSv4.1 IDドメインに正しくマッピングされていないユーザー（この場合は `netapp-user`）が同じマウントにアクセスしてファイルに触れると、割り当てられる `nobody:nobody`予想通りです。
+
+....
+# su netapp-user
+sh-4.2$ id
+uid=482600012(netapp-user), 2000(secondary)
+sh-4.2$ cd /mnt/nfs4/
+sh-4.2$ touch newfile
+sh-4.2$ ls -la
+total 16
+drwxrwxrwx  5 root   root   4096 Jan 14 17:13 .
+drwxr-xr-x. 8 root   root     81 Jan 14 10:02 ..
+-rw-r--r--  1 nobody nobody    0 Jan 14 17:13 newfile
+drwxrwxrwx  2 root   root   4096 Jan 13 13:20 qtree1
+drwxrwxrwx  2 root   root   4096 Jan 13 13:13 qtree2
+drwxr-xr-x  2 nfs4   daemon 4096 Jan 11 14:30 testdir
+....
+その `nfsidmap -l`出力はユーザーに表示されます `pcuser`ディスプレイには表示されるが `netapp-user`; これはエクスポートポリシールールの匿名ユーザーです(`65534`）。
+
+....
+# nfsidmap -l
+6 .id_resolver keys found:
+  gid:pcuser@CVSDEMO.LOCAL
+  uid:pcuser@CVSDEMO.LOCAL
+  gid:daemon@CVSDEMO.LOCAL
+  uid:nfs4@CVSDEMO.LOCAL
+  gid:root@CVSDEMO.LOCAL
+  uid:root@CVSDEMO.LOCAL
+....

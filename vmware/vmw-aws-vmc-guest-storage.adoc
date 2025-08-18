@@ -1,0 +1,463 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-aws-vmc-guest-storage.html 
+keywords: NetApp Solutions, amazon, vmc, aws, vmware managed cloud, enterprise, hybrid, cloud, fsx, ontap, cvo, cloud volumes ontap, guest connected 
+summary:  
+---
+= AWS 向けNetAppゲスト接続ストレージ オプション
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+AWS は、ネイティブ FSx サービス (FSx ONTAP) またはCloud Volumes ONTAP (CVO) を使用してゲスト接続されたNetAppストレージをサポートします。
+
+
+
+== FSx ONTAP
+
+Amazon FSx ONTAP は、NetApp の人気のONTAPファイルシステム上に構築された、信頼性が高く、スケーラブルで、高性能かつ機能豊富なファイルストレージを提供するフルマネージドサービスです。  FSx ONTAP は、 NetAppファイルシステムの使い慣れた機能、パフォーマンス、機能、API 操作と、完全に管理された AWS サービスの俊敏性、拡張性、シンプルさを兼ね備えています。
+
+FSx ONTAP は、AWS またはオンプレミスで実行されている Linux、Windows、macOS コンピューティングインスタンスから広くアクセスできる、機能豊富で高速かつ柔軟な共有ファイルストレージを提供します。  FSx ONTAP は、1 ミリ秒未満のレイテンシを備えた高性能ソリッド ステート ドライブ (SSD) ストレージを提供します。  FSx ONTAPを使用すると、データのごく一部に対してのみ SSD ストレージ料金を支払いながら、ワークロードに対して SSD レベルのパフォーマンスを実現できます。
+
+FSx ONTAPを使用すると、ボタンをクリックするだけでファイルのスナップショット、クローン、複製ができるため、データの管理が簡単になります。さらに、FSx ONTAP はデータを低コストで弾力性のあるストレージに自動的に階層化するため、容量のプロビジョニングや管理の必要性が軽減されます。
+
+FSx ONTAP は、完全に管理されたバックアップとリージョン間の災害復旧のサポートを備えた、可用性と耐久性に優れたストレージも提供します。データの保護とセキュリティ確保を容易にするために、FSx ONTAP は一般的なデータ セキュリティおよびウイルス対策アプリケーションをサポートしています。
+
+
+
+=== ゲスト接続ストレージとしての FSx ONTAP
+
+.VMware Cloud on AWS でAmazon FSx ONTAPを構成する
+[%collapsible%open]
+====
+Amazon FSx ONTAPファイル共有と LUN は、VMware Cloud at AWS の VMware SDDC 環境内で作成された VM からマウントできます。ボリュームは Linux クライアントにマウントし、NFS または SMB プロトコルを使用して Windows クライアントにマップすることもできます。また、iSCSI 経由でマウントすると、LUN は Linux または Windows クライアント上でブロック デバイスとしてアクセスできます。  NetApp ONTAPファイルシステム用のAmazon FSx は、次の手順で簡単にセットアップできます。
+
+
+NOTE: パフォーマンスを向上させ、アベイラビリティゾーン間のデータ転送料金を回避するには、 Amazon FSx ONTAPと VMware Cloud on AWS が同じアベイラビリティゾーンに存在する必要があります。
+
+====
+.Amazon FSx ONTAPボリュームの作成とマウント
+[%collapsible%open]
+====
+Amazon FSx ONTAPファイルシステムを作成してマウントするには、次の手順を実行します。
+
+. 開くlink:https://console.aws.amazon.com/fsx/["Amazon FSxコンソール"][ファイル システムの作成] を選択して、ファイル システム作成ウィザードを起動します。
+. [ファイルシステムタイプの選択] ページで、 [Amazon FSx ONTAP]を選択し、[次へ] を選択します。  「ファイル システムの作成」ページが表示されます。
+
+
+image:aws-fsx-guest-001.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. [ネットワーク] セクションの [仮想プライベート クラウド (VPC)] で、適切な VPC と優先サブネット、およびルート テーブルを選択します。この場合、ドロップダウンから vmcfsx2.vpc が選択されます。
+
+
+image:aws-fsx-guest-002.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. 作成方法として、「標準作成」を選択します。クイック作成を選択することもできますが、このドキュメントでは標準作成オプションを使用します。
+
+
+image:aws-fsx-guest-003.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. [ネットワーク] セクションの [仮想プライベート クラウド (VPC)] で、適切な VPC と優先サブネット、およびルート テーブルを選択します。この場合、ドロップダウンから vmcfsx2.vpc が選択されます。
+
+
+image:aws-fsx-guest-004.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+
+NOTE: [ネットワーク] セクションの [仮想プライベート クラウド (VPC)] で、適切な VPC と優先サブネット、およびルート テーブルを選択します。この場合、ドロップダウンから vmcfsx2.vpc が選択されます。
+
+. [セキュリティと暗号化] セクションの [暗号化キー] で、保存中のファイルシステムのデータを保護する AWS Key Management Service (AWS KMS) 暗号化キーを選択します。ファイル システム管理パスワードには、fsxadmin ユーザーの安全なパスワードを入力します。
+
+
+image:aws-fsx-guest-005.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. 仮想マシンで、REST API または CLI を使用してONTAP を管理するために vsadmin で使用するパスワードを指定します。パスワードを指定しない場合は、fsxadmin ユーザーを使用して SVM を管理できます。  Active Directory セクションで、SMB 共有をプロビジョニングするために Active Directory を SVM に参加させていることを確認します。  [既定のストレージ仮想マシン構成] セクションで、この検証のストレージの名前を指定します。SMB 共有は、自己管理型 Active Directory ドメインを使用してプロビジョニングされます。
+
+
+image:aws-fsx-guest-006.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. デフォルトのボリューム構成セクションで、ボリューム名とサイズを指定します。これは NFS ボリュームです。ストレージ効率では、 ONTAPストレージ効率機能 (圧縮、重複排除、および圧縮) をオンにするには [有効] を選択し、オフにするには [無効] を選択します。
+
+
+image:aws-fsx-guest-007.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. 「ファイル システムの作成」ページに表示されるファイル システム構成を確認します。
+. 「ファイルシステムの作成」をクリックします。
+
+
+image:aws-fsx-guest-008.png["入出力ダイアログまたは書かれたコンテンツを示す図"] image:aws-fsx-guest-009.png["入出力ダイアログまたは書かれたコンテンツを示す図"] image:aws-fsx-guest-010.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+詳しい情報については、link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started.html["Amazon FSx ONTAPを使い始める"] 。
+
+上記のようにファイルシステムを作成したら、必要なサイズとプロトコルでボリュームを作成します。
+
+. 開くlink:https://console.aws.amazon.com/fsx/["Amazon FSxコンソール"]。
+. 左側のナビゲーション ペインで [ファイル システム] を選択し、ボリュームを作成するONTAPファイル システムを選択します。
+. 「ボリューム」タブを選択します。
+. 「ボリュームの作成」タブを選択します。
+. ボリュームの作成ダイアログ ボックスが表示されます。
+
+
+このセクションでは、デモ用に、VMware Cloud on AWS で実行されている VM に簡単にマウントできる NFS ボリュームを作成します。nfsdemovol01 は次のように作成されます。
+
+image:aws-fsx-guest-011.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+====
+.LinuxクライアントにFSx ONTAPボリュームをマウントする
+[%collapsible%open]
+====
+前の手順で作成した FSx ONTAPボリュームを VMC on AWS SDDC 内の Linux VM からマウントするには、次の手順を実行します。
+
+. 指定された Linux インスタンスに接続します。
+. Secure Shell (SSH) を使用してインスタンス上でターミナルを開き、適切な資格情報でログインします。
+. 次のコマンドを使用して、ボリュームのマウント ポイントのディレクトリを作成します。
++
+ $ sudo mkdir /fsx/nfsdemovol01
+. 前の手順で作成したディレクトリにAmazon FSx ONTAP NFS ボリュームをマウントします。
++
+ sudo mount -t nfs nfsvers=4.1,198.19.254.239:/nfsdemovol01 /fsx/nfsdemovol01
+
+
+image:aws-fsx-guest-020.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. 実行したら、df コマンドを実行してマウントを検証します。
+
+
+image:aws-fsx-guest-021.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+.LinuxクライアントにFSx ONTAPボリュームをマウントする
+video::c3befe1b-4f32-4839-a031-b01200fb6d60[panopto]
+====
+.FSx ONTAPボリュームをMicrosoft Windowsクライアントに接続する
+[%collapsible%open]
+====
+Amazon FSxファイルシステム上のファイル共有を管理およびマップするには、共有フォルダ GUI を使用する必要があります。
+
+. [スタート] メニューを開き、[管理者として実行] を使用して fsmgmt.msc を実行します。これを行うと、共有フォルダー GUI ツールが開きます。
+. [アクション] > [すべてのタスク] をクリックし、[別のコンピューターに接続] を選択します。
+. 別のコンピュータの場合は、ストレージ仮想マシン (SVM) の DNS 名を入力します。たとえば、この例では FSXSMBTESTING01.FSXTESTING.LOCAL が使用されています。
+
+
+
+NOTE: Amazon FSxコンソールで SVM の DNS 名を見つけ、[Storage Virtual Machines] を選択し、[SVM] を選択してから、[エンドポイント] まで下にスクロールして SMB DNS 名を見つけます。[OK]をクリックします。  Amazon FSxファイルシステムが共有フォルダのリストに表示されます。
+
+image:aws-fsx-guest-022.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. 共有フォルダツールで、左側のペインの [共有] を選択して、 Amazon FSxファイルシステムのアクティブな共有を表示します。
+
+
+image:aws-fsx-guest-023.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. 次に、新しい共有を選択し、共有フォルダーの作成ウィザードを完了します。
+
+
+image:aws-fsx-guest-024.png["入出力ダイアログまたは書かれたコンテンツを示す図"] image:aws-fsx-guest-025.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+Amazon FSxファイルシステムでのSMB共有の作成と管理の詳細については、以下を参照してください。link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/create-smb-shares.html["SMB共有の作成"] 。
+
+. 接続が確立されると、SMB 共有を接続してアプリケーション データに使用できるようになります。これを実現するには、共有パスをコピーし、ネットワーク ドライブのマップ オプションを使用して、AWS SDDC 上の VMware Cloud で実行されている仮想マシンにボリュームをマウントします。
+
+
+image:aws-fsx-guest-026.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+====
+.iSCSI を使用して FSx ONTAP LUN をホストに接続する
+[%collapsible%open]
+====
+.iSCSI を使用して FSx ONTAP LUN をホストに接続する
+video::0d03e040-634f-4086-8cb5-b01200fb8515[panopto]
+FSx の iSCSI トラフィックは、前のセクションで提供されたルートを介して VMware Transit Connect/AWS Transit Gateway を通過します。  Amazon FSx ONTAPでLUNを設定するには、以下のドキュメントに従ってください。link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html["ここをクリックしてください。"] 。
+
+Linux クライアントでは、iSCSI デーモンが実行されていることを確認します。  LUN がプロビジョニングされたら、Ubuntu での iSCSI 構成に関する詳細なガイダンスを参照してください (例として)link:https://ubuntu.com/server/docs/service-iscsi["ここをクリックしてください。"] 。
+
+このホワイト ペーパーでは、iSCSI LUN を Windows ホストに接続する方法について説明します。
+
+====
+.FSx ONTAPで LUN をプロビジョニングします。
+[%collapsible%open]
+====
+. ONTAPファイル システム用の FSx の管理ポートを使用して、 NetApp ONTAP CLI にアクセスします。
+. サイズ出力に示されている必要なサイズの LUN を作成します。
++
+ FsxId040eacc5d0ac31017::> lun create -vserver vmcfsxval2svm -volume nimfsxscsivol -lun nimofsxlun01 -size 5gb -ostype windows -space-reserve enabled
+
+
+この例では、サイズ 5g (5368709120) の LUN を作成しました。
+
+. 特定の LUN にアクセス可能なホストを制御するために必要な igroup を作成します。
+
+
+[listing]
+----
+FsxId040eacc5d0ac31017::> igroup create -vserver vmcfsxval2svm -igroup winIG -protocol iscsi -ostype windows -initiator iqn.1991-05.com.microsoft:vmcdc01.fsxtesting.local
+
+FsxId040eacc5d0ac31017::> igroup show
+
+Vserver   Igroup       Protocol OS Type  Initiators
+
+--------- ------------ -------- -------- ------------------------------------
+
+vmcfsxval2svm
+
+          ubuntu01     iscsi    linux    iqn.2021-10.com.ubuntu:01:initiator01
+
+vmcfsxval2svm
+
+          winIG        iscsi    windows  iqn.1991-05.com.microsoft:vmcdc01.fsxtesting.local
+----
+2つのエントリが表示されました。
+
+. 次のコマンドを使用して、LUN を igroup にマップします。
+
+
+[listing]
+----
+FsxId040eacc5d0ac31017::> lun map -vserver vmcfsxval2svm -path /vol/nimfsxscsivol/nimofsxlun01 -igroup winIG
+
+FsxId040eacc5d0ac31017::> lun show
+
+Vserver   Path                            State   Mapped   Type        Size
+
+--------- ------------------------------- ------- -------- -------- --------
+
+vmcfsxval2svm
+
+          /vol/blocktest01/lun01          online  mapped   linux         5GB
+
+vmcfsxval2svm
+
+          /vol/nimfsxscsivol/nimofsxlun01 online  mapped   windows       5GB
+----
+2つのエントリが表示されました。
+
+. 新しくプロビジョニングされた LUN を Windows VM に接続します。
+
+
+新しい LUN を VMware Cloud on AWS SDDC 上にある Windows ホストに接続するには、次の手順を実行します。
+
+. VMware Cloud on AWS SDDC でホストされている Windows VM に RDP 接続します。
+. サーバー マネージャー > ダッシュボード > ツール > iSCSI イニシエーター に移動して、iSCSI イニシエーターのプロパティ ダイアログ ボックスを開きます。
+. [検出] タブで、[ポータルの検出] または [ポータルの追加] をクリックし、iSCSI ターゲット ポートの IP アドレスを入力します。
+. [ターゲット] タブで、検出されたターゲットを選択し、[ログオン] または [接続] をクリックします。
+. 「マルチパスを有効にする」を選択し、「コンピュータの起動時にこの接続を自動的に復元する」または「この接続をお気に入りのターゲットのリストに追加する」を選択します。[Advanced]をクリックします。
+
+
+
+NOTE: Windowsホストには、クラスタ内のそれぞれのノードへのiSCSI接続が必要です。標準のDSMによって最適なパスが選択され、
+
+image:aws-fsx-guest-030.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+ストレージ仮想マシン (SVM) 上の LUN は、Windows ホストに対してディスクとして表示されます。追加された新しいディスクは、ホストによって自動的に検出されません。次の手順を実行して、手動での再スキャンをトリガーし、ディスクを検出します。
+
+. Windows のコンピューターの管理ユーティリティを開きます (スタート > 管理ツール > コンピューターの管理)。
+. ナビゲーション ツリーでストレージ ノードを展開します。
+. ディスクの管理をクリックします。
+. [アクション] > [ディスクの再スキャン] をクリックします。
+
+
+image:aws-fsx-guest-031.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+Windowsホストから初めてアクセスした時点では、新しいLUNにはパーティションやファイルシステムは設定されていません。次の手順を実行して、LUN を初期化し、オプションでファイル システムを使用して LUN をフォーマットします。
+
+. Windowsの[ディスクの管理]を起動します。
+. LUNを右クリックし、必要なディスクまたはパーティションの種類を選択します。
+. ウィザードの指示に従います。この例では、ドライブ F: がマウントされます。
+
+
+image:aws-fsx-guest-032.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+====
+
+
+== Cloud Volumes ONTAP（CVO）
+
+Cloud Volumes ONTAP(CVO) は、NetApp のONTAPストレージ ソフトウェア上に構築された業界をリードするクラウド データ管理ソリューションであり、Amazon Web Services (AWS)、Microsoft Azure、Google Cloud Platform (GCP) でネイティブに利用できます。
+
+これはクラウドネイティブ ストレージを使用するONTAPのソフトウェア定義バージョンであり、クラウドとオンプレミスで同じストレージ ソフトウェアを使用できるため、データを管理するためのまったく新しい方法について IT スタッフを再トレーニングする必要性が軽減されます。
+
+CVO により、エッジからデータセンター、クラウドへとシームレスにデータを移動し、ハイブリッド クラウドを統合することが可能になります。これらはすべて、単一ペインの管理コンソールであるNetApp Cloud Manager で管理されます。
+
+CVOは設計上、クラウドで最も要求の厳しいアプリケーションにも対応できる優れたパフォーマンスと高度なデータ管理機能を提供します。
+
+
+
+=== ゲスト接続ストレージとしてのCloud Volumes ONTAP (CVO)
+
+.AWS に新しいCloud Volumes ONTAPインスタンスをデプロイする (自分で行う)
+[%collapsible%open]
+====
+Cloud Volumes ONTAP共有と LUN は、VMware Cloud on AWS SDDC 環境で作成された VM からマウントできます。ボリュームはネイティブの AWS VM Linux Windows クライアントにマウントすることもできます。また、 Cloud Volumes ONTAP はiSCSI、SMB、NFS プロトコルをサポートしているため、iSCSI 経由でマウントすると、Linux または Windows クライアントでブロックデバイスとして LUN にアクセスできます。  Cloud Volumes ONTAPボリュームは、いくつかの簡単な手順でセットアップできます。
+
+災害復旧または移行の目的でオンプレミス環境からクラウドにボリュームを複製するには、サイト間 VPN または DirectConnect を使用して AWS へのネットワーク接続を確立します。オンプレミスからCloud Volumes ONTAPへのデータの複製については、このドキュメントの範囲外です。オンプレミスとCloud Volumes ONTAPシステム間でデータを複製するには、link:https://docs.netapp.com/us-en/occm/task_replicating_data.html#setting-up-data-replication-between-systems["システム間のデータ複製の設定"] 。
+
+
+NOTE: 使用link:https://cloud.netapp.com/cvo-sizer["Cloud Volumes ONTAPサイザー"]Cloud Volumes ONTAPインスタンスのサイズを正確に決定します。また、オンプレミスのパフォーマンスを監視して、 Cloud Volumes ONTAPサイザーの入力として使用します。
+
+. NetApp Cloud Central にログインすると、Fabric View 画面が表示されます。 Cloud Volumes ONTAPタブを見つけて、「Go to Cloud Manager」を選択します。ログインすると、Canvas 画面が表示されます。
+
+
+image:aws-cvo-guest-001.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. Cloud Manager のホームページで、「作業環境の追加」をクリックし、クラウドとして AWS を選択し、システム構成のタイプを選択します。
+
+
+image:aws-cvo-guest-002.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. 環境名や管理者の資格情報など、作成する環境の詳細を指定します。[Continue]をクリックします。
+
+
+image:aws-cvo-guest-003.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. BlueXP分類、 BlueXP backup and recovery、 Cloud Insightsなど、 Cloud Volumes ONTAPデプロイメントのアドオン サービスを選択します。[Continue]をクリックします。
+
+
+image:aws-cvo-guest-004.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. HA デプロイメント モデル ページで、複数のアベイラビリティー ゾーン構成を選択します。
+
+
+image:aws-cvo-guest-005.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. 「リージョンと VPC」ページでネットワーク情報を入力し、「続行」をクリックします。
+
+
+image:aws-cvo-guest-006.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. [接続と SSH 認証] ページで、HA ペアとメディエーターの接続方法を選択します。
+
+
+image:aws-cvo-guest-007.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. フローティング IP アドレスを指定して、「続行」をクリックします。
+
+
+image:aws-cvo-guest-008.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. フローティング IP アドレスへのルートを含める適切なルート テーブルを選択し、[続行] をクリックします。
+
+
+image:aws-cvo-guest-009.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. 「データ暗号化」ページで、AWS 管理の暗号化を選択します。
+
+
+image:aws-cvo-guest-010.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. 既存のライセンスを使用する場合は、ライセンス オプション (Pay-As-You-Go または BYOL) を選択します。この例では、Pay-As-You-Go オプションが使用されています。
+
+
+image:aws-cvo-guest-011.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. AWS SDDC 上の VMware クラウドで実行されている VM に展開するワークロードのタイプに基づいて、利用可能ないくつかの事前構成済みパッケージから選択します。
+
+
+image:aws-cvo-guest-012.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. [確認と承認] ページで、選択内容を確認して確定しますCloud Volumes ONTAPインスタンスを作成するには、[実行] をクリックします。
+
+
+image:aws-cvo-guest-013.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. Cloud Volumes ONTAPがプロビジョニングされると、Canvas ページの作業環境にリストされます。
+
+
+image:aws-cvo-guest-014.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+====
+.SMBボリュームの追加構成
+[%collapsible%open]
+====
+. 作業環境の準備ができたら、CIFS サーバーが適切な DNS および Active Directory 構成パラメータで構成されていることを確認します。  SMB ボリュームを作成する前にこの手順を実行する必要があります。
+
+
+image:aws-cvo-guest-020.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. ボリュームを作成する CVO インスタンスを選択し、「ボリュームの作成」オプションをクリックします。適切なサイズを選択すると、クラウド マネージャーはそれを含むアグリゲートを選択するか、高度な割り当てメカニズムを使用して特定のアグリゲートに配置します。このデモでは、プロトコルとして SMB が選択されています。
+
+
+image:aws-cvo-guest-021.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. ボリュームがプロビジョニングされると、ボリューム ペインで使用できるようになります。  CIFS 共有がプロビジョニングされているため、ユーザーまたはグループにファイルとフォルダーへのアクセス許可を与え、それらのユーザーが共有にアクセスしてファイルを作成できることを確認する必要があります。
+
+
+image:aws-cvo-guest-022.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. ボリュームが作成されたら、マウント コマンドを使用して、AWS SDDC ホストの VMware Cloud で実行されている VM から共有に接続します。
+. 次のパスをコピーし、ネットワーク ドライブのマップ オプションを使用して、AWS SDDC の VMware Cloud で実行されている VM にボリュームをマウントします。
+
+
+image:aws-cvo-guest-023.png["入出力ダイアログまたは書かれたコンテンツを示す図"] image:aws-cvo-guest-024.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+====
+.LUNをホストに接続する
+[%collapsible%open]
+====
+Cloud Volumes ONTAP LUN をホストに接続するには、次の手順を実行します。
+
+. Cloud Manager Canvas ページで、 Cloud Volumes ONTAP作業環境をダブルクリックして、ボリュームを作成および管理します。
+. [ボリュームの追加] > [新しいボリューム] をクリックし、[iSCSI] を選択して、[イニシエーター グループの作成] をクリックします。[Continue]をクリックします。
+
+
+image:aws-cvo-guest-030.png["入出力ダイアログまたは書かれたコンテンツを示す図"] image:aws-cvo-guest-031.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. ボリュームがプロビジョニングされたら、ボリュームを選択し、「ターゲット IQN」をクリックします。 iSCSI 修飾名 (IQN) をコピーするには、[コピー] をクリックします。ホストから LUN への iSCSI 接続を設定します。
+
+
+VMware Cloud on AWS SDDC 上にあるホストに対して同じことを実行するには、次の手順を実行します。
+
+. VMware Cloud on AWS でホストされている VM に RDP 接続します。
+. iSCSI イニシエーターのプロパティ ダイアログ ボックスを開きます: サーバー マネージャー > ダッシュボード > ツール > iSCSI イニシエーター。
+. [検出] タブで、[ポータルの検出] または [ポータルの追加] をクリックし、iSCSI ターゲット ポートの IP アドレスを入力します。
+. [ターゲット] タブで、検出されたターゲットを選択し、[ログオン] または [接続] をクリックします。
+. [マルチパスを有効にする] を選択し、[コンピューターの起動時にこの接続を自動的に復元する] または [この接続をお気に入りのターゲットの一覧に追加する] を選択します。[Advanced]をクリックします。
+
+
+
+NOTE: Windowsホストには、クラスタ内のそれぞれのノードへのiSCSI接続が必要です。標準のDSMによって最適なパスが選択され、
+
+image:aws-cvo-guest-032.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+SVM からの LUN は、Windows ホストに対してディスクとして表示されます。追加された新しいディスクは、ホストによって自動的に検出されません。次の手順を実行して、手動での再スキャンをトリガーし、ディスクを検出します。
+
+. Windows のコンピューターの管理ユーティリティを開きます (スタート > 管理ツール > コンピューターの管理)。
+. ナビゲーション ツリーでストレージ ノードを展開します。
+. ディスクの管理をクリックします。
+. [アクション] > [ディスクの再スキャン] をクリックします。
+
+
+image:aws-cvo-guest-033.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+Windowsホストから初めてアクセスした時点では、新しいLUNにはパーティションやファイルシステムは設定されていません。LUN を初期化し、オプションで次の手順を実行して、LUN をファイル システムでフォーマットします。
+
+. Windowsの[ディスクの管理]を起動します。
+. LUNを右クリックし、必要なディスクまたはパーティションの種類を選択します。
+. ウィザードの指示に従います。この例では、ドライブ F: がマウントされます。
+
+
+image:aws-cvo-guest-034.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+Linux クライアントで、iSCSI デーモンが実行されていることを確認します。 LUN がプロビジョニングされたら、Linux ディストリビューションの iSCSI 構成に関する詳細なガイダンスを参照してください。例えば、UbuntuのiSCSI設定は次のようになります。link:https://ubuntu.com/server/docs/service-iscsi["ここをクリックしてください。"] 。確認するには、シェルから lsblk cmd を実行します。
+
+====
+.LinuxクライアントにCloud Volumes ONTAP NFSボリュームをマウントする
+[%collapsible%open]
+====
+VMC on AWS SDDC 内の仮想マシンからCloud Volumes ONTAP (DIY) ファイル システムをマウントするには、次の手順を実行します。
+
+. 指定された Linux インスタンスに接続します。
+. セキュア シェル (SSH) を使用してインスタンス上でターミナルを開き、適切な資格情報でログインします。
+. 次のコマンドを使用して、ボリュームのマウント ポイントのディレクトリを作成します。
++
+ $ sudo mkdir /fsxcvotesting01/nfsdemovol01
+. 前の手順で作成したディレクトリにAmazon FSx ONTAP NFS ボリュームをマウントします。
++
+ sudo mount -t nfs nfsvers=4.1,172.16.0.2:/nfsdemovol01 /fsxcvotesting01/nfsdemovol01
+
+
+image:aws-cvo-guest-040.png["入出力ダイアログまたは書かれたコンテンツを示す図"] image:aws-cvo-guest-041.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+====

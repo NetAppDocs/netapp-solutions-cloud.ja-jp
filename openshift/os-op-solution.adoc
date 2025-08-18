@@ -1,0 +1,27 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-op-solution.html 
+keywords: NetApp Solutions, redhat OpenShift, red hat OpenShift, redhat openshift container platform, ocp, openshift container platform, Advanced Cluster Management, ACM, Hub Cluster, containers, container workloads, VMware, customer managed storage, ONTAP 
+summary:  
+---
+= VMware 上の Red Hat OpenShift Container プラットフォーム ワークロードを使用したNetAppソリューション
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+お客様が最新のコンテナ化されたアプリケーションをプライベート データ センターのインフラストラクチャ上で実行する必要がある場合は、それを行うことができます。コンテナ ワークロードをデプロイするための本番環境を正常に構築するには、Red Hat OpenShift コンテナ プラットフォーム (OCP) を計画してデプロイする必要があります。  OCP クラスターは、VMware またはベアメタル上に展開できます。
+
+NetApp ONTAPストレージは、コンテナの導入においてデータ保護、信頼性、柔軟性を実現します。  Trident は、顧客のステートフル アプリケーション用に永続的なONTAPストレージを使用する動的ストレージ プロビジョナーとして機能します。  NetApp Trident Protect は、データ保護、移行、ビジネス継続性など、ステートフル アプリケーションのさまざまなデータ管理要件に使用できます。
+
+VMware vSphere では、 NetApp ONTAPツールは、データストアのプロビジョニングに使用できる vCenter プラグインを提供します。タグを適用し、OpenShift で使用してノード構成とデータを保存します。  NVMe ベースのストレージは、低レイテンシと高パフォーマンスを実現します。
+
+
+
+== Trident Protect を使用した OpenShift Container ワークロードのデータ保護および移行ソリューション
+
+image:rhhc-on-premises.png["入出力ダイアログまたは書かれたコンテンツを示す図"]

@@ -1,0 +1,66 @@
+---
+sidebar: sidebar 
+permalink: blogs.html 
+summary: ONTAPストレージとNetAppクラウド ソリューションを統合するための実用的なガイダンスとベスト プラクティスを紹介するブログをお読みください。 
+keywords: netapp, solutions, blogs 
+---
+= NetApp の専門家によるクラウド ソリューションのブログを読む
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ./media/
+
+
+[role="lead"]
+ONTAPストレージとNetAppクラウド ソリューションを統合するための実用的なガイダンスとベスト プラクティスを紹介するブログをお読みください。
+
+
+
+== VMware と AWS およびAmazon FSx for ONTAP の統合
+
+* link:https://bluexp.netapp.com/blog/aws-fsxn-blg-migrate-vmware-to-amazon-ec2-iscsi-based-fsx-for-ontap["Amazon EC2 とAmazon FSx ONTAP iSCSI プロトコルを使用して VMware VM を AWS に移行する"]
+* link:https://aws.amazon.com/about-aws/whats-new/2025/06/amazon-elastic-vmware-service-fsx-netapp-ontap/["Amazon EVS が FSx for ONTAPと統合"]
+* link:https://www.netapp.com/blog/amazon-elastic-vmware-service-fsx-ontap/["Amazon EVSがFSx for ONTAPのサポートを発表"]
+* link:https://cloud.netapp.com/blog/aws-fsxo-blg-configure-hybrid-cloud-with-fsx-for-netapp-ontap-and-vmware-cloud-on-aws-sddc-using-vmware-hcx["VMware HCX を使用して FSx ONTAPと VMware Cloud on AWS SDDC でハイブリッド クラウドを構成する"]
+
+
+
+
+== Azure VMware ソリューション
+
+* link:https://cloud.netapp.com/blog/azure-blg-optimize-storage-for-cloud-based-vmware-deployments["クラウドベースの VMware 展開向けにストレージを最適化"]
+* link:https://cloud.netapp.com/blog/azure-blg-netapp-cloud-offerings-with-azure-vmware-solution["NetAppベースのクラウド サービスを使用して Azure VMware ソリューションを開始する"]
+
+
+
+
+== Google Cloud VMware エンジン
+
+* link:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["Google Cloud VMware Engine ( NetApp ) 向けの Google Cloud Google Cloud NetApp Volumesデータストアのサポート"]
+* link:https://cloud.google.com/blog/products/compute/how-to-use-netapp-cvs-as-datastores-with-vmware-engine["NetApp Volumes を Google Cloud VMware Engine のデータストアとして使用する方法 (Google)"]
+* link:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["NetAppブログ - ストレージを多用するアプリを Google Cloud に移行するよりよい方法"]
+
+
+
+
+== データ保護と管理
+
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Data-Protection-for-VMware-with-SnapCenter-Plug-in-and-BlueXP-Backup-and/ba/p/446180["SnapCenterプラグインとBlueXP のVM バックアップおよびリカバリを使用した VMware 向け 3-2-1 データ保護"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Observability-for-the-Modern-Datacenter-with-NetApp-Cloud-Insights/ba/p/447495["NetApp Cloud Insightsによる最新データセンターの可観測性"]
+
+
+
+
+== OpenShift コンテナ ワークロード向けNetApp
+
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/NetApp-ONTAP-doubles-up-as-storage-for-logs-in-Red-Hat-OpenShift-Container/ba/p/449280["NetApp ONTAPはRed Hat OpenShiftコンテナプラットフォームのログストレージとしても機能します"]
+
+
+
+
+== VMware ソブリンクラウド
+
+* link:https://blogs.vmware.com/cloud/2021/10/06/vmware-sovereign-cloud/["新しいソブリンクラウドイニシアチブのご紹介"]
+

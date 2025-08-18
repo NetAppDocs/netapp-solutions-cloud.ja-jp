@@ -1,0 +1,69 @@
+---
+sidebar: sidebar 
+permalink: openshift/os-solutions-storage-options.html 
+keywords: NetApp Solutions, hybrid cloud, container workloads, containers, Red Hat OpenShift, RedHat OpenShift, VMware, ROSA, ACC, Trident Protect, Advanced Cluster Management, ACM, Hub Cluster, VMware CSI, nconnect, session trunking, SMBC 
+summary:  
+---
+= Red Hat OpenShift Containers とサポートされるNetAppストレージの統合
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Red Hat OpenShift コンテナが VMware 上で実行されているか、ハイパースケーラー内で実行されているかに関係なく、 NetApp Trident は、サポートされるさまざまなタイプのバックエンドNetAppストレージの CSI プロビジョナーとして使用できます。
+
+次の図は、 NetApp Tridentを使用して OpenShift クラスターと統合できるさまざまなバックエンドNetAppストレージを示しています。
+
+image:a-w-n-astra-trident.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+ONTAPストレージ仮想マシン (SVM) は、安全なマルチテナント機能を提供します。単一の OpenShift クラスターは、単一の SVM または複数の SVM、さらには複数のONTAPクラスターに接続できます。ストレージ クラスは、パラメータまたはラベルに基づいてバックエンド ストレージをフィルターします。ストレージ管理者は、Trident バックエンド構成を使用してストレージ システムに接続するためのパラメータを定義します。接続が正常に確立されると、トライデント バックエンドが作成され、ストレージ クラスがフィルターできる情報が入力されます。
+
+ストレージクラスとバックエンドの関係を以下に示します。
+
+image:rhhc-storage-options-sc2ontap.png["ストレージクラスとONTAPの関係"]
+
+アプリケーション所有者は、ストレージ クラスを使用して永続ボリュームを要求します。ストレージ クラスはバックエンド ストレージをフィルターします。
+
+ポッドとバックエンドストレージの関係を以下に示します。
+
+image:rhhc-storage-opt-pod2vol.png["ポッドとONTAPボリュームの関係"]
+
+
+
+== コンテナストレージインターフェース（CSI）オプション
+
+vSphere 環境では、お客様は VMware CSI ドライバーやTrident CSI を選択してONTAPと統合できます。  VMware CSI では永続ボリュームはローカル SCSI ディスクとして消費されますが、 Tridentではネットワークで消費されます。
+
+VMware CSI はONTAPでの RWX アクセス モードをサポートしていないため、RWX モードが必要な場合はアプリケーションでTrident CSI を使用する必要があります。  FC ベースの展開では、VMware CSI が優先され、 SnapMirror Business Continuity (SMBC) によってゾーン レベルの高可用性が提供されます。
+
+
+
+=== VMware CSIはサポートしています
+
+* コアブロックベースのデータストア（FC、FCoE、iSCSI、NVMeoF）
+* コアファイルベースのデータストア（NFS v3、v4）
+* vVol データストア（ブロックおよびファイル）
+
+
+
+
+=== TridentにはONTAPをサポートする以下のドライバーがあります
+
+* ontapさん（専用ボリューム）
+* ontap-san-economy（共有ボリューム）
+* ontap-nas（専用ボリューム）
+* ontap-nas-economy（共有ボリューム）
+* ontap-nas-flexgroup (専用の大規模ボリューム)
+
+
+VMware CSI とTrident CSI の両方において、 ONTAP はNFS の場合は nconnect、セッション トランキング、Kerberos など、ブロック プロトコルの場合はマルチパス、CHAP 認証などをサポートします。
+
+AWS では、 Amazon FSx for NetApp ONTAP (FSx ONTAP) を単一のアベイラビリティーゾーン (AZ) またはマルチ AZ にデプロイできます。高可用性を必要とする本番ワークロードの場合、マルチ AZ はゾーンレベルのフォールト トレランスを提供し、単一 AZ と比較して NVMe 読み取りキャッシュが向上します。詳細については、link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/performance.html["AWSパフォーマンスガイドライン"] 。
+
+災害復旧サイトのコストを節約するために、単一の AZ FSx ONTAP を利用できます。image:rhhc-storage-options-fsxn-options.png["マルチAZとシングルAZ間のレプリケーション"]
+
+FSx ONTAPでサポートされているSVMの数については、link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html#max-svms["FSx ONTAPストレージ仮想マシンの管理"]

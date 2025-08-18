@@ -1,0 +1,82 @@
+---
+indexpage:
+  title: NetAppハイブリッド マルチクラウドと VMware ソリューション
+  summary: NetApp Hybrid Multicloud with VMware ソリューションは、主要なパブリック クラウド ハイパースケーラーにおけるNetAppストレージの機能を実証する、戦略とテクノロジの機能のセットです。
+  lead: NetApp Hybrid Multicloud with VMware ソリューションは、主要なパブリック クラウド ハイパースケーラーにおけるNetAppストレージの機能を実証する、戦略とテクノロジの機能のセットです。
+  tiles:
+  - title: 始めましょう
+    links:
+    - title: 概要
+      url: "../vmware/vmw-hybrid-overview.html"
+    - title: ハイパースケーラークラウドにおける VMware 向けNetAppソリューション
+      url: "../vmware/vmw-hybrid-hyperscalers.html"
+    - title: サポートされているストレージオプション
+      url: "../vmware/vmw-hybrid-support-configs.html"
+    - title: サポートされているソリューション
+      url: "../vmware/vmw-hybrid-solutions.html"
+    - title: まとめ
+      url: "../vmware/vmw-hybrid-summary.html"
+  - title: AWS 上のNetApp (VMC)
+    links:
+    - title: NetAppハイブリッド マルチクラウドと VMware for VMC
+      url: "../vmware/vmw-aws-vmc-overview.html"
+    - title: 仮想化環境を構成する
+      url: "../vmware/vmw-aws-vmc-setup.html"
+    - title: NetAppストレージを接続するためのオプション
+      url: "../vmware/vmw-aws-vmc-storage.html"
+    - title: VMC向けハイブリッドマルチクラウドソリューション
+      url: "../vmware/vmw-aws-vmc-solutions.html"
+  - title: Azure 上のNetApp (AVS)
+    links:
+    - title: NetAppハイブリッド マルチクラウドと VMware for AVS
+      url: "../vmware/vmw-azure-avs-overview.html"
+    - title: 仮想化環境を構成する
+      url: "../vmware/vmw-azure-avs-setup.html"
+    - title: NetAppストレージを接続するためのオプション
+      url: "../vmware/vmw-azure-avs-storage.html"
+    - title: AVS 向けハイブリッド マルチクラウド ソリューション
+      url: "../vmware/vmw-azure-avs-solutions.html"
+  - title: Google Cloud Platform 上のNetApp
+    links:
+    - title: GCVE 向け VMware 搭載NetAppハイブリッド マルチクラウド
+      url: "../vmware/vmw-gcp-gcve-overview.html"
+    - title: 仮想化環境を構成する
+      url: "../vmware/vmw-gcp-gcve-setup.html"
+    - title: NetAppストレージを接続するためのオプション
+      url: "../vmware/vmw-gcp-gcve-storage.html"
+    - title: GCVE 向けハイブリッド マルチクラウド ソリューション
+      url: "../vmware/vmw-gcp-gcve-solutions.html"
+    - title: Google Cloud のNetAppボリューム
+      url: "../google/gcp-gcnv-overview.html"
+  - title: シミュレーター
+    links:
+    - title: FSx ONTAP + VMCシミュレータ
+      url: https://netapp-automation.github.io/FSx-VMC-Simulator
+    - title: ANF + AVSシミュレータ
+      url: https://netapp-automation.github.io/ANF-AVS-Simulator
+    - title: VMCシミュレータを使用したAWS向けDRO
+      url: https://netapp-automation.github.io/dro-simulator/?intro-1
+    - title: AVSシミュレータを使用したANFのDRO
+      url: https://netapp-automation.github.io/dro-simulator-avs-anf/?intro-1
+    - title: BlueXP DRaaS シミュレーター
+      url: https://netapp-automation.github.io/DRaaS_Simulator/?0.1
+    - title: BlueXP - VM のバックアップとリカバリのシミュレーター
+      url: https://netapp-automation.github.io/Backup_and_Recovery_for_VMs_Simulator/?0.1
+  - title: TCO計算機
+    links:
+    - title: FSx ONTAP + VMC TCO 計算ツール
+      url: https://cloud.netapp.com/vmc-aws-fsx-ontap/roi
+    - title: ANF + AVS TCO計算機
+      url: https://bluexp.netapp.com/anf-avs/tcoestimator
+    - title: GCVE + NetApp Volumes TCO 見積もり
+      url: https://bluexp.netapp.com/gcve-cvs/roi
+  - title: BlueXP disaster recovery
+    links:
+    - title: SnapCenterプラグインとBlueXP backup and recoveryを使用して VMware のデータを保護します
+      url: "../vmware/vmw-hybrid-321-dp-scv.html"
+    - title: BlueXPを使用した災害復旧
+      url: "../vmware/vmw-hybrid-dr-overview.html"
+    - title: NFSデータストア用のBlueXPを使用した災害復旧
+      url: "../vmware/vmw-hybrid-dr-nfs.html"
+    - title: VMFSデータストア用のBlueXPを使用した災害復旧
+      url: "../vmware/vmw-hybrid-dr-vmfs.html"

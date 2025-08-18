@@ -1,0 +1,31 @@
+---
+indexpage:
+  title: NetAppのハイブリッド マルチクラウド ソリューションに関するビデオとデモをご覧ください
+  lead: AWS、Azure、Red Hat OpenShift を特集したハイブリッド マルチクラウド ソリューションに関する NetApp のビデオ ライブラリをご覧ください。各コレクションでは、主要なユースケース、統合シナリオ、ワークフローが強調表示されます。
+  tiles:
+  - title: AWS ハイブリッドマルチクラウドビデオ
+    links:
+    - title: ゲスト接続ストレージ
+      url: hmc-aws-videos.html#guest-connected-storage
+    - title: TCOと補足データストア
+      url: hmc-aws-videos.html#tco-and-supplemental-datastores
+    - title: 移行ワークフロー (HCX)
+      url: hmc-aws-videos.html#migration-workflows-hcx
+  - title: Azure ハイブリッド マルチクラウド ビデオ
+    links:
+    - title: 補足データストア
+      url: hmc-azure-videos.html#supplemental-datastores
+    - title: ディザスタ リカバリ
+      url: hmc-azure-videos.html#disaster-recovery
+    - title: 移行ワークフロー (HCX)
+      url: hmc-azure-videos.html#migration-workflows-hcx
+  - title: OpenShift ハイブリッド マルチクラウド ビデオ
+    links:
+    - title: スナップショットと復元
+      url: hmc-openshift-videos.html#snapshots-and-restore
+    - title: ストレージ統合
+      url: hmc-openshift-videos.html#storage-integration
+    - title: フェイルオーバーとフェイルバック
+      url: hmc-openshift-videos.html#failover-and-fail-back
+    - title: ソリューション自動化
+      url: hmc-openshift-videos.html#solution-automation

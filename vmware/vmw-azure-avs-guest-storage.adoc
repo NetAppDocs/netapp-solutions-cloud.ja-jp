@@ -1,0 +1,251 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-azure-avs-guest-storage.html 
+keywords: NetApp Solutions, microsoft azure, avs, azure, vmware managed cloud, enterprise, hybrid, cloud, anf, azure netapp files, cvo, cloud volumes ontap, guest connected 
+summary:  
+---
+= Azure 向けNetAppゲスト接続ストレージ オプション
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Azure は、ネイティブのAzure NetApp Files (ANF) サービスまたはCloud Volumes ONTAP (CVO) を使用して、ゲスト接続されたNetAppストレージをサポートします。
+
+
+
+== Azure NetApp Files(ANF)
+
+Azure netApp Files は、エンタープライズ グレードのデータ管理とストレージを Azure に提供するため、ワークロードとアプリケーションを簡単に管理できます。ワークロードをクラウドに移行し、パフォーマンスを犠牲にすることなく実行します。
+
+Azure netApp Files は障害を取り除き、すべてのファイルベースのアプリケーションをクラウドに移行できるようにします。初めて、アプリケーションを再設計する必要がなくなり、複雑さなしでアプリケーション用の永続ストレージを利用できるようになります。
+
+サービスは Microsoft Azure ポータルを通じて提供されるため、ユーザーは Microsoft エンタープライズ契約の一環として完全に管理されたサービスを体験できます。 Microsoft が管理する世界クラスのサポートにより、完全な安心感が得られます。この単一のソリューションにより、マルチプロトコルのワークロードを迅速かつ簡単に追加できます。レガシー環境でも、Windows と Linux の両方のファイルベースのアプリケーションを構築および展開できます。
+
+
+
+=== ゲスト接続ストレージとしてのAzure NetApp Files (ANF)
+
+.Azure VMware Solution (AVS) を使用してAzure NetApp Filesを構成する
+[%collapsible%open]
+====
+Azure NetApp Files共有は、Azure VMware Solution SDDC 環境で作成された VM からマウントできます。  Azure NetApp Files はSMB および NFS プロトコルをサポートしているため、ボリュームを Linux クライアントにマウントし、Windows クライアントにマップすることもできます。  Azure NetApp Filesボリュームは、5 つの簡単な手順で設定できます。
+
+Azure NetApp Filesと Azure VMware Solution は同じ Azure リージョンに存在する必要があります。
+
+====
+.Azure NetApp Filesボリュームを作成してマウントする
+[%collapsible%open]
+====
+Azure NetApp Filesボリュームを作成してマウントするには、次の手順を実行します。
+
+. Azure Portal にログインし、 Azure NetApp Files にアクセスします。 Azure NetApp Filesサービスへのアクセスを確認し、_az provider register --namespace Microsoft. NetApp –wait_ コマンドを使用してAzure NetApp Filesリソース プロバイダーを登録します。登録が完了したら、 NetAppアカウントを作成します。
++
+詳細な手順については、link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-create-netapp-account["Azure NetApp Files共有"] 。このページでは、手順を順に説明します。
+
++
+image:azure-anf-guest-001.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. NetAppアカウントを作成したら、必要なサービス レベルとサイズで容量プールを設定します。
++
+詳細については、以下を参照してください。 link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-set-up-capacity-pool["容量プールを設定する"] 。
+
++
+image:azure-anf-guest-002.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. Azure NetApp Filesの委任されたサブネットを構成し、ボリュームの作成時にこのサブネットを指定します。委任されたサブネットを作成する詳細な手順については、link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-delegate-subnet["サブネットをAzure NetApp Filesに委任する"] 。
++
+image:azure-anf-guest-003.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. [容量プール] ブレードの下の [ボリューム] ブレードを使用して、SMB ボリュームを追加します。  SMB ボリュームを作成する前に、Active Directory コネクタが構成されていることを確認してください。
++
+image:azure-anf-guest-004.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. [確認 + 作成] をクリックして SMB ボリュームを作成します。
++
+アプリケーションが SQL Server の場合は、SMB の継続的な可用性を有効にします。
+
++
+image:azure-anf-guest-005.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
++
+image:azure-anf-guest-006.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
++
+Azure NetApp Filesボリュームのサイズまたはクォータ別のパフォーマンスの詳細については、以下を参照してください。link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-performance-considerations["Azure NetApp Files のパフォーマンスに関する考慮事項"] 。
+
+. 接続が確立されると、ボリュームをマウントしてアプリケーション データに使用できるようになります。
++
+これを実行するには、Azure ポータルから [ボリューム] ブレードをクリックし、マウントするボリュームを選択して、マウント手順にアクセスします。パスをコピーし、[ネットワーク ドライブのマップ] オプションを使用して、Azure VMware Solution SDDC で実行されている VM にボリュームをマウントします。
+
++
+image:azure-anf-guest-007.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
++
+image:azure-anf-guest-008.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. Azure VMware Solution SDDC で実行されている Linux VM に NFS ボリュームをマウントするには、同じプロセスを使用します。ボリュームの再形成または動的サービス レベル機能を使用して、ワークロードの要求を満たします。
++
+image:azure-anf-guest-009.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
++
+詳細については、以下を参照してください。 link:https://docs.microsoft.com/en-us/azure/azure-netapp-files/dynamic-change-volume-service-level["ボリュームのサービスレベルを動的に変更する"] 。
+
+
+
+====
+
+
+== Cloud Volumes ONTAP（CVO）
+
+Cloud Volumes ONTAP(CVO) は、NetApp のONTAPストレージ ソフトウェア上に構築された業界をリードするクラウド データ管理ソリューションであり、Amazon Web Services (AWS)、Microsoft Azure、Google Cloud Platform (GCP) でネイティブに利用できます。
+
+これはクラウドネイティブ ストレージを使用するONTAPのソフトウェア定義バージョンであり、クラウドとオンプレミスで同じストレージ ソフトウェアを使用できるため、データを管理するためのまったく新しい方法について IT スタッフを再トレーニングする必要性が軽減されます。
+
+CVO により、エッジからデータセンター、クラウドへとシームレスにデータを移動し、ハイブリッド クラウドを統合することが可能になります。これらはすべて、単一ペインの管理コンソールであるNetApp Cloud Manager で管理されます。
+
+CVOは設計上、クラウドで最も要求の厳しいアプリケーションにも対応できる優れたパフォーマンスと高度なデータ管理機能を提供します。
+
+
+
+=== ゲスト接続ストレージとしてのCloud Volumes ONTAP (CVO)
+
+.Azureに新しいCloud Volumes ONTAPを導入する
+[%collapsible%open]
+====
+Cloud Volumes ONTAP共有と LUN は、Azure VMware Solution SDDC 環境で作成された VM からマウントできます。  Cloud Volumes ONTAP はiSCSI、SMB、NFS プロトコルをサポートしているため、ボリュームは Linux クライアントと Windows クライアントにもマウントできます。  Cloud Volumes ONTAPボリュームは、いくつかの簡単な手順でセットアップできます。
+
+災害復旧または移行の目的でオンプレミス環境からクラウドにボリュームをレプリケートするには、サイト間 VPN または ExpressRoute を使用して Azure へのネットワーク接続を確立します。オンプレミスからCloud Volumes ONTAPへのデータの複製については、このドキュメントの範囲外です。オンプレミスとCloud Volumes ONTAPシステム間でデータを複製するには、link:https://docs.netapp.com/us-en/occm/task_replicating_data.html#setting-up-data-replication-between-systems["システム間のデータ複製の設定"] 。
+
+
+NOTE: 使用link:https://cloud.netapp.com/cvo-sizer["Cloud Volumes ONTAPサイザー"]Cloud Volumes ONTAPインスタンスのサイズを正確に決定します。また、オンプレミスのパフォーマンスを監視して、 Cloud Volumes ONTAPサイザーの入力として使用します。
+
+. NetApp Cloud Central にログインすると、Fabric View 画面が表示されます。 Cloud Volumes ONTAPタブを見つけて、「Go to Cloud Manager」を選択します。ログインすると、Canvas 画面が表示されます。
++
+image:azure-cvo-guest-001.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. Cloud Manager のホームページで、「作業環境の追加」をクリックし、クラウドとして Microsoft Azure を選択し、システム構成のタイプを選択します。
++
+image:azure-cvo-guest-002.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. 最初のCloud Volumes ONTAP作業環境を作成するときに、Cloud Manager によってコネクタをデプロイするように求められます。
++
+image:azure-cvo-guest-003.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. コネクタが作成されたら、詳細および資格情報フィールドを更新します。
++
+image:azure-cvo-guest-004.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. 環境名や管理者の資格情報など、作成する環境の詳細を指定します。オプション パラメーターとして、Azure 環境のリソース グループ タグを追加します。完了したら、「続行」をクリックします。
++
+image:azure-cvo-guest-005.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. BlueXP分類、 BlueXP backup and recovery、 Cloud Insightsなど、 Cloud Volumes ONTAPデプロイメントのアドオン サービスを選択します。サービスを選択し、「続行」をクリックします。
++
+image:azure-cvo-guest-006.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. Azure の場所と接続を構成します。使用する Azure リージョン、リソース グループ、VNet、サブネットを選択します。
++
+image:azure-cvo-guest-007.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. 既存のライセンスを使用する場合は、ライセンス オプション (Pay-As-You-Go または BYOL) を選択します。この例では、Pay-As-You-Go オプションが使用されています。
++
+image:azure-cvo-guest-008.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. さまざまな種類のワークロードに使用できる、事前構成された複数のパッケージから選択します。
++
+image:azure-cvo-guest-009.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. サポートのアクティブ化と Azure リソースの割り当てに関する 2 つの契約に同意しますCloud Volumes ONTAPインスタンスを作成するには、[Go] をクリックします。
++
+image:azure-cvo-guest-010.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. Cloud Volumes ONTAPがプロビジョニングされると、Canvas ページの作業環境にリストされます。
++
+image:azure-cvo-guest-011.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+
+
+====
+.SMBボリュームの追加構成
+[%collapsible%open]
+====
+. 作業環境の準備ができたら、CIFS サーバーが適切な DNS および Active Directory 構成パラメータで構成されていることを確認します。  SMB ボリュームを作成する前にこの手順を実行する必要があります。
++
+image:azure-cvo-guest-020.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. SMB ボリュームの作成は簡単なプロセスです。ボリュームを作成する CVO インスタンスを選択し、「ボリュームの作成」オプションをクリックします。適切なサイズを選択すると、クラウド マネージャーはそれを含むアグリゲートを選択するか、高度な割り当てメカニズムを使用して特定のアグリゲートに配置します。このデモでは、プロトコルとして SMB が選択されています。
++
+image:azure-cvo-guest-021.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. ボリュームがプロビジョニングされると、ボリューム ペインで使用できるようになります。 CIFS 共有がプロビジョニングされているため、ユーザーまたはグループにファイルとフォルダーへの権限を与え、それらのユーザーが共有にアクセスしてファイルを作成できることを確認します。ボリュームがオンプレミス環境から複製される場合、ファイルとフォルダの権限はすべてSnapMirrorレプリケーションの一部として保持されるため、この手順は必要ありません。
++
+image:azure-cvo-guest-022.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. ボリュームが作成されたら、マウント コマンドを使用して、Azure VMware Solution SDDC ホストで実行されている VM から共有に接続します。
+. 次のパスをコピーし、[ネットワーク ドライブのマップ] オプションを使用して、Azure VMware Solution SDDC で実行されている VM にボリュームをマウントします。
++
+image:azure-cvo-guest-023.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
++
+image:azure-cvo-guest-024.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+
+
+====
+.LUNをホストに接続する
+[%collapsible%open]
+====
+LUN をホストに接続するには、次の手順を実行します。
+
+. Canvas ページで、 Cloud Volumes ONTAP作業環境をダブルクリックして、ボリュームを作成および管理します。
+. [ボリュームの追加] > [新しいボリューム] をクリックし、[iSCSI] を選択して [イニシエーター グループの作成] をクリックします。[Continue]をクリックします。
++
+image:azure-cvo-guest-030.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+. ボリュームがプロビジョニングされたら、ボリュームを選択し、「ターゲット IQN」をクリックします。 iSCSI 修飾名 (IQN) をコピーするには、[コピー] をクリックします。ホストから LUN への iSCSI 接続を設定します。
++
+Azure VMware Solution SDDC に存在するホストに対して同じことを実現するには、次の手順を実行します。
+
++
+.. Azure VMware Solution SDDC でホストされている VM に RDP 接続します。
+.. iSCSI イニシエーターのプロパティ ダイアログ ボックスを開きます: サーバー マネージャー > ダッシュボード > ツール > iSCSI イニシエーター。
+.. [検出] タブで、[ポータルの検出] または [ポータルの追加] をクリックし、iSCSI ターゲット ポートの IP アドレスを入力します。
+.. [ターゲット] タブで、検出されたターゲットを選択し、[ログオン] または [接続] をクリックします。
+.. [マルチパスを有効にする] を選択し、[コンピューターの起動時にこの接続を自動的に復元する] または [この接続をお気に入りのターゲットのリストに追加する] を選択します。[Advanced]をクリックします。
++
+*注:* Windows ホストは、クラスター内の各ノードへの iSCSI 接続を持っている必要があります。標準のDSMによって最適なパスが選択され、
+
++
+image:azure-cvo-guest-031.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+
+
+
+
+ストレージ仮想マシン (SVM) 上の LUN は、Windows ホストに対してディスクとして表示されます。追加された新しいディスクは、ホストによって自動的に検出されません。次の手順を実行して、手動での再スキャンをトリガーし、ディスクを検出します。
+
+. Windows のコンピューターの管理ユーティリティを開きます (スタート > 管理ツール > コンピューターの管理)。
+. ナビゲーション ツリーでストレージ ノードを展開します。
+. ディスクの管理をクリックします。
+. [アクション] > [ディスクの再スキャン] をクリックします。
+
+
+image:azure-cvo-guest-032.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+Windowsホストから初めてアクセスした時点では、新しいLUNにはパーティションやファイルシステムは設定されていません。LUN を初期化し、オプションで次の手順を実行して、LUN をファイル システムでフォーマットします。
+
+. Windowsの[ディスクの管理]を起動します。
+. LUNを右クリックし、必要なディスクまたはパーティションの種類を選択します。
+. ウィザードの指示に従います。この例では、ドライブE:がマウントされています
+
+
+image:azure-cvo-guest-033.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+image:azure-cvo-guest-034.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+====

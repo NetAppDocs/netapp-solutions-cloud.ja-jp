@@ -1,0 +1,74 @@
+---
+sidebar: sidebar 
+permalink: google/gcp-gcnv-security-overview.html 
+keywords: secure, architecture, tenancy model, identity management, control plane, security hardening, encryption, zero trust, ransomware 
+summary: Google Cloud のGoogle Cloud NetApp Volumes は、データをネイティブに保護するためのさまざまな方法を提供します。 
+---
+= Google Cloud NetApp Volumes がデータを保護する仕組み
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Google Cloud のGoogle Cloud NetApp Volumes は、データをネイティブに保護するためのさまざまな方法を提供します。
+
+
+
+== 安全なアーキテクチャとテナントモデル
+
+Google Cloud NetApp Volumes は、サービス管理（コントロール プレーン）とデータ アクセス（データ プレーン）を異なるエンドポイントに分割することで、Google Cloud で安全なアーキテクチャを提供します。これにより、どちらが他方に影響を与えなくなります（セクションを参照）。link:gcp-gcnv-arch-detail.html["Google Cloud NetApp Volumesアーキテクチャ"] ）。 Googleの https://cloud.google.com/vpc/docs/private-services-access?hl=en_US["プライベートサービスアクセス"^]（PSA）フレームワークを使用してサービスを提供します。このフレームワークは、 NetAppによって提供および運用されるサービス プロデューサーと、 Google Cloud NetApp Volumesファイル共有にアクセスするクライアントをホストする顧客プロジェクト内の仮想プライベート クラウド (VPC) であるサービス コンシューマーを区別します。
+
+このアーキテクチャでは、テナント（セクションlink:gcp-gcnv-arch-detail.html#tenancy-model["賃貸モデル"]）は、ユーザーが明示的に接続しない限り、互いに完全に分離された Google Cloud プロジェクトとして定義されます。テナントでは、Google Cloud NetApp Volumesボリューム プラットフォームを使用して、データ ボリューム、外部ネーム サービス、ソリューションのその他の重要な部分を他のテナントから完全に分離できます。 Google Cloud NetApp Volumesプラットフォームは VPC ピアリングを介して接続されているため、その分離も適用されます。共有VPCを使用すると、複数のプロジェクト間でGoogle Cloud NetApp Volumesボリュームを共有できます（セクションを参照）。link:gcp-gcnv-arch-detail.html#shared-vpcs["共有VPC"] ）。  SMB 共有および NFS エクスポートにアクセス制御を適用して、データセットを表示または変更できるユーザーまたは機能を制限できます。
+
+
+
+== コントロールプレーンの強力なID管理
+
+Google Cloud NetApp Volumesの設定が行われるコントロールプレーンでは、ID管理は以下を使用して管理されます。 https://cloud.google.com/iam/docs/overview["アイデンティティアクセス管理（IAM）"^] 。 IAM は、Google Cloud プロジェクト インスタンスへの認証（ログイン）と承認（権限）を制御できる標準サービスです。すべての構成は、TLS 1.2 暗号化を使用した安全な HTTPS トランスポート経由でGoogle Cloud NetApp Volumes API を使用して実行され、セキュリティ強化のために JWT トークンを使用して認証が実行されます。  Google Cloud NetApp Volumesの Google コンソール UI は、ユーザー入力をGoogle Cloud NetApp Volumes API 呼び出しに変換します。
+
+
+
+== セキュリティ強化 - 攻撃対象領域の制限
+
+効果的なセキュリティの一環として、サービス内で利用可能な攻撃対象領域の数を制限することが重要です。攻撃対象領域には、保存中のデータ、転送中のデータ、ログイン、データセット自体など、さまざまなものが含まれます。
+
+マネージド サービスでは、その設計上、攻撃対象領域の一部が本質的に排除されます。インフラストラクチャ管理については、セクションlink:gcp-gcnv-service-operation.html["サービス運営、"]専任チームによって処理され、自動化されているため、人間が実際に構成に触れる回数が減り、意図的および意図しないエラーの数を減らすことができます。必要なサービスのみが相互にアクセスできるように、ネットワークが隔離されています。暗号化はデータ ストレージに組み込まれており、 Google Cloud NetApp Volumes管理者によるセキュリティ上の注意が必要なのはデータ プレーンのみです。管理の大部分を API インターフェースの背後に隠すことで、攻撃対象領域を制限し、セキュリティを実現します。
+
+
+
+== ゼロトラストモデル
+
+歴史的に、IT セキュリティの哲学は「信頼はするが検証もする」であり、脅威を軽減するために外部メカニズム (ファイアウォールや侵入検知システムなど) のみに依存するという形で現れてきました。しかし、攻撃や侵害は進化し、フィッシング、ソーシャル エンジニアリング、内部脅威、およびネットワークに侵入して大混乱を引き起こすための検証を提供するその他の方法を通じて、環境内の検証を回避するようになりました。
+
+ゼロ トラストはセキュリティにおける新しい方法論となり、現在のモットーは「何も信頼せず、すべてを検証する」です。したがって、デフォルトでは何もアクセスが許可されません。このマントラは、標準的なファイアウォールや侵入検知システム (IDS) などのさまざまな方法で実施されるほか、次の方法でも実施されます。
+
+* 強力な認証方法（AES暗号化KerberosやJWTトークンなど）
+* 単一の強力な ID ソース (Windows Active Directory、Lightweight Directory Access Protocol (LDAP)、Google IAM など)
+* ネットワークのセグメンテーションと安全なマルチテナント（デフォルトではテナントのみアクセスが許可されます）
+* 最小権限アクセスポリシーによるきめ細かなアクセス制御
+* デジタル監査と書類による記録を備えた、信頼できる専任管理者の限定リスト
+
+
+Google Cloud で実行されるGoogle Cloud NetApp Volumes は、 「何も信頼せず、すべてを検証する」というスタンスを実装することで、ゼロトラスト モデルに準拠しています。
+
+
+
+== 暗号化
+
+保存データを暗号化する（セクションを参照）link:gcp-gcnv-data-encrypt-at-rest.html["保存時のデータ暗号化"] ）は、 NetAppボリューム暗号化（NVE）とXTS-AES-256暗号を使用して、link:gcp-gcnv-data-encrypt-in-transit.html#smb-encryption["SMB暗号化"]または NFS Kerberos 5p サポート。リージョン間レプリケーション転送は TLS 1.2 暗号化によって保護されているので安心です (セクション link:gcp-gcnv-security-considerations.html#ランサムウェア、マルウェア、ウイルスの検出、防止、軽減#cross-region-replication["リージョン間レプリケーション"] を参照)。さらに、Googleネットワークでは暗号化された通信も提供しています（link:gcp-gcnv-data-encrypt-in-transit.html["転送中のデータ暗号化"] ) を追加して、攻撃に対する保護を強化します。トランスポート暗号化の詳細については、セクションを参照してください。link:gcp-gcnv-data-encrypt-in-transit.html#google-cloud-network["Google Cloud ネットワーク"] 。
+
+
+
+== データ保護とバックアップ
+
+セキュリティとは、攻撃を防ぐことだけではありません。また、攻撃が発生した場合に、どのように回復するかについても説明します。この戦略には、データ保護とバックアップが含まれます。 Google Cloud NetApp Volumesは、障害発生時に他のリージョンにレプリケーションする方法を提供します（セクションを参照）。link:gcp-gcnv-security-considerations.html#cross-region-replication["クロスリージョンレプリケーション"] ) またはデータセットがランサムウェア攻撃の影響を受けている場合。また、 Google Cloud NetApp Volumesインスタンスの外部の場所にデータの非同期バックアップを実行することもできます。link:gcp-gcnv-security-considerations.html#cloud-volumes-service-backup["Google Cloud NetApp Volumesバックアップ"] 。定期的なバックアップにより、セキュリティ イベントの軽減にかかる時間が短縮され、管理者のコストと負担を軽減できます。
+
+
+
+== 業界をリードするスナップショットコピーによる迅速なランサムウェア対策
+
+Google Cloud NetApp Volumesは、データ保護とバックアップに加えて、不変のスナップショットコピーのサポートも提供します（セクションを参照）。link:gcp-gcnv-security-considerations.html#immutable-snapshot-copies["不変のスナップショットコピー"]ランサムウェア攻撃からの回復を可能にするボリューム（セクションを参照）link:gcp-gcnv-service-operation.html["サービス運営"] ）が問題を発見してから数秒以内に、最小限の混乱で対応します。リカバリ時間と影響はスナップショットのスケジュールによって異なりますが、ランサムウェア攻撃のわずか 1 時間の差分を提供するスナップショット コピーを作成できます。スナップショット コピーはパフォーマンスと容量の使用率にほとんど影響を与えず、データセットを保護するためのリスクが低く、メリットが大きいアプローチです。

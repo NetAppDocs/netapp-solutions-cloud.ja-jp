@@ -1,0 +1,73 @@
+---
+sidebar: sidebar 
+permalink: vmware/vmw-aws-vmc-overview.html 
+keywords: NetApp Solutions, hyperscalers, amazon, vmc, vmware managed cloud, enterprise, hybrid, cloud, migrate, migration, disaster recovery, dr 
+summary:  
+---
+= AWS VMC 向けNetApp の機能
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+NetApp がAWS VMware Cloud (VMC) にもたらす機能について詳しく説明します。ゲスト接続ストレージ デバイスまたは補助的な NFS データストアとしてのNetAppから、ワークフローの移行、クラウドへの拡張/バースト、バックアップ/リストア、災害復旧まで、さまざまな機能について説明します。
+
+次のオプションから選択して、目的のコンテンツのセクションに移動します。
+
+* link:#config["AWS での VMC の構成"]
+* link:#datastore["VMC向けNetAppストレージオプション"]
+* link:#solutions["NetApp / VMware クラウド ソリューション"]
+
+
+
+
+== AWS での VMC の構成
+
+オンプレミスの場合と同様に、VM の作成と移行のための本番環境を正常に構築するには、クラウド ベースの仮想化環境を計画することが重要です。
+
+このセクションでは、VMware Cloud on AWS SDDC を設定および管理し、 NetAppストレージに接続するために利用可能なオプションと組み合わせて使用する方法について説明します。
+
+
+NOTE: ゲスト内ストレージは、Cloud Volumes ONTAP をAWS VMC に接続するためにサポートされている唯一の方法です。
+
+セットアッププロセスは次の手順に分けられます。
+
+* VMware Cloud for AWS の導入と構成
+* VMware Cloud を FSx ONTAPに接続する
+
+
+詳細を表示link:../vmware/vmw-aws-vmc-setup.html["VMCの設定手順"]。
+
+
+
+== VMC向けNetAppストレージオプション
+
+NetAppストレージは、AWS VMC 内で、仮想接続として、または補助的な NFS データストアとして、さまざまな方法で利用できます。
+
+ぜひご覧くださいlink:vmw-hybrid-support-configs.html["サポートされているNetAppストレージオプション"]詳細についてはこちらをご覧ください。
+
+AWS は、次の構成でNetAppストレージをサポートしています。
+
+* ゲスト接続ストレージとしての FSx ONTAP
+* ゲスト接続ストレージとしてのCloud Volumes ONTAP (CVO)
+* 補助的なNFSデータストアとしてのFSx ONTAP
+
+
+詳細を表示link:aws-guest.html["VMCのゲスト接続ストレージオプション"]。詳細を表示link:aws-native-nfs-datastore-option.html["VMC の補足 NFS データストア オプション"]。
+
+
+
+== ソリューションのユースケース
+
+NetAppと VMware のクラウド ソリューションを使用すると、多くのユース ケースを AWS VMC に簡単に導入できます。  VMware が定義したクラウド領域ごとにユースケースが定義されています。
+
+* 保護（災害復旧とバックアップ/復元の両方を含む）
+* 拡張
+* 移行
+
+
+link:vmw-aws-vmc-solutions.html["AWS VMC向けNetAppソリューションをご覧ください"]

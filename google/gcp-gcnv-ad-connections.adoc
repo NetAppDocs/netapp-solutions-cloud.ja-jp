@@ -1,0 +1,152 @@
+---
+sidebar: sidebar 
+permalink: google/gcp-gcnv-ad-connections.html 
+keywords: active directory, credentials, permissions, smb machine accounts, region, backup users, security privilege, 
+summary: Google Cloud NetApp Volumes は、 SMB ユーザーと UNIX ユーザーの両方の ID 管理のために、Google Cloud NetApp Volumesインスタンスを外部 Active Directory サーバーに接続する機能を提供します。  Google Cloud NetApp Volumesで SMB を使用するには、Active Directory 接続を作成する必要があります。 
+---
+= Active Directory 接続を作成する際の考慮事項
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+Google Cloud NetApp Volumes は、 SMB ユーザーと UNIX ユーザーの両方の ID 管理のために、Google Cloud NetApp Volumesインスタンスを外部 Active Directory サーバーに接続する機能を提供します。  Google Cloud NetApp Volumesで SMB を使用するには、Active Directory 接続を作成する必要があります。
+
+この構成では、セキュリティを考慮する必要があるいくつかのオプションが提供されます。外部 Active Directory サーバーは、オンプレミス インスタンスまたはクラウド ネイティブにすることができます。オンプレミスの Active Directory サーバーを使用している場合は、ドメインを外部ネットワーク (DMZ や外部 IP アドレスなど) に公開しないでください。代わりに、安全なプライベートトンネルまたはVPN、一方向のフォレスト信頼、またはオンプレミスネットワークへの専用ネットワーク接続を使用してください。 https://cloud.google.com/vpc/docs/private-google-access["プライベートGoogleアクセス"^] 。詳細については、Google Cloudのドキュメントをご覧ください。 https://cloud.google.com/managed-microsoft-ad/docs/best-practices["Google Cloud での Active Directory の使用に関するベスト プラクティス"^] 。
+
+
+NOTE: NetApp Volumes-SW では、Active Directory サーバーが同じリージョンに配置されている必要があります。  NetApp Volumes-SW で別のリージョンへの DC 接続を試行すると、失敗します。  NetApp Volumes-SW を使用する場合は、Active Directory DC を含む Active Directory サイトを作成し、 Google Cloud NetApp Volumesでサイトを指定して、リージョン間の DC 接続の試行を回避するようにしてください。
+
+
+
+== Active Directory の資格情報
+
+NFS 用の SMB または LDAP が有効になっている場合、 Google Cloud NetApp Volumes はActive Directory コントローラと対話して、認証に使用するマシン アカウント オブジェクトを作成します。これは、Windows SMB クライアントがドメインに参加する方法と変わらず、Active Directory 内の組織単位 (OU) への同じアクセス権が必要です。
+
+多くの場合、セキュリティ グループでは、 Google Cloud NetApp Volumesなどの外部サーバー上での Windows 管理者アカウントの使用は許可されません。場合によっては、セキュリティのベストプラクティスとして、Windows 管理者ユーザーが完全に無効にされることがあります。
+
+
+
+=== SMBマシンアカウントを作成するために必要な権限
+
+Google Cloud NetApp VolumesマシンオブジェクトをActive Directoryに追加するには、ドメインの管理者権限を持つアカウントか、 https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/delegating-administration-by-using-ou-objects["マシンアカウントオブジェクトを作成および変更するための委任された権限"^]指定された OU へのアクセス許可が必要です。  Active Directory のコントロールの委任ウィザードを使用して、次のアクセス権限が付与されたコンピューター オブジェクトの作成/削除へのユーザー アクセスを提供するカスタム タスクを作成することにより、これを実行できます。
+
+* 読み取り / 書き込み
+* すべての子オブジェクトの作成/削除
+* すべてのプロパティの読み取り/書き込み
+* パスワードの変更/リセット
+
+
+これを行うと、定義されたユーザーのセキュリティ ACL が Active Directory 内の OU に自動的に追加され、Active Directory 環境へのアクセスが最小限に抑えられます。ユーザーが委任された後、そのユーザー名とパスワードをこのウィンドウで Active Directory 資格情報として提供できます。
+
+
+NOTE: Active Directory ドメインに渡されるユーザー名とパスワードは、マシン アカウント オブジェクトのクエリおよび作成中に Kerberos 暗号化を利用してセキュリティを強化します。
+
+
+
+== Active Directory接続の詳細
+
+その https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-smb-volumes["Active Directory 接続の詳細"^]管理者がマシン アカウントの配置に関する特定の Active Directory スキーマ情報を指定できる次のようなフィールドを提供します。
+
+* *Active Directory 接続タイプ。*リージョン内の Active Directory 接続をGoogle Cloud NetApp VolumesまたはNetApp Volumes-Performance サービス タイプのボリュームに使用するかどうかを指定するために使用されます。既存の接続でこれを誤って設定すると、使用または編集時に正しく機能しない可能性があります。
+* *ドメイン。*  Active Directory ドメイン名。
+* *サイト。*セキュリティとパフォーマンスのために、Active Directory サーバーを特定のサイトに制限します。 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/managing-active-directory-connections["考慮事項"^] 。  Google Cloud NetApp Volumes は現在、 Google Cloud NetApp Volumesインスタンスとは異なるリージョンにある Active Directory サーバーへの Active Directory 認証リクエストの許可をサポートしていないため、複数の Active Directory サーバーが複数のリージョンにまたがっている場合にこれが必要になります。  (たとえば、Active Directory ドメイン コントローラはNetApp Volumes-Performance のみがサポートするリージョンにありますが、 NetApp Volumes-SW インスタンスで SMB 共有が必要な場合などです。)
+* *DNS サーバー*名前の検索に使用する DNS サーバー。
+* *NetBIOS 名 (オプション)。*必要に応じて、サーバーの NetBIOS 名。これは、Active Directory 接続を使用して新しいマシン アカウントが作成されるときに使用されます。たとえば、NetBIOS 名がNetApp Volumes-EAST に設定されている場合、マシン アカウント名はNetApp Volumes-EAST-{1234} になります。セクションを参照link:gcp-gcnv-ad-connections.html#how-cloud-volumes-service-shows-up-in-active-directory["Google Cloud NetApp Volumes がActive Directory に表示される仕組み"]詳細についてはこちらをご覧ください。
+* *組織単位 (OU)。*コンピュータ アカウントを作成する特定の OU。これは、特定の OU のマシン アカウントの制御をユーザーに委任する場合に便利です。
+* *AES 暗号化*また、「AD 認証に AES 暗号化を有効にする」チェックボックスをオンまたはオフにすることもできます。 Active Directory 認証に AES 暗号化を有効にすると、ユーザーとグループの検索時にGoogle Cloud NetApp Volumesから Active Directory への通信のセキュリティが強化されます。このオプションを有効にする前に、ドメイン管理者に問い合わせて、Active Directory ドメイン コントローラーが AES 認証をサポートしていることを確認してください。
+
+
+
+NOTE: デフォルトでは、ほとんどの Windows サーバーは弱い暗号（DES や RC4-HMAC など）を無効にしません。ただし、弱い暗号を無効にする場合は、 Google Cloud NetApp Volumes Active Directory 接続が AES を有効にするように設定されていることを確認してください。そうでない場合、認証失敗が発生します。  AES 暗号化を有効にしても、弱い暗号は無効になりませんが、 Google Cloud NetApp Volumes SMB マシン アカウントに AES 暗号のサポートが追加されます。
+
+
+
+== Kerberosレルムの詳細
+
+このオプションは SMB サーバーには適用されません。むしろ、 Google Cloud NetApp Volumesシステム用に NFS Kerberos を構成するときに使用されます。これらの詳細を入力すると、NFS Kerberos レルムが構成され（Linux の krb5.conf ファイルと同様）、 Google Cloud NetApp Volumesボリュームの作成時に NFS Kerberos が指定されたときに使用されます。これは、Active Directory 接続が NFS Kerberos 配布センター（KDC）として機能するためです。
+
+
+NOTE: 現在、Windows 以外の KDC は、Google Cloud NetApp Volumesでの使用はサポートされていません。
+
+
+
+== リージョン
+
+リージョンを使用すると、Active Directory 接続が存在する場所を指定できます。このリージョンは、Google Cloud NetApp Volumesボリュームと同じリージョンである必要があります。
+
+* *LDAP を使用したローカル NFS ユーザー。*このセクションには、LDAP を使用してローカル NFS ユーザーを許可するオプションもあります。 UNIX ユーザー グループ メンバーシップのサポートを NFS (拡張グループ) の 16 グループ制限を超えて拡張する場合は、このオプションを選択解除したままにする必要があります。ただし、拡張グループを使用するには、UNIX ID 用に設定済みの LDAP サーバーが必要です。  LDAP サーバーがない場合は、このオプションを選択しないでください。  LDAP サーバーがあり、ローカル UNIX ユーザー (root など) も使用したい場合は、このオプションを選択します。
+
+
+
+
+== バックアップユーザー
+
+このオプションを使用すると、Google Cloud NetApp Volumesボリュームへのバックアップ権限を持つ Windows ユーザーを指定できます。一部のアプリケーションでは、NAS ボリューム内のデータを適切にバックアップおよび復元するために、バックアップ権限 (SeBackupPrivilege) が必要です。このユーザーはボリューム内のデータに高いレベルのアクセス権を持っているため、 https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/audit-audit-the-use-of-backup-and-restore-privilege["そのユーザーアクセスの監査を有効にする"^] 。有効にすると、監査イベントがイベント ビューアー > Windows ログ > セキュリティに表示されます。
+
+image:ncvs-gc-019.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
+
+
+
+== セキュリティ権限ユーザー
+
+このオプションを使用すると、Google Cloud NetApp Volumesボリュームに対するセキュリティ変更権限を持つ Windows ユーザーを指定できます。一部のアプリケーションではセキュリティ権限（SeSecurityPrivilege）が必要です(https://docs.netapp.com/us-en/ontap/smb-hyper-v-sql/add-sesecurityprivilege-user-account-task.html["SQL Serverなど"^]) をインストール中に権限を適切に設定します。セキュリティ ログを管理するにはこの権限が必要です。この権限はSeBackupPrivilegeほど強力ではありませんが、 NetAppは https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-privilege-use["ユーザーのユーザーアクセスの監査"^]必要に応じてこの権限レベルを使用します。
+
+詳細については、以下を参照してください。  https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4672["新しいログオンに割り当てられた特別な権限"^] 。
+
+
+
+== Google Cloud NetApp Volumes がActive Directory に表示される仕組み
+
+Google Cloud NetApp Volumes は、 Active Directory に通常のマシン アカウント オブジェクトとして表示されます。命名規則は次のとおりです。
+
+* CIFS/SMB と NFS Kerberos は個別のマシン アカウント オブジェクトを作成します。
+* LDAP が有効になっている NFS は、Kerberos LDAP バインド用に Active Directory にマシン アカウントを作成します。
+* LDAP を使用したデュアル プロトコル ボリュームは、LDAP と SMB の CIFS/SMB マシン アカウントを共有します。
+* CIFS/SMB マシン アカウントでは、マシン アカウントに NAME-1234 (10 文字未満の名前にハイフンが追加されたランダムな 4 桁の ID) という命名規則が使用されます。  Active Directory接続のNetBIOS名設定でNAMEを定義できます（「<<Active Directory接続の詳細>> 」）。
+* NFS Kerberos は命名規則として NFS-NAME-1234 (最大 15 文字) を使用します。  15 文字を超える場合、名前は NFS-TRUNCATED-NAME-1234 になります。
+* LDAP が有効になっている NFS のみのNetApp Volumes-Performance インスタンスは、CIFS/SMB インスタンスと同じ命名規則を使用して、LDAP サーバーにバインドするための SMB マシン アカウントを作成します。
+* SMBマシンアカウントが作成されると、デフォルトで非表示の管理共有（セクションを参照）が作成されます。link:gcp-gcnv-smb.html#default-hidden-shares["デフォルトの隠し共有"] ) も作成されます (c$、admin$、ipc$) が、これらの共有には ACL が割り当てられておらず、アクセスできません。
+* マシン アカウント オブジェクトは、既定では CN=Computers に配置されますが、必要に応じて別の OU を指定できます。  「<<SMBマシンアカウントを作成するために必要な権限>> Google Cloud NetApp Volumesのマシン アカウント オブジェクトを追加/削除するために必要なアクセス権については、「」を参照してください。
+
+
+Google Cloud NetApp Volumes がSMB マシン アカウントを Active Directory に追加すると、次のフィールドにデータが入力されます。
+
+* cn (指定されたSMBサーバー名)
+* dNSHostName (SMBserver.domain.com を使用)
+* msDS-SupportedEncryptionTypes (AES 暗号化が有効でない場合は DES_CBC_MD5、RC4_HMAC_MD5 を許可します。AES 暗号化が有効な場合は、SMB のマシン アカウントとの Kerberos チケット交換で DES_CBC_MD5、RC4_HMAC_MD5、AES128_CTS_HMAC_SHA1_96、AES256_CTS_HMAC_SHA1_96 が許可されます)
+* 名前（SMBサーバー名を含む）
+* sAMAccountName（SMBserver$付き）
+* servicePrincipalName (Kerberos の host/smbserver.domain.com および host/smbserver SPN を使用)
+
+
+マシン アカウントで弱い Kerberos 暗号化タイプ (enctype) を無効にする場合は、マシン アカウントの msDS-SupportedEncryptionTypes 値を次の表のいずれかの値に変更して、AES のみを許可することができます。
+
+|===
+| msDS-SupportedEncryptionTypes 値 | Enctypeが有効 
+
+
+| 2 | DES_CBC_MD5 
+
+
+| 4 | RC4_HMAC 
+
+
+| 8 | AES128_CTS_HMAC_SHA1_96のみ 
+
+
+| 16 | AES256_CTS_HMAC_SHA1_96のみ 
+
+
+| 24 | AES128_CTS_HMAC_SHA1_96 および AES256_CTS_HMAC_SHA1_96 
+
+
+| 30 | DES_CBC_MD5、RC4_HMAC、AES128_CTS_HMAC_SHA1_96、AES256_CTS_HMAC_SHA1_96 
+|===
+SMB マシン アカウントの AES 暗号化を有効にするには、Active Directory 接続を作成するときに [AD 認証の AES 暗号化を有効にする] をクリックします。
+
+NFS KerberosのAES暗号化を有効にするには、 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-nfs-volumes["Google Cloud NetApp Volumesのドキュメントをご覧ください"^] 。
