@@ -48,7 +48,7 @@ NOTE: ゲスト内ストレージは、Cloud Volumes ONTAP をAzure VMware Solut
 * ネットワーク接続を検証し、プライベートクラウドにアクセスする
 
 
-詳細を表示link:azure-setup.html["AVSの設定手順"]。
+詳細を表示link:../vmware/vmw-azure-avs-setup.html["AVSの設定手順"]。
 
 --
 .GCP / GCVE
@@ -64,7 +64,7 @@ NOTE: ゲスト内ストレージは、Cloud Volumes ONTAPおよびGoogle Cloud 
 * GCVEへのプライベートアクセスを有効にする
 
 
-詳細を表示link:gcp-setup.html["GCVEの設定手順"]。
+詳細を表示link:../vmware/vmw-gcp-gcve-setup.html["GCVEの設定手順"]。
 
 --
 ====

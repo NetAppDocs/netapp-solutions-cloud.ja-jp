@@ -68,7 +68,7 @@ NOTE: ゲスト内ストレージは、Cloud Volumes ONTAP をAzure VMware Solut
 * ネットワーク接続を検証し、プライベートクラウドにアクセスする
 
 
-詳細を表示link:azure-setup.html["AVSの設定手順"]。
+詳細を表示link:../vmware/vmw-azure-avs-setup.html["AVSの設定手順"]。
 
 --
 .GCP / GCVE
@@ -84,7 +84,7 @@ NOTE: ゲスト内ストレージは、Cloud Volumes ONTAPおよびGoogle Cloud 
 * GCVEへのプライベートアクセスを有効にする
 
 
-詳細を表示link:gcp-setup.html["GCVEの設定手順"]。
+詳細を表示link:../vmware/vmw-gcp-gcve-setup.html["GCVEの設定手順"]。
 
 --
 ====
@@ -107,7 +107,7 @@ AWS は、次の構成でNetAppストレージをサポートしています。
 * 補助的なNFSデータストアとしてのFSx ONTAP
 
 
-詳細を表示link:aws-guest.html["VMCのゲスト接続ストレージオプション"]。詳細を表示link:aws-native-nfs-datastore-option.html["VMC の補足 NFS データストア オプション"]。
+詳細を表示link:../vmware/vmw-aws-vmc-guest-storage.html["VMCのゲスト接続ストレージオプション"]。詳細を表示link:../vmware/vmw-aws-vmc-nfs-ds-config.html["VMC の補足 NFS データストア オプション"]。
 
 --
 .Azure / AVS
@@ -119,7 +119,7 @@ Azure は、次の構成のNetAppストレージをサポートしています�
 * 補助的な NFS データストアとしてのAzure NetApp Files (ANF)
 
 
-詳細を表示link:azure-guest.html["AVS のゲスト接続ストレージ オプション"]。詳細を表示link:azure-native-nfs-datastore-option.html["AVS の補足 NFS データストア オプション"]。
+詳細を表示link:../vmware/vmw-azure-avs-guest-storage.html["AVS のゲスト接続ストレージ オプション"]。詳細を表示link:../vmware/vmw-azure-avs-nfs-ds-config.html["AVS の補足 NFS データストア オプション"]。
 
 --
 .GCP / GCVE
@@ -131,7 +131,7 @@ Google Cloud は、次の構成のNetAppストレージをサポートしてい�
 * 補助的な NFS データストアとしてのGoogle Cloud NetApp Volumes (NetApp Volumes)
 
 
-詳細を表示link:gcp-guest.html["GCVE のゲスト接続ストレージ オプション"]。詳細を表示link:gcp-ncvs-datastore.html["GCVE の補足 NFS データストア オプション"]。
+詳細を表示link:../vmware/vmw-gcp-gcve-guest-storage.html["GCVE のゲスト接続ストレージ オプション"]。詳細を表示link:../vmware/vmw-gcp-gcve-nfs-ds-overview.html["GCVE の補足 NFS データストア オプション"]。
 
 詳細はこちらlink:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["Google Cloud NetApp Volumesデータストアのサポート (NetAppブログ)"^]またはlink:https://cloud.google.com/blog/products/compute/how-to-use-netapp-cvs-as-datastores-with-vmware-engine["Google Cloud NetApp Volumes をGoogle Cloud VMware Engine のデータストアとして使用する方法 (Google ブログ)"^]
 

@@ -57,7 +57,7 @@ AWS は、次の構成でNetAppストレージをサポートしています。
 * 補助的なNFSデータストアとしてのFSx ONTAP
 
 
-詳細を表示link:aws-guest.html["VMCのゲスト接続ストレージオプション"]。詳細を表示link:aws-native-nfs-datastore-option.html["VMC の補足 NFS データストア オプション"]。
+詳細を表示link:../vmware/vmw-aws-vmc-guest-storage.html["VMCのゲスト接続ストレージオプション"]。詳細を表示link:../vmware/vmw-aws-vmc-nfs-ds-config.html["VMC の補足 NFS データストア オプション"]。
 
 
 

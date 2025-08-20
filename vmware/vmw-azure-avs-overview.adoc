@@ -41,7 +41,7 @@ NOTE: ゲスト内ストレージは、Cloud Volumes ONTAP をAzure VMware Solut
 * ネットワーク接続を検証し、プライベートクラウドにアクセスする
 
 
-詳細を表示link:azure-setup.html["AVSの設定手順"]。
+詳細を表示link:../vmware/vmw-azure-avs-setup.html["AVSの設定手順"]。
 
 
 
@@ -58,7 +58,7 @@ Azure は、次の構成のNetAppストレージをサポートしています�
 * 補助的な NFS データストアとしてのAzure NetApp Files (ANF)
 
 
-詳細を表示link:azure-guest.html["AVS のゲスト接続ストレージ オプション"]。詳細を表示link:azure-native-nfs-datastore-option.html["AVS の補足 NFS データストア オプション"]。
+詳細を表示link:../vmware/vmw-azure-avs-guest-storage.html["AVS のゲスト接続ストレージ オプション"]。詳細を表示link:../vmware/vmw-azure-avs-nfs-ds-config.html["AVS の補足 NFS データストア オプション"]。
 
 
 
