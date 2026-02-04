@@ -1,0 +1,97 @@
+---
+sidebar: sidebar 
+permalink: vmware/evs-protect-fsxn-restore-vm.html 
+keywords: Amazon, AWS, EVS, Elastic VMware Service, ONTAP, FSx, iscsi 
+summary: このセクションでは、バックアップから VM を復元する手順について説明します。 
+---
+= SnapCenter Plug-in for VMware vSphereで保護されているVMのリストア手順
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このセクションでは、バックアップから VM を復元する手順について説明します。SCV を使用すると、vCenter 内で VM を復元でき、元の ESXi ホスト上の元のデータストアへの復元（既存のコンテンツを上書き）、バックアップコピーから削除または名前変更された VM の復元、元の ESXi ホスト上の別のデータストアへの復元、同じ vCenter で管理されている別の ESXi ホスト上の元のデータストアへの復元、または同じ vCenter 環境内の別の ESXi ホスト上の別のデータストアへの復元が可能です。
+
+
+
+== リストア操作を実行する手順
+
+リストア処理を実行するには、次の手順を実行します。
+
+. EVS vSphere Web クライアント GUI で、「インベントリ > データストア」に移動し、目的のデータストアを選択します。次に、「SnapCenter Plug-in for VMware vSphere」セクションの「設定 > バックアップ」に移動します。
++
+image:evs-protect-fsxn-009.png["上記の手順のダイアログを表す図"]
+
+. バックアップをダブルクリックすると、そのバックアップに含まれるすべての VM が表示されます。リストから復元する VM を見つけて、「復元」を選択します。
++
+image:evs-protect-fsxn-010.png["上記の手順のダイアログを表す図"]
+
+. 「範囲の選択」ページで、「復元範囲」フィールドで「仮想マシン全体」を選択し、「復元場所」を選択して、バックアップをマウントする宛先ESXi情報を入力します。
+. 復元操作後に VM の電源をオンにする必要がある場合は、「VM を再起動」チェックボックスを有効にします。
+. 「場所の選択ページ」で、プライマリロケーションを選択します。
++
+image:evs-protect-fsxn-011.png["上記の手順のダイアログを表す図"]
+
+. 「概要」ページを確認し、「完了」を選択します。
++
+image:evs-protect-fsxn-012.png["上記の手順のダイアログを表す図"]
+
+. 画面下部の「最近のタスク」を選択して、操作の進行状況を監視します。
++
+image:evs-protect-fsxn-013.png["上記の手順のダイアログを表す図"]
+
+
+
+
+NOTE: VM は復元されますが、以前のリソース グループに自動的に追加されるわけではありません。これらの VM を保護する場合は、適切なリソース グループに手動で追加します。
+
+
+NOTE: リストア処理は、個々の VM レベルからトリガーすることもできます。
+
+
+
+== 削除された VM を復元する手順
+
+削除された VM のリストアは、SCV を使用すると簡単なプロセスです。
+
+削除された VM の復元操作は、データストア レベルから実行できます。
+
+. それぞれのデータストア > 構成 > バックアップに移動します。そこで、削除された VM を選択し、「復元」を選択します。
++
+image:evs-protect-fsxn-014.png["上記の手順のダイアログを表す図"]
+
++
+image:evs-protect-fsxn-015.png["上記の手順のダイアログを表す図"]
+
+. 次のスクリーンショットのフローは、代替 ESXi ホストと別のデータストアへの VM のリストアについて説明します。
++
+image:evs-protect-fsxn-016.png["上記の手順のダイアログを表す図"]
+
++
+image:evs-protect-fsxn-017.png["上記の手順のダイアログを表す図"]
+
++
+image:evs-protect-fsxn-018.png["上記の手順のダイアログを表す図"]
+
++
+image:evs-protect-fsxn-019.png["上記の手順のダイアログを表す図"]
+
++
+image:evs-protect-fsxn-020.png["上記の手順のダイアログを表す図"]
+
+
+
+
+NOTE: 宛先データストアには十分な空き容量が必要であり、「別の場所に復元」フィールドに指定されているvCenterはDNS解決可能である必要があります。
+
+
+NOTE: NFS環境での復元効率を高めるには、VMware vStorage API for Array Integration（VAAI）を有効にします。
+
+
+NOTE: 復元は、SnapMirrorデスティネーションなどのセカンダリロケーションから実行することもできます。
+
++ image:evs-protect-fsxn-021.png["上記の手順のダイアログを表す図"]

@@ -1,0 +1,60 @@
+---
+sidebar: sidebar 
+permalink: vmware/evs-protect-fsxn-intro.html 
+keywords: Amazon, AWS, EVS, Elastic VMware Service, ONTAP, FSx 
+summary: このガイドでは、NetApp SnapCenter® Plug-in for VMware vSphere（SCV）バックアップおよびリカバリ ソリューションを使用して、FSx for ONTAP Network File System（NFS）およびiSCSI Amazon EVSデータストアと関連するVMを保護するためのシンプルな導入アプローチを紹介します。 
+---
+= Amazon Elastic VMware Service を使用して、Amazon FSx for NetApp ONTAP データストアを NetApp SnapCenter Plug-in for VMware で保護する方法
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このガイドでは、NetApp SnapCenter® Plug-in for VMware vSphere（SCV）バックアップおよびリカバリ ソリューションを使用して、FSx for ONTAP Network File System（NFS）およびiSCSI Amazon EVSデータストアと関連するVMを保護するためのシンプルな導入アプローチを紹介します。
+
+
+
+== はじめに
+
+Amazon FSx for NetApp ONTAP（FSx for ONTAP）ベースのAmazon Elastic VMware Service（Amazon EVS）用補足データストアは、nConnectの活用、Amazon Virtual Private Cloud（Amazon VPC）ピアリング、データストアマウントごとの複数のネットワーク接続の使用などのパフォーマンス要求の高いワークロードと、ストレージ集約型ワークロードの両方を実行するための優れたソリューションを提供します。
+
+この機能により、顧客は仮想ストレージ エリア ネットワーク（vSAN）によって提供されるローカル インスタンス ストレージの制限を克服し、コンピューティングとは独立してストレージを拡張し、全体的な総所有コストを削減できます。総所有コスト（TCO）のメリット以外にも、FSx for ONTAPはAmazon EVSにエンタープライズクラスの機能を提供します。これらの機能はオンプレミスONTAP®の顧客にとって馴染み深いもので、導入の最適化と合理化に役立ちます。FSx for ONTAPを使用すると、NetApp® Snapshot™、SnapMirror®、およびSnapVault®テクノロジにアクセスでき、仮想マシン（VM）、データストア、仮想マシン ディスク（VMDK）のバックアップおよび復元操作をサポートします。重要な機能の 1 つは、Snapshotベースの保護です。
+
+
+
+== 概要
+
+組織が環境を拡張および統合するにつれて、それらのワークロードと基盤となるストレージを保護する必要性がますます重要になります。SCVを使用すると、Amazon EVS vSphereクライアントから直接データストアと仮想マシンをバックアップできます。
+
+
+
+== このガイドの目的
+
+このガイドでは、SCV を使用して Amazon EVS 用の FSx for ONTAP データストアを保護する方法について説明します。VM とデータベースの保護およびリストアのシナリオ例も提供されます。
+
+
+
+== 観客
+
+このチュートリアルは、VMware vSphere、Amazon EVS、AWS コンソール、FSx for ONTAPに精通しているクラウドアーキテクトおよびクラウド管理者を対象としています。
+
+
+
+== 導入と設定の概要手順
+
+以下は、Amazon EVS 上の VM とデータストアを保護するために SCV を展開および構成する概要手順です：
+
+. SCV Open Virtual Appliance（OVA）をダウンロードします。
+. vSphere Client の認証情報を使用して Amazon EVS にログインします。
+. Open Virtualization Format（OVF）テンプレートを展開して、VMware 展開ウィザードを起動します。
+. プラグインにアクセスするには、メニューから SnapCenter Plug-in for VMware を選択します。
+. ストレージを追加します。
+. バックアップ ポリシーを作成します。
+. リソース グループを作成します。
+. リソース グループをバックアップします。
+. 仮想マシン全体、または特定の仮想ディスクやゲスト ファイルを復元します。
+

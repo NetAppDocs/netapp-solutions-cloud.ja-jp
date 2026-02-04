@@ -99,6 +99,22 @@ entries:
       url: "/vmware/evs-mount-fsxn-iscsi.html"
     - title: まとめ
       url: "/vmware/evs-mount-fsxn-conclusion.html"
+  - title: EVS用FSx ONTAPデータストアの保護
+    entries:
+    - title: はじめに
+      url: "/vmware/evs-protect-fsxn-intro.html"
+    - title: SnapCenter Plug-in for VMwareのセットアップ
+      url: "/vmware/evs-protect-fsxn-setup-sc.html"
+    - title: SnapCenter Plug-in for VMwareを設定
+      url: "/vmware/evs-protect-fsxn-configure.html"
+    - title: バックアップからのVMのリストア
+      url: "/vmware/evs-protect-fsxn-restore-vm.html"
+    - title: VMDKからのゲスト ファイルとフォルダのリストア
+      url: "/vmware/evs-protect-fsxn-restore-guest-files.html"
+    - title: VMDK上のデータベースの保護
+      url: "/vmware/evs-protect-fsxn-db.html"
+    - title: まとめ
+      url: "/vmware/evs-protect-fsxn-conclusion.html"
 - title: Azure / AVS 向けNetApp
   entries:
   - title: Azure向けNetAppの概要
@@ -126,7 +142,7 @@ entries:
       url: "/vmware/vmw-azure-avs-migrate-hcx.html"
 - title: GCP/GCVE 向けNetApp
   entries:
-  - title: Google Cloud 向け NetApp の概要
+  - title: NetApp for Google Cloud の概要
     pdf-filename: Google Cloud 向け NetApp の概要
     url: "/vmware/vmw-gcp-gcve-overview.html"
   - title: GCP/GCVE 上のワークロードを保護する

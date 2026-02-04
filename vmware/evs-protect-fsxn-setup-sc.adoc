@@ -1,0 +1,51 @@
+---
+sidebar: sidebar 
+permalink: vmware/evs-protect-fsxn-setup-sc.html 
+keywords: Amazon, AWS, EVS, Elastic VMware Service, ONTAP, FSx 
+summary: このセクションでは、VMware 用の SnapCenter プラグインをセットアップする手順について説明します。 
+---
+= VMware用SnapCenterプラグインのセットアップ手順
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+このセクションでは、VMware 用の SnapCenter プラグインをセットアップする手順について説明します。
+
+
+
+== 前提条件
+
+開始する前に、次の前提条件が必要です。
+
+. OVAの導入時にvCenterサーバーを登録するには、vCenterの完全修飾ドメイン名（FQDN）またはIPアドレスを指定します。
+. vCenterのクレデンシャルには、必要最小限の権限を持つアカウントを使用してください
+. vCenter Server にアクセスするためのファイアウォールポートを開きます。
+. FSx for ONTAPが実行されているAmazon VPCのセキュリティグループを更新して、SCVからFSx for ONTAPへのアクセスを許可します。
+
+
+
+NOTE: SCVは無料でご利用いただけます。
+
+
+
+== SnapCenter Plug-in for VMwareの設定
+
+VM とそれらをホストする NFS/iSCSI ベースのデータストアを保護するには、 SCV を導入する必要があります。単純な OVF インポートです。
+
+導入手順は次のとおりです：
+
+. link:https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/scpivs44_download_the_ova_open_virtual_appliance.html["NetAppサポート サイト"]からOVAをダウンロードします。
+. Amazon EVS vCenterにログインします。
+. vCenter内で、データセンター、フォルダ、クラスタ、ホストなどのインベントリオブジェクトを右クリックし、「Deploy OVF template」を選択します。
+. ストレージ、セグメント、テンプレートのカスタマイズなど、適切な設定を選択して、vCenterとその認証情報を更新し、SCV認証情報とIP詳細を作成します。確認後、「完了」を選択します。
+. OVF のインポートおよびデプロイメントタスクが完了するまで待ちます。
+. SCVが正常に展開されると、vCenter内に登録されます。
+. プラグインにアクセスするには、vCenter Webクライアントページの左側のサイドバーに移動し、「SnapCenter Plug-in for VMware」を選択します。
+
+
+image:evs-protect-fsxn-001.png["上記の手順のダイアログを表す図"]

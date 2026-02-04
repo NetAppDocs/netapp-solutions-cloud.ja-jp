@@ -1,0 +1,55 @@
+---
+sidebar: sidebar 
+permalink: vmware/evs-protect-fsxn-restore-guest-files.html 
+keywords: Amazon, AWS, EVS, Elastic VMware Service, ONTAP, FSx, iscsi 
+summary: このセクションでは、SnapCenter Plug-in for VMware で保護されたゲストファイルとフォルダをリストアする手順について説明します。 
+---
+= SnapCenter Plug-in for VMwareで保護されているゲストファイルとフォルダの復元手順
+:hardbreaks:
+:allow-uri-read: 
+:nofooter: 
+:icons: font
+:linkattrs: 
+:imagesdir: ../media/
+
+
+[role="lead"]
+次のセクションでは、VMDK からゲスト ファイルとフォルダーを復元する方法を示します。
+
+
+NOTE: SnapCenterは、ゲスト オペレーティング システムが Windows の場合にのみ、VMDK からのファイルとフォルダーの復元をサポートします。
+
+SCV を使用したゲスト ファイルとフォルダのリストアに関する考慮事項：
+
+* VM 上で VMware ツールが実行されている必要があります。
+* アタッチされた VMDK には、デフォルトで 24 時間アクセスできます。
+* 仮想マシンでは一度に 1 つのリストアまたは接続操作のみ実行できます。
+* システム ファイル、隠しファイル、暗号化されたファイルは復元できますが、元の属性は保持されません。
+* 暗号化されたファイルを暗号化されたフォルダーに復元したり、システム ファイルを上書きしたりしないでください。
+
+
+ゲストファイルとフォルダの復元手順：
+
+. 対象のVMを右クリックし、「NetApp SnapCenter > Guest File Restore」を選択します。
++
+image:evs-protect-fsxn-022.png["上記の手順のダイアログを表す図"]
+
+. 必要な VMDK を含むバックアップを選択します。VMDK とその場所（プライマリまたはセカンダリ）を指定します。
++
+image:evs-protect-fsxn-023.png["上記の手順のダイアログを表す図"]
+
+. 「ディスク接続方法」を選択します。
++
+image:evs-protect-fsxn-024.png["上記の手順のダイアログを表す図"]
+
++
+** ゲスト VM オプション：ディスクを元の VM に接続します（事前に構成された資格情報が必要です）。これは、このデモで使用されるオプションです。
+** プロキシ VM オプション：指定されたプロキシ VM にディスクを接続します（事前に構成する必要があります）。
+
+
+. ファイルを参照して復元する前に、添付操作が完了するまで待機してください。操作が完了すると、SnapCenter はゲスト ファイルの復元セッションを自動的に作成します。image:evs-protect-fsxn-025.png["上記の手順のダイアログを表す図"]
++
+image:evs-protect-fsxn-026.png["上記の手順のダイアログを表す図"]
+
+. ゲスト ファイル復元セッションで VMDK を参照し、必要なファイルまたはフォルダーを選択して、指定された場所に復元します。
+

@@ -50,11 +50,11 @@ NOTE: Active Directory ドメインに渡されるユーザー名とパスワー
 
 == Active Directory接続の詳細
 
-その https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-smb-volumes["Active Directory 接続の詳細"^]管理者がマシン アカウントの配置に関する特定の Active Directory スキーマ情報を指定できる次のようなフィールドを提供します。
+ https://docs.cloud.google.com/netapp/volumes/docs/configure-and-use/active-directory/about-ad["Active Directory 接続の詳細"^]は、管理者がマシン アカウントの配置に関する特定の Active Directory スキーマ情報を提供するためのガイダンスを提供します（次のようなもの）：
 
 * *Active Directory 接続タイプ。*リージョン内の Active Directory 接続をGoogle Cloud NetApp VolumesまたはNetApp Volumes-Performance サービス タイプのボリュームに使用するかどうかを指定するために使用されます。既存の接続でこれを誤って設定すると、使用または編集時に正しく機能しない可能性があります。
 * *ドメイン。*  Active Directory ドメイン名。
-* *サイト。*セキュリティとパフォーマンスのために、Active Directory サーバーを特定のサイトに制限します。 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/managing-active-directory-connections["考慮事項"^] 。  Google Cloud NetApp Volumes は現在、 Google Cloud NetApp Volumesインスタンスとは異なるリージョンにある Active Directory サーバーへの Active Directory 認証リクエストの許可をサポートしていないため、複数の Active Directory サーバーが複数のリージョンにまたがっている場合にこれが必要になります。  (たとえば、Active Directory ドメイン コントローラはNetApp Volumes-Performance のみがサポートするリージョンにありますが、 NetApp Volumes-SW インスタンスで SMB 共有が必要な場合などです。)
+* *サイト*セキュリティとパフォーマンスのために、Active Directory サーバーを特定のサイトに制限します https://docs.cloud.google.com/compute/docs/instances/windows/best-practices["考慮事項"^]。これは、複数の Active Directory サーバーが複数のリージョンにまたがっている場合に必要になります。Google Cloud NetApp Volumes は現在、Google Cloud NetApp Volumes インスタンスとは異なるリージョンの Active Directory サーバーへの Active Directory 認証リクエストの許可をサポートしていないためです。（たとえば、Active Directory ドメイン コントローラが NetApp Volumes-Performance のみがサポートするリージョンにあるが、NetApp Volumes-SW インスタンスで SMB 共有が必要な場合など。）
 * *DNS サーバー*名前の検索に使用する DNS サーバー。
 * *NetBIOS 名 (オプション)。*必要に応じて、サーバーの NetBIOS 名。これは、Active Directory 接続を使用して新しいマシン アカウントが作成されるときに使用されます。たとえば、NetBIOS 名がNetApp Volumes-EAST に設定されている場合、マシン アカウント名はNetApp Volumes-EAST-{1234} になります。セクションを参照link:gcp-gcnv-ad-connections.html#how-cloud-volumes-service-shows-up-in-active-directory["Google Cloud NetApp Volumes がActive Directory に表示される仕組み"]詳細についてはこちらをご覧ください。
 * *組織単位 (OU)。*コンピュータ アカウントを作成する特定の OU。これは、特定の OU のマシン アカウントの制御をユーザーに委任する場合に便利です。
@@ -149,4 +149,4 @@ Google Cloud NetApp Volumes がSMB マシン アカウントを Active Directory
 |===
 SMB マシン アカウントの AES 暗号化を有効にするには、Active Directory 接続を作成するときに [AD 認証の AES 暗号化を有効にする] をクリックします。
 
-NFS KerberosのAES暗号化を有効にするには、 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-nfs-volumes["Google Cloud NetApp Volumesのドキュメントをご覧ください"^] 。
+NFS KerberosのAES暗号化を有効にするには、 https://docs.cloud.google.com/netapp/volumes/docs/plan-and-prepare/security-considerations["Google Cloud NetApp Volumesのドキュメントをご覧ください"^]。
