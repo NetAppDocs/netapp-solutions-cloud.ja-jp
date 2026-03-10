@@ -27,8 +27,6 @@ entries:
     url: "/openshift/os-op-setup.html"
   - title: VMware 上のコンテナ ワークロードを保護する
     url: "/openshift/os-op-data-protection.html"
-  - title: VMware 上のコンテナ ワークロードを移行する
-    url: "/openshift/os-op-data-migration.html"
 - title: 自己管理コンポーネントを備えたハイブリッドクラウド
   pdf-filename: Red Hat OpenShift セルフマネージド コンポーネントを使用したハイブリッド クラウド (オンプレミス/AWS/GCP/Azure)
   entries:
@@ -42,8 +40,6 @@ entries:
     url: "/openshift/os-sm-azure-setup.html"
   - title: AWS/GCP/Azure 上のコンテナ ワークロードを保護する
     url: "/openshift/os-sm-data-protection.html"
-  - title: コンテナワークロードをAWS/GCP/Azureに移行する
-    url: "/openshift/os-sm-data-migration.html"
 - title: プロバイダー管理コンポーネントを備えたハイブリッドクラウド
   pdf-filename: Red Hat OpenShift プロバイダー管理コンポーネントを使用したハイブリッドクラウド
   entries:
@@ -55,8 +51,6 @@ entries:
     url: "/openshift/os-pm-gcnv-setup.html"
   - title: AWS 上のコンテナワークロードを保護する
     url: "/openshift/os-pm-aws-dp.html"
-  - title: AWS 上のコンテナワークロードの移行
-    url: "/openshift/os-pm-aws-data-migration.html"
   - title: コンテナと仮想化のための追加のROSAソリューション
     url: "/openshift/os-pm-rosa-additional.html"
 - title: Trident Protectを使用してデータを保護する

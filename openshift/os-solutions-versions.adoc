@@ -1,7 +1,7 @@
 ---
 sidebar: sidebar 
 permalink: openshift/os-solutions-versions.html 
-keywords: NetApp Solutions, hybrid cloud, container workloads, containers, Red Hat OpenShift, RedHat OpenShift, vmware, ROSA, ACC, Trident Protect, Advanced Cluster Management, ACM, Hub Cluster 
+keywords: NetApp Solutions, hybrid cloud, container workloads, containers, Red Hat OpenShift, RedHat OpenShift, VMware, ROSA, Trident Protect, Advanced Cluster Management, ACM, Hub Cluster 
 summary:  
 ---
 = ソリューション検証で使用されるさまざまなコンポーネントのバージョン
@@ -86,7 +86,7 @@ summary:
 | *ソースクラスターと宛先クラスター* | オンプレミスおよび Azure の OpenShift 4.13.25 
 
 
-| *NetAppTrident* | TridentサーバーおよびクライアントとAstraコントロール プロビジョナー 23.10.0 
+| *NetAppTrident* | Tridentサーバとクライアント23.10.0 
 
 
 | *NetAppTridentプロテクト* | Tridentプロテクト 23.10 

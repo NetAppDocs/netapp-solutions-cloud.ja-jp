@@ -24,30 +24,24 @@ indexpage:
       url: "../openshift/os-op-solution.html"
     - title: 環境を構成する
       url: "../openshift/os-op-setup.html"
-    - title: ACC を使用してデータを保護する
+    - title: Trident Protectを使用してデータを保護する
       url: "../openshift/os-op-data-protection.html"
-    - title: ACC を使用してデータを移行する
-      url: "../openshift/os-op-data-migration.html"
   - title: セルフマネージドハイブリッドクラウドワークロード
     links:
     - title: ソリューションの概要
       url: "../openshift/os-sm-solution.html"
     - title: 環境を構成する
       url: "../openshift/os-sm-setup.html"
-    - title: ACC を使用してデータを保護する
+    - title: Trident Protectを使用してデータを保護する
       url: "../openshift/os-sm-data-protection.html"
-    - title: ACC を使用してデータを移行する
-      url: "../openshift/os-sm-data-migration.html"
   - title: プロバイダー管理のハイブリッドクラウドワークロード
     links:
     - title: プロバイダー管理コンポーネントを備えたハイブリッド クラウド ソリューション
       url: "../openshift/os-pm-solution.html"
     - title: 環境を構成する
       url: "../openshift/os-pm-setup.html"
-    - title: ACS を使用してデータを保護する
+    - title: Trident Protectを使用してデータを保護する
       url: "../openshift/os-pm-aws-dp.html"
-    - title: BlueXPを使用してデータを移行する
-      url: "../openshift/os-pm-aws-data-migration.html"
     - title: 追加のソリューション
       url: "../openshift/os-pm-rosa-additional.html"
   - title: サードパーティ製ツールでコンテナアプリを保護する
