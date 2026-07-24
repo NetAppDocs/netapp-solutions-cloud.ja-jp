@@ -20,6 +20,7 @@ summary:
 
 
 
+[[overview]]
 == 概要
 
 クラウドへの災害復旧は、サイトの停止やデータ破損イベント (ランサムウェアなど) からワークロードを保護する、回復力がありコスト効率に優れた方法です。  NetApp SnapMirrorテクノロジーを使用すると、オンプレミスの VMware ワークロードを AWS で実行されている FSx ONTAPに複製できます。
@@ -30,10 +31,12 @@ image:dro-vmc-001.png["この図は、オンプレミスのデータセンター
 
 
 
+[[getting-started]]
 == 開始
 
 
 
+[[deploy-and-configure-vmware-cloud-on-aws]]
 === VMware Cloud on AWS の導入と構成
 
 link:https://www.vmware.com/products/vmc-on-aws.html["VMware Cloud on AWS"^]AWS エコシステム内の VMware ベースのワークロードにクラウドネイティブのエクスペリエンスを提供します。各 VMware ソフトウェア定義データセンター (SDDC) は Amazon Virtual Private Cloud (VPC) で実行され、完全な VMware スタック (vCenter Server を含む)、NSX-T ソフトウェア定義ネットワーク、vSAN ソフトウェア定義ストレージ、およびワークロードにコンピューティング リソースとストレージ リソースを提供する 1 つ以上の ESXi ホストを提供します。 AWS上でVMC環境を構成するには、次の手順に従ってください。link:vmw-aws-vmc-setup.html["リンク"^] 。パイロットライト クラスターは DR 目的にも使用できます。
@@ -43,12 +46,14 @@ NOTE: 最初のリリースでは、DRO は既存のパイロットライト ク
 
 
 
+[[provision-and-configure-fsx-ontap]]
 === FSx ONTAP のプロビジョニングと構成
 
 Amazon FSx ONTAP は、人気のNetApp ONTAPファイルシステム上に構築された、信頼性が高く、スケーラブルで、高性能かつ機能豊富なファイルストレージを提供するフルマネージドサービスです。この手順に従ってくださいlink:vmw-aws-vmc-nfs-ds-overview.html["リンク"^]FSx ONTAP をプロビジョニングおよび構成します。
 
 
 
+[[deploy-and-configure-snapmirror-to-fsx-ontap]]
 === SnapMirrorをFSx ONTAPに導入して設定する
 
 次のステップでは、 NetApp BlueXPを使用して、AWS インスタンス上でプロビジョニングされた FSx ONTAPを検出し、適切な頻度とNetApp Snapshot コピー保持期間で、必要なデータストア ボリュームをオンプレミス環境から FSx ONTAPに複製します。
@@ -62,12 +67,14 @@ NOTE: SnapMirror関係は前提条件であり、事前に作成する必要が�
 
 
 
+[[dro-installation]]
 == DROのインストール
 
 DRO を開始するには、指定された EC2 インスタンスまたは仮想マシンで Ubuntu オペレーティング システムを使用して、前提条件を満たしていることを確認します。次にパッケージをインストールします。
 
 
 
+[[prerequisites]]
 === 前提条件
 
 * ソースおよびターゲットの vCenter およびストレージ システムへの接続が存在することを確認します。
@@ -77,6 +84,7 @@ DRO を開始するには、指定された EC2 インスタンスまたは仮�
 
 
 
+[[os-requirements]]
 === OSの要件
 
 * Ubuntu 20.04 (LTS)、最低 2GB および 4 つの vCPU
@@ -96,6 +104,7 @@ NOTE: その `deploy.sh`スクリプトは必要な前提条件をすべて実�
 
 
 
+[[install-the-package]]
 === パッケージをインストールする
 
 . 指定された仮想マシンにインストール パッケージをダウンロードします。
@@ -144,6 +153,7 @@ image:dro-vmc-003.png["Disaster Recovery Orchestrator のログイン画面。"]
 
 
 
+[[dro-configuration]]
 == DRO構成
 
 FSx ONTAPと VMC が適切に構成されたら、FSx ONTAP上の読み取り専用SnapMirrorコピーを使用してオンプレミスのワークロードを VMC に自動的にリカバリするように DRO の構成を開始できます。
@@ -178,6 +188,7 @@ image:dro-vmc-006.png["219 台の仮想マシンと 10 個のデータストア�
 
 
 
+[[resource-groupings]]
 === リソースのグループ化
 
 プラットフォームを追加したら、回復する VM をリソース グループにグループ化できます。  DRO リソース グループを使用すると、依存する VM のセットを、ブート順序、ブート遅延、および回復時に実行できるオプションのアプリケーション検証を含む論理グループにグループ化できます。
@@ -202,6 +213,7 @@ image:dro-vmc-007.png["2 つのエントリ (Test と DemoRG1) を含むリソ�
 
 
 
+[[replication-plans]]
 === レプリケーションプラン
 
 災害が発生した場合にアプリケーションを回復するための計画が必要です。ドロップダウンからソースとターゲットの vCenter プラットフォームを選択し、このプランに含めるリソース グループと、アプリケーションを復元してパワーオンする方法のグループ化 (たとえば、ドメイン コントローラ、次に Tier 1、次に Tier 2 など) を選択します。このような計画は、青写真と呼ばれることもあります。リカバリ プランを定義するには、[*レプリケーション プラン*] タブに移動し、[*新しいレプリケーション プラン*] をクリックします。
@@ -267,6 +279,7 @@ image:dro-vmc-022.png["一時的なプレースホルダー画像の説明。"]
 
 
 
+[[ransomware-recovery]]
 === ランサムウェアからの回復
 
 ランサムウェアからの回復は困難な作業になる可能性があります。具体的には、IT 組織にとって、安全な復帰ポイントがどこにあるかを正確に特定することは困難であり、また、それが特定された後、たとえば休眠中のマルウェアや脆弱なアプリケーションによる再発する攻撃から回復したワークロードを保護することも困難です。
@@ -275,6 +288,7 @@ DRO は、利用可能な任意の時点からシステムを回復できるよ�
 
 
 
+[[benefits]]
 == 利点
 
 * 効率的で回復力のあるSnapMirrorレプリケーションの使用。

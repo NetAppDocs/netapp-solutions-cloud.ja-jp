@@ -18,6 +18,7 @@ summary: このドキュメントでは、SCVおよびSnapCenter Plug-in for SQL
 
 
 
+[[conclusion]]
 == まとめ
 
 まとめると、FSx for ONTAPを使用してAmazon EVS展開のTCOを最適化する場合、SCVはVMをバックアップするためのシンプルで効率的な方法を提供します。Snapshotコピーを利用するため、VMをシームレスかつ迅速にバックアップおよび復元でき、完了までに文字通り数秒しかかかりません。

@@ -31,6 +31,7 @@ summary:
 
 
 
+[[scenario-1-data-protection-and-migration-within-the-on-premises-environment-using-trident-protect]]
 == シナリオ 1: Trident Protect を使用したオンプレミス環境内でのデータ保護と移行
 
 **オンプレミス: セルフマネージド OpenShift クラスターとセルフマネージドNetAppストレージ**
@@ -40,12 +41,14 @@ summary:
 
 
 
+[[scenario-1]]
 === シナリオ1
 
 image:rhhc-on-premises.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
 
 
 
+[[scenario-2-data-protection-and-migration-from-the-on-premises-environment-to-aws-environment-using-trident-protect]]
 == シナリオ 2: Trident Protect を使用したオンプレミス環境から AWS 環境へのデータ保護と移行
 
 **オンプレミス: セルフマネージド OpenShift クラスターとセルフマネージド ストレージ** **AWS クラウド: セルフマネージド OpenShift クラスターとセルフマネージド ストレージ**
@@ -55,12 +58,14 @@ image:rhhc-on-premises.png["入出力ダイアログまたは書かれたコン�
 
 
 
+[[scenario-2]]
 === シナリオ2
 
 image:rhhc-self-managed-aws.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
 
 
 
+[[scenario-3-data-protection-and-migration-from-the-on-premises-environment-to-aws-environment]]
 == シナリオ3: オンプレミス環境からAWS環境へのデータ保護と移行
 
 **オンプレミス: セルフマネージド OpenShift クラスターとセルフマネージド ストレージ** **AWS クラウド: プロバイダー管理 OpenShift クラスター (ROSA) とプロバイダー管理ストレージ (FSx ONTAP)**
@@ -71,12 +76,14 @@ image:rhhc-self-managed-aws.png["入出力ダイアログまたは書かれた�
 
 
 
+[[scenario-3]]
 === シナリオ3
 
 image:rhhc-rosa-with-fsxn.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
 
 
 
+[[scenario-4-data-protection-and-migration-from-the-on-premises-environment-to-gcp-environment-using-trident-protect]]
 === シナリオ 4: Trident Protect を使用したオンプレミス環境から GCP 環境へのデータ保護と移行
 
 **オンプレミス: セルフマネージド OpenShift クラスタとセルフマネージド ストレージ** **Google Cloud: セルフマネージド OpenShift クラスタとセルフマネージド ストレージ**
@@ -90,6 +97,7 @@ MetroCluster構成でONTAPを使用する場合の考慮事項については、
 
 
 
+[[scenario-5-data-protection-and-migration-from-the-on-premises-environment-to-azure-environment-using-trident-protect]]
 === シナリオ 5: Trident Protect を使用したオンプレミス環境から Azure 環境へのデータ保護と移行
 
 **オンプレミス: セルフマネージド OpenShift クラスターとセルフマネージド ストレージ** **Azure クラウド: セルフマネージド OpenShift クラスターとセルフマネージド ストレージ**

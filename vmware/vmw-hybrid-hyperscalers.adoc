@@ -32,6 +32,8 @@ NOTE: 特定のハイパースケーラーの機能を確認するには、そ�
 
 
 
+[[vmware-in-the-hyperscalers-configuration]]
+[[config]]
 == ハイパースケーラー構成における VMware
 
 オンプレミスの場合と同様に、VM の作成と移行のための本番環境を正常に構築するには、クラウド ベースの仮想化環境を計画することが重要です。
@@ -90,6 +92,8 @@ NOTE: ゲスト内ストレージは、Cloud Volumes ONTAPおよびGoogle Cloud 
 ====
 
 
+[[netapp-storage-options]]
+[[datastore]]
 == NetAppストレージ オプション
 
 NetAppストレージは、3 つの主要なハイパースケーラーのそれぞれにおいて、ゲスト接続として、または補助的な NFS データストアとしてなど、さまざまな方法で利用できます。
@@ -139,6 +143,8 @@ Google Cloud は、次の構成のNetAppストレージをサポートしてい�
 ====
 
 
+[[netapp-vmware-cloud-solutions]]
+[[solutions]]
 == NetApp / VMware クラウド ソリューション
 
 NetAppと VMware のクラウド ソリューションを使用すると、多くのユース ケースを任意のハイパースケーラーに簡単に導入できます。  VMware は、主要なクラウド ワークロードのユースケースを次のように定義しています。

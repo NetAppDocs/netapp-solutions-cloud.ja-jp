@@ -18,6 +18,7 @@ summary: このセクションでは、VMware VMDK 上で実行されている�
 
 
 
+[[setting-up-scsql]]
 == SCSQLのセットアップ
 
 SCSQL を使用して VMDK 上のデータベースを保護するための設定は次のとおりです：
@@ -49,6 +50,7 @@ image:evs-protect-fsxn-027.png["上記の手順のダイアログを表す図"]
 
 
 
+[[setting-up-a-backup-policy]]
 == バックアップ ポリシーの設定
 
 次の手順では、バックアップ ポリシーの設定方法を説明します。
@@ -81,6 +83,7 @@ image:evs-protect-fsxn-032.png["上記の手順のダイアログを表す図"]
 
 
 
+[[monitoring-a-backup]]
 == バックアップの監視
 
 バックアップ ポリシーを設定したら、バックアップ操作の実行を監視できます。これを行うには、今すぐバックアップをクリックしてオンデマンド バックアップ操作をトリガーするか、スケジュールされたバックアップ ポリシーが開始されるまで待ちます。
@@ -94,6 +97,7 @@ image:evs-protect-fsxn-033.png["上記の手順のダイアログを表す図"]
 
 
 
+[[restore-of-databases-residing-on-the-vmdks]]
 == VMDK 上にあるデータベースのリストア
 
 VMDK 上のデータベースを特定の時点に復元できます。

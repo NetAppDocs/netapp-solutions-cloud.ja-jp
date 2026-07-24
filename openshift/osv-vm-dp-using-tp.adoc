@@ -35,6 +35,7 @@ Trident Protectは、OpenShiftクラスタ上のアプリケーションとVMの
 
 
 
+[[create-appvault-for-object-storage]]
 == オブジェクトストレージ用のAppVaultを作成する
 
 .AppVaultを作成する
@@ -105,6 +106,7 @@ image:rh-os-n-use-case-ocpv-tp-dp-008.png["ONTAP S3 Appvault が作成されま�
 ====
 
 
+[[create-a-vm-in-openshift-virtualization]]
 == OpenShift Virtualization で VM を作成する
 
 .OpenShift Virtualization で VM を作成する
@@ -132,6 +134,7 @@ image:rh-os-n-use-case-ocpv-tp-dp-007.png["VM、ポッド、PVCが作成され�
 ====
 
 
+[[create-an-app]]
 == アプリを作成する
 
 .アプリを作成
@@ -163,6 +166,7 @@ image:rh-os-n-use-case-ocpv-tp-dp-009.png["アプリを作成しました"]
 ====
 
 
+[[protect-the-app-by-creating-a-backup]]
 == バックアップを作成してアプリを保護する
 
 .バックアップを作成する
@@ -217,6 +221,7 @@ image:rh-os-n-use-case-ocpv-tp-dp-017.png["オンデマンドおよびスケジ�
 ====
 
 
+[[restore-from-backup]]
 == バックアップからの復元
 
 .バックアップからの復元
@@ -301,6 +306,7 @@ image:rh-os-n-use-case-ocpv-tp-dp-023.png["新しい名前空間のVM"]
 ====
 
 
+[[protect-the-app-using-snapshots]]
 == スナップショットを使用してアプリを保護する
 
 .スナップショットを作成する
@@ -373,6 +379,7 @@ image:rh-os-n-use-case-ocpv-tp-dp-026.png["スケジュールされたスナッ�
 ====
 
 
+[[restore-from-snapshot]]
 == スナップショットからの復元
 
 .スナップショットからの復元
@@ -455,6 +462,7 @@ image:rh-os-n-use-case-ocpv-tp-dp-032.png["VM を新しい名前空間に復元"
 ====
 
 
+[[restore-a-specific-vm]]
 == 特定のVMを復元する
 
 .名前空間内の特定のVMを選択してスナップショット/バックアップを作成し、復元する
@@ -548,6 +556,7 @@ image:rh-os-n-use-case-ocpv-tp-dp-038.png["Centos VM を作成しました"]
 ====
 
 
+[[video-demonstration]]
 == ビデオデモンストレーション
 
 次のビデオは、スナップショットを使用してVMを保護するデモを示しています。

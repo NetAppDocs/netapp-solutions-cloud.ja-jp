@@ -25,6 +25,8 @@ NetApp がAzure VMware Solution (AVS) にもたらす機能について詳しく
 
 
 
+[[configuring-avs-in-azure]]
+[[config]]
 == Azure での AVS の構成
 
 オンプレミスの場合と同様に、VM の作成と移行のための本番環境を正常に構築するには、クラウド ベースの仮想化環境を計画することが重要です。
@@ -45,6 +47,8 @@ NOTE: ゲスト内ストレージは、Cloud Volumes ONTAP をAzure VMware Solut
 
 
 
+[[netapp-storage-options-for-avs]]
+[[datastore]]
 == AVS 向けNetAppストレージ オプション
 
 NetAppストレージは、Azure AVS 内で、仮想接続として、または補助的な NFS データストアとして、さまざまな方法で利用できます。
@@ -62,6 +66,8 @@ Azure は、次の構成のNetAppストレージをサポートしています�
 
 
 
+[[solution-use-cases]]
+[[solutions]]
 == ソリューションのユースケース
 
 NetAppおよび VMware クラウド ソリューションを使用すると、多くのユース ケースを Azure AVS に簡単に展開できます。VMware が定義したクラウド領域ごとに、次のようなユース ケースが定義されています。

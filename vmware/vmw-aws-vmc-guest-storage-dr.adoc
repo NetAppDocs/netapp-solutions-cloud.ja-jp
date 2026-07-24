@@ -18,6 +18,7 @@ summary: '大規模な障害が発生した場合にビジネスクリティカ�
 
 
 
+[[overview]]
 == 概要
 
 NetApp はVMware との統合において長い歴史を誇ります。これは、仮想化環境のストレージ パートナーとしてNetAppを選択した何万もの顧客によって証明されています。この統合は、クラウド内のゲスト接続オプションや、最近の NFS データストアとの統合でも継続されます。このソリューションは、一般的にゲスト接続ストレージと呼ばれるユースケースに重点を置いています。
@@ -28,6 +29,7 @@ image:dr-vmc-aws-001.png["入出力ダイアログまたは書かれたコンテ
 
 
 
+[[assumptions-pre-requisites-and-component-overview]]
 == 前提、前提条件、コンポーネントの概要
 
 このソリューションを展開する前に、コンポーネントの概要、ソリューションを展開するために必要な前提条件、およびこのソリューションを文書化する際に行われた仮定を確認してください。
@@ -36,6 +38,7 @@ link:vmw-aws-vmc-dr-prereqs.html["DRソリューションの要件、前提条�
 
 
 
+[[performing-dr-with-snapcenter]]
 == SnapCenterでDRを実行する
 
 このソリューションでは、 SnapCenter はSQL Server および Oracle アプリケーション データに対してアプリケーション整合性のあるスナップショットを提供します。この構成は、 SnapMirrorテクノロジーと組み合わせることで、オンプレミスのAFFと FSx ONTAPクラスター間の高速データ レプリケーションを実現します。さらに、Veeam Backup & Replication は仮想マシンのバックアップと復元機能を提供します。
@@ -46,6 +49,8 @@ link:vmw-aws-vmc-dr-prereqs.html["DRソリューションの要件、前提条�
 
 
 
+[[configure-snapmirror-relationships-and-retention-schedules]]
+[[config-snapmirror]]
 === SnapMirror関係と保持スケジュールを構成する
 
 SnapCenter は、長期アーカイブと保持を目的として、プライマリ ストレージ システム内 (プライマリ > ミラー) およびセカンダリ ストレージ システム (プライマリ > ボールト) のSnapMirror関係を更新できます。そのためには、 SnapMirrorを使用して、宛先ボリュームとソース ボリューム間のデータ複製関係を確立し、初期化する必要があります。
@@ -215,6 +220,7 @@ FSx-Dest::> snapmirror initialize -destination-path DestSVM:DestVol
 ====
 
 
+[[deploy-and-configure-windows-snapcenter-server-on-premises]]
 === オンプレミスで Windows SnapCenterサーバーを展開および構成します。
 
 .Windows SnapCenter Server をオンプレミスに導入
@@ -315,6 +321,7 @@ Oracleリソースのバックアップについては、 https://docs.netapp.co
 ====
 
 
+[[deploy-and-configure-veeam-backup-server]]
 === Veeam バックアップ サーバーの導入と構成
 
 このソリューションでは、Veeam Backup & Replication ソフトウェアを使用してアプリケーション仮想マシンをバックアップし、Veeam スケールアウト バックアップ リポジトリ (SOBR) を使用してバックアップのコピーを Amazon S3 バケットにアーカイブします。このソリューションでは、Veeam は Windows サーバーに展開されます。  Veeamの導入に関する具体的なガイダンスについては、 https://www.veeam.com/documentation-guides-datasheets.html["Veeamヘルプセンター 技術ドキュメント"^] 。
@@ -421,6 +428,7 @@ Veeam を構成する最後の手順は、新しく作成された SOBR をバ�
 ====
 
 
+[[bluexp-backup-and-recovery-tools-and-configuration]]
 === BlueXP backup and recoveryツールと構成
 
 AWS で実行されている VMware Cloud Volumes サービスへのアプリケーション VM とデータベース ボリュームのフェイルオーバーを実行するには、 SnapCenter Server と Veeam Backup and Replication Server の両方の実行中のインスタンスをインストールして構成する必要があります。フェールオーバーが完了したら、オンプレミスのデータセンターへのフェールバックが計画され実行されるまで、通常のバックアップ操作を再開するようにこれらのツールを構成する必要もあります。
@@ -474,6 +482,7 @@ Veeamを使用したVMの復元の詳細については、セクションを参�
 ====
 
 
+[[snapcenter-database-backup-for-disaster-recovery]]
 === 災害復旧のためのSnapCenterデータベースバックアップ
 
 SnapCenter、災害発生時にSnapCenterサーバーを復旧できるように、基盤となる MySQL データベースと構成データのバックアップと復旧が可能です。私たちのソリューションでは、VPC にある AWS EC2 インスタンス上のSnapCenterデータベースと構成を復元しました。  SnapCenterの災害復旧の詳細については、以下を参照してください。 https://docs.netapp.com/us-en/snapcenter/index.html["このリンク"^] 。
@@ -582,6 +591,7 @@ xcopy c:\SC_Backups\SnapCenter_DR \\10.61.181.185\snapcenter_dr /O /X /E /H /K
 ====
 
 
+[[failover]]
 === フェイルオーバー
 
 .プライマリサイトで災害が発生
@@ -651,6 +661,8 @@ NOTE: 追加の手順に関するコメントを参照してください。
 ====
 
 
+[[restore-application-vms-with-veeam-full-restore]]
+[[restore-veeam-full]]
 === Veeam の完全復元でアプリケーション VM を復元する
 
 .バックアップリポジトリを作成し、S3からバックアップをインポートする
@@ -742,6 +754,7 @@ image:dr-vmc-aws-067.png["入出力ダイアログまたは書かれたコンテ
 ====
 
 
+[[restore-sql-server-application-data]]
 === SQL Server アプリケーション データを復元する
 
 次のプロセスでは、オンプレミス サイトが動作不能になる災害が発生した場合に、AWS の VMware Cloud Services で SQL Server を復旧する方法について説明します。
@@ -857,6 +870,7 @@ image:dr-vmc-aws-076.png["入出力ダイアログまたは書かれたコンテ
 ====
 
 
+[[restore-oracle-application-data]]
 === Oracleアプリケーションデータの復元
 
 次のプロセスでは、オンプレミス サイトが動作不能になる災害が発生した場合に、AWS の VMware Cloud Services で Oracle アプリケーション データを復旧する方法について説明します。
@@ -934,6 +948,7 @@ NOTE: 再起動後もNFSマウントを永続化するには、 `/etc/fstab`マ�
 ====
 
 
+[[failback]]
 === フェイルバック
 
 このソリューションで概説されているフェイルオーバー プロセスが正常に完了すると、 SnapCenterと Veeam は AWS で実行されているバックアップ機能を再開し、FSx ONTAPは元のオンプレミス データセンターとの既存のSnapMirror関係がないプライマリ ストレージとして指定されます。オンプレミスで通常の機能が再開されたら、このドキュメントで説明されているプロセスと同じプロセスを使用して、オンプレミスのONTAPストレージ システムにデータをミラーリングできます。
@@ -944,6 +959,7 @@ NOTE: 再起動後もNFSマウントを永続化するには、 `/etc/fstab`マ�
 
 
 
+[[conclusion]]
 == まとめ
 
 このドキュメントで紹介するユースケースは、 NetAppと VMware の統合を強調する実証済みの災害復旧テクノロジに重点を置いています。  NetApp ONTAPストレージ システムは、実績のあるデータ ミラーリング テクノロジを提供し、組織がオンプレミスと主要なクラウド プロバイダーが提供するONTAPテクノロジにまたがる災害復旧ソリューションを設計できるようにします。

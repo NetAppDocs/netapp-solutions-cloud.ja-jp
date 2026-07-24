@@ -18,6 +18,7 @@ ONTAPストレージとNetAppクラウド ソリューションを統合する�
 
 
 
+[[vmware-integration-with-aws-and-amazon-fsx-for-ontap]]
 == VMware と AWS およびAmazon FSx for ONTAP の統合
 
 * link:https://bluexp.netapp.com/blog/aws-fsxn-blg-migrate-vmware-to-amazon-ec2-iscsi-based-fsx-for-ontap["Amazon EC2 とAmazon FSx ONTAP iSCSI プロトコルを使用して VMware VM を AWS に移行する"]
@@ -28,6 +29,7 @@ ONTAPストレージとNetAppクラウド ソリューションを統合する�
 
 
 
+[[azure-vmware-solution]]
 == Azure VMware ソリューション
 
 * link:https://www.netapp.com/blog/vmware-optimize-storage-workloads/["あらゆるクラウドでストレージとデータ集約型の VMware ワークロードを最適化"]
@@ -36,6 +38,7 @@ ONTAPストレージとNetAppクラウド ソリューションを統合する�
 
 
 
+[[google-cloud-vmware-engine]]
 == Google Cloud VMware エンジン
 
 * link:https://www.netapp.com/blog/cloud-volumes-service-google-cloud-vmware-engine/["Google Cloud VMware Engine ( NetApp ) 向けの Google Cloud Google Cloud NetApp Volumesデータストアのサポート"]
@@ -45,6 +48,7 @@ ONTAPストレージとNetAppクラウド ソリューションを統合する�
 
 
 
+[[data-protection-and-management]]
 == データ保護と管理
 
 * link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Data-Protection-for-VMware-with-SnapCenter-Plug-in-and-BlueXP-backup-and/ba-p/446180["SnapCenterプラグインとBlueXP のVM バックアップおよびリカバリを使用した VMware 向け 3-2-1 データ保護"]
@@ -53,6 +57,7 @@ ONTAPストレージとNetAppクラウド ソリューションを統合する�
 
 
 
+[[netapp-for-openshift-container-workloads]]
 == OpenShift コンテナ ワークロード向けNetApp
 
 * link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/NetApp-ONTAP-doubles-up-as-storage-for-logs-in-Red-Hat-OpenShift-Container/ba-p/449280["NetApp ONTAPはRed Hat OpenShiftコンテナプラットフォームのログストレージとしても機能します"]
@@ -60,6 +65,7 @@ ONTAPストレージとNetAppクラウド ソリューションを統合する�
 
 
 
+[[vmware-sovereign-cloud]]
 == VMware ソブリンクラウド
 
 * link:https://blogs.vmware.com/cloud/2021/10/06/vmware-sovereign-cloud/["新しいソブリンクラウドイニシアチブのご紹介"]

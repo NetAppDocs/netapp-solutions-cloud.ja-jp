@@ -47,6 +47,7 @@ NAS 共有にGoogle Cloud NetApp Volumesを使用する場合、適切な機能�
 |===
 
 
+[[kerberos-keytab-rotationpassword-resets-for-machine-account-objects]]
 == マシン アカウント オブジェクトの Kerberos キータブのローテーション/パスワードのリセット
 
 SMB マシン アカウントの場合、 Google Cloud NetApp Volumes はSMB マシン アカウントのパスワードの定期的なリセットをスケジュールします。これらのパスワード リセットは Kerberos 暗号化を使用して実行され、毎月第 4 日曜日の午後 11 時から午前 1 時までのランダムな時間にスケジュールに従って実行されます。これらのパスワード リセットにより、Kerberos キーのバージョンが変更され、 Google Cloud NetApp Volumesシステムに保存されているキータブがローテーションされ、 Google Cloud NetApp Volumesで実行されている SMB サーバーのセキュリティ レベルが向上します。マシン アカウントのパスワードはランダム化されており、管理者にはわかりません。
@@ -55,12 +56,14 @@ NFS Kerberos マシン アカウントの場合、パスワードのリセット
 
 
 
+[[network-ports-for-use-with-ldap-and-kerberos]]
 == LDAP および Kerberos で使用するネットワーク ポート
 
 LDAP および Kerberos を使用する場合は、これらのサービスで使用されているネットワーク ポートを特定する必要があります。  Google Cloud NetApp Volumesで使用されているポートの完全なリストは、 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["Google Cloud NetApp Volumes のセキュリティに関する考慮事項に関するドキュメント"^] 。
 
 
 
+[[ldap]]
 == LDAP
 
 Google Cloud NetApp Volumes はLDAP クライアントとして機能し、UNIX ID のユーザーおよびグループの検索に標準の LDAP 検索クエリを使用します。 Google Cloud NetApp Volumesによって提供される標準のデフォルト ユーザー以外のユーザーとグループを使用する場合は、LDAP が必要です。ユーザー プリンシパル (user1@domain.com など) で NFS Kerberos を使用する予定の場合も、LDAP が必要です。現在、Microsoft Active Directory を使用した LDAP のみがサポートされています。
@@ -120,6 +123,7 @@ Active DirectoryでLDAP属性を設定する方法の詳細については、以
 
 
 
+[[ldap-bind-information]]
 === LDAPバインド情報
 
 LDAP でユーザーを照会するには、 Google Cloud NetApp Volumes をLDAP サービスにバインド（ログイン）する必要があります。このログインには読み取り専用権限があり、ディレクトリ検索のために LDAP UNIX 属性を照会するために使用されます。現在、LDAP バインドは SMB マシン アカウントを使用することによってのみ可能です。
@@ -136,6 +140,7 @@ LDAP が有効になっている場合、特定のシナリオでは次のよう
 
 
 
+[[ldap-queries]]
 === LDAPクエリ
 
 LDAP バインドは暗号化されますが、LDAP クエリは共通の LDAP ポート 389 を使用してプレーンテキストでネットワーク経由で渡されます。この既知のポートは現在、 Google Cloud NetApp Volumesでは変更できません。その結果、ネットワーク内でパケット スニッフィングにアクセスできるユーザーは、ユーザー名とグループ名、数値 ID、およびグループ メンバーシップを確認できます。
@@ -144,6 +149,7 @@ LDAP バインドは暗号化されますが、LDAP クエリは共通の LDAP �
 
 
 
+[[ldap-client-configuration-defaults]]
 === LDAPクライアント設定のデフォルト
 
 Google Cloud NetApp Volumesインスタンスで LDAP が有効になっている場合、デフォルトで特定の構成詳細を含む LDAP クライアント構成が作成されます。場合によっては、オプションがGoogle Cloud NetApp Volumesに適用されない（サポートされていない）か、構成できないことがあります。
@@ -228,6 +234,7 @@ Google Cloud NetApp Volumesインスタンスで LDAP が有効になってい�
 |===
 
 
+[[using-ldap-for-asymmetric-name-mapping]]
 === 非対称名マッピングにLDAPを使用する
 
 Google Cloud NetApp Volumes は、デフォルトでは、特別な設定を行わなくても、同じユーザー名を持つ Windows ユーザーと UNIX ユーザーを双方向にマッピングします。 Google Cloud NetApp Volumes が有効な UNIX ユーザー（LDAP を使用）を見つけられる限り、1:1 の名前マッピングが行われます。例えば、Windowsユーザーの場合 `johnsmith`が使用されている場合、 Google Cloud NetApp VolumesがUNIXユーザーを見つけることができれば、 `johnsmith` LDAPでは、そのユーザーの名前マッピングが成功し、そのユーザーが作成したすべてのファイル/フォルダが `johnsmith`正しいユーザー所有権と、影響するすべてのACLを表示します。 `johnsmith`使用されている NAS プロトコルに関係なく尊重されます。これは対称名前マッピングと呼ばれます。
@@ -301,6 +308,7 @@ TEXT
 ....
 
 
+[[ldap-channel-binding]]
 === LDAP チャネルバインディング
 
 Windows Active Directoryドメインコントローラの脆弱性のため、 https://msrc.microsoft.com/update-guide/vulnerability/ADV190023["マイクロソフト セキュリティ アドバイザリ ADV190023"^] DC が LDAP バインドを許可する方法を変更します。
@@ -309,6 +317,7 @@ Google Cloud NetApp Volumesへの影響は、他の LDAP クライアントの�
 
 
 
+[[dns]]
 == DNS
 
 Active Directory と Kerberos はどちらも、ホスト名から IP または IP からホスト名への解決に DNS に依存しています。  DNS ではポート 53 が開いている必要があります。  Google Cloud NetApp VolumesはDNSレコードに変更を加えず、また現在DNSレコードの使用もサポートしていません。 https://support.google.com/domains/answer/6147083?hl=en["動的DNS"^]ネットワーク インターフェイス上。
@@ -324,12 +333,14 @@ NOTE: Google Cloud NetApp Volumes は現在 DNSSEC をサポートしておら�
 
 
 
+[[file-access-auditing]]
 == ファイルアクセス監査
 
 現在、 Google Cloud NetApp Volumesではサポートされていません。
 
 
 
+[[antivirus-protection]]
 == ウイルス対策保護
 
 NAS 共有のクライアントで、 Google Cloud NetApp Volumesでウイルス対策スキャンを実行する必要があります。現在、 Google Cloud NetApp Volumesとのネイティブウイルス対策統合はありません。

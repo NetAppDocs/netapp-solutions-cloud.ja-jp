@@ -18,12 +18,14 @@ summary: このソリューションでは、 SnapCenter はSQL Server および
 
 
 
+[[technology]]
 == テクノロジ
 
 このソリューションには、 NetApp、VMware、Amazon Web Services (AWS)、Veeam の革新的なテクノロジーが組み込まれています。
 
 
 
+[[vmware]]
 === VMware
 
 .VMwareクラウドファンデーション
@@ -70,6 +72,7 @@ VMware NSXの詳細については、以下をご覧ください。 https://docs
 ====
 
 
+[[netapp]]
 === NetApp
 
 .NetApp ONTAP
@@ -107,6 +110,7 @@ NetApp SnapCenterの詳細については、以下をご覧ください。 https
 ====
 
 
+[[third-party-data-protection]]
 === サードパーティのデータ保護
 
 .Veeam バックアップ & レプリケーション
@@ -119,6 +123,7 @@ Veeam Backup & Replicationの詳細については、以下をご覧ください
 ====
 
 
+[[public-cloud]]
 === パブリッククラウド
 
 .AWS アイデンティティおよびアクセス管理
@@ -151,6 +156,7 @@ Amazon FSx ONTAPの詳細については、以下をご覧ください。 https:
 ====
 
 
+[[overview-aws-guest-connected-storage-disaster-recovery]]
 == 概要 - AWS ゲスト接続ストレージの災害復旧
 
 このセクションでは、ユーザーがNetAppおよび VMware で使用するためにオンプレミスおよびクラウド環境を検証、構成、および検証するのに役立つ手順について説明します。具体的には、このソリューションは、オンプレミスのONTAP AFFとクラウド用の VMware Cloud および AWS FSx ONTAPを使用した VMware ゲスト接続のユースケースに重点を置いています。このソリューションは、災害復旧シナリオにおける Oracle と MS SQL の 2 つのアプリケーションを使用して実証されています。
@@ -436,6 +442,7 @@ NOTE: vCloud Director を使用する場合は、基盤となる vCenter Server 
 ====
 
 
+[[networking]]
 == ネットワーク
 
 このソリューションでは、 NetApp SyncMirror操作を実行するために、オンプレミスのONTAPクラスターから AWS FSx ONTAPインターコネクトクラスターネットワークアドレスへの通信が正常に行われることが必要です。また、Veeam バックアップ サーバーは AWS S3 バケットにアクセスできる必要があります。インターネット トランスポートを使用する代わりに、既存の VPN または Direct Connect リンクを S3 バケットへのプライベート リンクとして使用できます。
@@ -558,6 +565,7 @@ VM ゲスト ストレージ ネットワークの場合、通常はポート �
 ====
 
 
+[[storage]]
 == ストレージ
 
 NetApp AFF A シリーズ システムは、さまざまなエンタープライズ シナリオに対応できるクラウド対応の柔軟なデータ管理オプションを備えた高性能ストレージ インフラストラクチャを提供します。このソリューションでは、オンプレミスのプライマリ ストレージ システムとしてONTAP AFF A300を使用しました。
@@ -638,6 +646,7 @@ VMware Cloud SDDCには、2つのVSANデータストアが付属しています�
 ====
 
 
+[[compute]]
 == コンピューティング
 
 VMware vSphere は、データセンターおよびすべての主要なクラウド プロバイダーにわたって仮想化インフラストラクチャを提供します。このエコシステムは、場所に関係なく仮想化されたコンピューティングの一貫性が維持される災害復旧シナリオに最適です。このソリューションでは、データセンターの場所と VMware Cloud on AWS の両方で VMware の仮想化コンピューティング リソースを使用します。
@@ -660,6 +669,7 @@ image:dr-vmc-aws-009.png["入出力ダイアログまたは書かれたコンテ
 ====
 
 
+[[bluexp-backup-and-recovery-tools]]
 == BlueXP backup and recoveryツール
 
 AWS で実行されている VMware Cloud Volumes サービスへのアプリケーション VM とデータベース ボリュームのフェイルオーバーを実行するには、 SnapCenter Server と Veeam Backup and Replication Server の両方の実行中のインスタンスをインストールして構成する必要がありました。フェールオーバーが完了したら、オンプレミスのデータセンターへのフェールバックが計画され実行されるまで、通常のバックアップ操作を再開するようにこれらのツールを構成する必要もあります。

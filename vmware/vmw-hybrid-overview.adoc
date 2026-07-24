@@ -20,24 +20,28 @@ summary:
 
 
 
+[[vmware-cloud-options-in-public-cloud]]
 == パブリッククラウドにおける VMware Cloud のオプション
 
 このセクションでは、各クラウド プロバイダーが、それぞれのパブリック クラウド サービス内で VMware Software Defined Data Center (SDDC) および/または VMware Cloud Foundation (VCF) スタックをどのようにサポートするかについて説明します。
 
 
 
+[[azure-vmware-solution]]
 === Azure VMware ソリューション
 
 Azure VMware Solution は、Microsoft Azure パブリック クラウド内で VMware SDDC を完全に機能させることができるハイブリッド クラウド サービスです。 Azure VMware Solution は、Microsoft によって完全に管理およびサポートされ、Azure インフラストラクチャを活用して VMware によって検証されたファーストパーティ ソリューションです。つまり、Azure VMware Solution を導入すると、お客様は、コンピューティング仮想化用の VMware ESXi、ハイパーコンバージド ストレージ用の vSAN、ネットワークとセキュリティ用の NSX を利用できるようになると同時に、Microsoft Azure のグローバルなプレゼンス、クラス最高のデータ センター設備、ネイティブ Azure サービスとソリューションの豊富なエコシステムへの近接性を活用できるようになります。
 
 
 
+[[vmware-cloud-on-aws]]
 === VMware Cloud on AWS
 
 VMware Cloud on AWS は、ネイティブ AWS サービスへの最適化されたアクセスを備えた VMware のエンタープライズクラスの SDDC ソフトウェアを AWS クラウドに提供します。  VMware Cloud Foundation を搭載した VMware Cloud on AWS は、VMware のコンピューティング、ストレージ、ネットワーク仮想化製品 (VMware vSphere、VMware vSAN、VMware NSX) と VMware vCenter Server 管理を統合し、専用の柔軟なベアメタル AWS インフラストラクチャ上で実行できるように最適化されています。
 
 
 
+[[google-cloud-vmware-engine]]
 === Google Cloud VMware エンジン
 
 Google Cloud VMware Engine は、Google Cloud の高性能でスケーラブルなインフラストラクチャと VMware Cloud Foundation スタック（VMware vSphere、vCenter、vSAN、NSX-T）を基盤とする IaaS（Infrastructure as a Service）サービスです。このサービスは、アプリケーションの再設計や運用の再構築に伴うコスト、労力、リスクを負うことなく、既存の VMware ワークロードをオンプレミス環境から Google Cloud Platform にシームレスに移行または拡張することで、クラウドへの迅速な移行を実現します。これは、VMware と緊密に連携して Google が販売およびサポートするサービスです。
@@ -47,6 +51,7 @@ NOTE: SDDC プライベート クラウドとNetApp Cloud Volumes のコロケ�
 
 
 
+[[did-you-know]]
 == 知っていましたか？
 
 使用するクラウドに関係なく、VMware SDDC が展開されると、初期クラスタには次の製品が含まれます。
@@ -58,6 +63,7 @@ NOTE: SDDC プライベート クラウドとNetApp Cloud Volumes のコロケ�
 
 
 
+[[storage-configuration]]
 == ストレージ構成
 
 ストレージ集約型のワークロードをホストし、クラウド ホストの VMware ソリューションでスケールアウトすることを計画しているお客様の場合、デフォルトのハイパーコンバージド インフラストラクチャでは、コンピューティング リソースとストレージ リソースの両方を拡張する必要があります。
@@ -66,6 +72,7 @@ Azure NetApp Files、 Amazon FSx ONTAP、 Cloud Volumes ONTAP （3 大ハイパ�
 
 
 
+[[notes]]
 === 注：
 
 * VMware では、アンバランスなクラスタ構成は推奨されていません。そのため、ストレージを拡張すると、ホストが追加され、TCO が増加します。
@@ -100,6 +107,7 @@ NOTE: このドキュメントが書かれた時点では、ゲスト内スト�
 
 
 
+[[points-to-remember]]
 === 覚えておくべきポイント
 
 * ハイブリッド ストレージ モデルでは、Tier 1 または優先度の高いワークロードがホスト自体の一部であり、近接しているため、特定のレイテンシ要件に対応するには、これらのワークロードを vSAN データストアに配置します。トランザクションのレイテンシが許容されるワークロード VM には、ゲスト内メカニズムを使用します。
@@ -114,6 +122,7 @@ NOTE: これはゲスト接続ストレージにのみ適用されます。
 
 
 
+[[benefits-of-netapp-cloud-storage]]
 == NetAppクラウドストレージのメリット
 
 NetAppクラウド ストレージには、次のような利点があります。
@@ -131,6 +140,7 @@ NetAppクラウド ストレージには、次のような利点があります�
 
 
 
+[[assumptions]]
 == 前提
 
 * SnapMirrorテクノロジーまたはその他の関連するデータ移行メカニズムが有効になっています。オンプレミスからハイパースケーラー クラウドまで、さまざまな接続オプションがあります。適切なパスを使用し、関連するネットワーク チームと連携します。
@@ -142,6 +152,7 @@ NOTE: ストレージと必要なホスト数の計画とサイズ設定につ�
 
 
 
+[[detailed-architecture]]
 == 詳細なアーキテクチャ
 
 大まかに言えば、このアーキテクチャ (下の図を参照) は、 NetApp Cloud Volumes ONTAP、 Google Cloud NetApp Volumes for Google Cloud、およびAzure NetApp Files を追加のゲスト内ストレージ オプションとして使用して、複数のクラウド プロバイダー間でハイブリッド マルチクラウド接続とアプリの移植性を実現する方法をカバーしています。

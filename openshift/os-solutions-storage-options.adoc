@@ -34,6 +34,7 @@ image:rhhc-storage-opt-pod2vol.png["ポッドとONTAPボリュームの関係"]
 
 
 
+[[container-storage-interface-csi-options]]
 == コンテナストレージインターフェース（CSI）オプション
 
 vSphere 環境では、お客様は VMware CSI ドライバーやTrident CSI を選択してONTAPと統合できます。  VMware CSI では永続ボリュームはローカル SCSI ディスクとして消費されますが、 Tridentではネットワークで消費されます。
@@ -42,6 +43,7 @@ VMware CSI はONTAPでの RWX アクセス モードをサポートしていな�
 
 
 
+[[vmware-csi-supports]]
 === VMware CSIはサポートしています
 
 * コアブロックベースのデータストア（FC、FCoE、iSCSI、NVMeoF）
@@ -51,6 +53,7 @@ VMware CSI はONTAPでの RWX アクセス モードをサポートしていな�
 
 
 
+[[trident-has-following-drivers-to-support-ontap]]
 === TridentにはONTAPをサポートする以下のドライバーがあります
 
 * ontapさん（専用ボリューム）

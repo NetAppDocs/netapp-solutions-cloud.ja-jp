@@ -18,6 +18,7 @@ summary: このセクションでは、VMware 用の SnapCenter プラグイン�
 
 
 
+[[prerequisites]]
 == 前提条件
 
 開始する前に、次の前提条件が必要です。
@@ -33,6 +34,7 @@ NOTE: SCVは無料でご利用いただけます。
 
 
 
+[[setting-up-the-snapcenter-plug-in-for-vmware]]
 == SnapCenter Plug-in for VMwareの設定
 
 VM とそれらをホストする NFS/iSCSI ベースのデータストアを保護するには、 SCV を導入する必要があります。単純な OVF インポートです。

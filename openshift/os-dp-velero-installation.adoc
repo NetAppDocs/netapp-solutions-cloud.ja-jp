@@ -18,6 +18,7 @@ summary: NetApp ONTAPによる Red Hat OpenShift Container アプリケーショ
 
 
 
+[[prerequisites]]
 == 前提条件
 
 * RHCOS ワーカーノードを備えたベアメタル インフラストラクチャにインストールされた Red Hat OpenShift クラスター (バージョン 4.12 以降)
@@ -33,6 +34,7 @@ summary: NetApp ONTAPによる Red Hat OpenShift Container アプリケーショ
 
 
 
+[[steps-to-install-oadp-operator]]
 == OADPオペレーターのインストール手順
 
 . クラスターのオペレーター ハブに移動し、Red Hat OADP オペレーターを選択します。インストール ページで、すべてのデフォルトの選択を使用して、インストールをクリックします。次のページでは、再度すべてのデフォルトを使用し、「インストール」をクリックします。  OADP オペレーターは、名前空間 openshift-adp にインストールされます。
@@ -46,6 +48,7 @@ image:redhat-openshift-oadp-install-003.png["OpenShift API for Data Protection O
 
 
 
+[[prerequisites-for-velero-configuration-with-ontap-s3-details]]
 === Ontap S3 を使用した Velero 構成の前提条件の詳細
 
 オペレーターのインストールが成功したら、Velero のインスタンスを構成します。  Velero は、S3 互換のオブジェクト ストレージを使用するように構成できます。  ONTAP S3を設定するには、link:https://docs.netapp.com/us-en/ontap/object-storage-management/index.html["ONTAPドキュメントのオブジェクトストレージ管理セクション"] 。  Velero と統合するには、 ONTAP S3 構成から次の情報が必要になります。
@@ -58,6 +61,7 @@ image:redhat-openshift-oadp-install-003.png["OpenShift API for Data Protection O
 
 
 
+[[prerequisites-for-velero-configuration-with-storagegrid-s3-details]]
 === StorageGrid S3 を使用した Velero 構成の前提条件の詳細
 
 Velero は、S3 互換のオブジェクト ストレージを使用するように構成できます。  StorageGrid S3は、以下の手順で設定できます。link:https://docs.netapp.com/us-en/storagegrid-116/s3/configuring-tenant-accounts-and-connections.html["StorageGrid ドキュメント"] 。  Velero と統合するには、StorageGrid S3 構成から次の情報が必要になります。
@@ -70,6 +74,7 @@ Velero は、S3 互換のオブジェクト ストレージを使用するよう
 
 
 
+[[steps-to-configure-velero]]
 === Veleroの設定手順
 
 * まず、 ONTAP S3 ユーザー認証情報または StorageGrid テナント ユーザー認証情報のシークレットを作成します。これは後で Velero を構成するために使用されます。  CLI または Web コンソールからシークレットを作成できます。 Web コンソールからシークレットを作成するには、「シークレット」を選択し、「キー/値シークレット」をクリックします。示されているように、資格情報名、キー、および値の値を指定します。 S3 ユーザーのアクセス キー ID とシークレット アクセス キーを必ず使用してください。秘密に適切な名前を付けます。以下のサンプルでは、ontap-s3-credentials という名前のONTAP S3 ユーザー認証情報を持つシークレットが作成されます。

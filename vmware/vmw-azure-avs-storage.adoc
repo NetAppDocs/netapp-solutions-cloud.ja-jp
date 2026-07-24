@@ -18,6 +18,7 @@ NetAppストレージは、ゲスト接続ストレージまたは補助スト�
 
 
 
+[[azure-netapp-files-anf-as-a-supplemental-nfs-datastore]]
 == 補助的な NFS データストアとしてのAzure NetApp Files (ANF)
 
 NFS データストアのサポートは、オンプレミス展開の ESXi バージョン 3 で導入され、vSphere のストレージ機能が大幅に拡張されました。
@@ -34,6 +35,7 @@ Azure NetApp Files は、業界をリードする高可用性のNetApp ONTAPデ�
 
 
 
+[[azure-netapp-files-anf-as-guest-connected-storage]]
 == ゲスト接続ストレージとしてのAzure NetApp Files (ANF)
 
 Azure NetApp Files は、エンタープライズ グレードのデータ管理とストレージを Azure に提供するため、ワークロードとアプリケーションを簡単に管理できます。ワークロードをクラウドに移行し、パフォーマンスを犠牲にすることなく実行します。
@@ -46,6 +48,7 @@ Azure NetApp Files は障害を取り除き、すべてのファイルベース�
 
 
 
+[[cloud-volumes-ontap-cvo-as-guest-connected-storage]]
 == ゲスト接続ストレージとしてのCloud Volumes ONTAP (CVO)
 
 Cloud Volumes ONTAP (CVO) は、NetApp のONTAPストレージ ソフトウェア上に構築された業界をリードするクラウド データ管理ソリューションであり、Amazon Web Services (AWS)、Microsoft Azure、Google Cloud Platform (GCP) でネイティブに利用できます。

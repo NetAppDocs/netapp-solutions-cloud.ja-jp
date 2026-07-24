@@ -20,12 +20,14 @@ Google Cloud NetApp Volumesの一般的なアーキテクチャは、コント�
 
 
 
+[[control-plane]]
 == コントロールプレーン
 
 Google Cloud NetApp Volumesのコントロール プレーンは、Google Cloud NetApp Volumes管理者とNetAppネイティブ自動化ソフトウェアによって管理されるバックエンド インフラストラクチャです。このプレーンはエンドユーザーに対して完全に透過的であり、ネットワーク、ストレージ ハードウェア、ソフトウェア アップデートなどが含まれており、 Google Cloud NetApp Volumesなどのクラウド常駐ソリューションに価値をもたらします。
 
 
 
+[[data-plane]]
 == データプレーン
 
 Google Cloud NetApp Volumesのデータプレーンには、実際のデータ ボリュームと、 Google Cloud NetApp Volumes の全体的な構成（アクセス制御、Kerberos 認証など）が含まれます。データ プレーンは、エンド ユーザーとGoogle Cloud NetApp Volumesプラットフォームの消費者によって完全に制御されます。

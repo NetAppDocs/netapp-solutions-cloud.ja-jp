@@ -22,6 +22,7 @@ VMware vSphere では、 NetApp ONTAPツールは、データストアのプロ�
 
 
 
+[[data-protection-and-migration-solution-for-openshift-container-workloads-using-trident-protect]]
 == Trident Protect を使用した OpenShift Container ワークロードのデータ保護および移行ソリューション
 
 image:rhhc-on-premises.png["入出力ダイアログまたは書かれたコンテンツを示す図"]

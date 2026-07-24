@@ -18,6 +18,7 @@ Azure VMware Solution とAzure NetApp Filesデータストアの最も一般的�
 
 
 
+[[overview-migrating-virtual-machines-with-vmware-hcx-azure-netapp-files-datastores-and-azure-vmware-solution]]
 == 概要: VMware HCX、 Azure NetApp Filesデータストア、Azure VMware ソリューションを使用した仮想マシンの移行
 
 VMware HCX は主に、アプリケーションの移行、ワークロードの再調整、さらにはクラウド間のビジネス継続性を簡素化するように設計された移行プラットフォームです。これは Azure VMware Solution プライベート クラウドの一部として含まれており、ワークロードを移行するためのさまざまな方法を提供し、ディザスター リカバリー (DR) 操作に使用できます。
@@ -69,6 +70,7 @@ image:anfd-hcx-001.png["この画像は、このソリューションで使用�
 ====
 
 
+[[solution-deployment]]
 == ソリューションの展開
 
 このソリューションの展開を完了するには、次の一連の手順に従います。
@@ -315,12 +317,14 @@ NOTE: ターゲット ANF データストアには、移行を処理するのに
 ====
 
 
+[[conclusion]]
 == まとめ
 
 オールクラウドまたはハイブリッド クラウドをターゲットにしていて、データがオンプレミスのあらゆるタイプ/ベンダーのストレージに存在する場合でも、 Azure NetApp Filesと HCX は、データ要件をアプリケーション レイヤーにシームレスにすることで TCO を削減しながら、アプリケーション ワークロードを展開および移行するための優れたオプションを提供します。ユース ケースがどのようなものであっても、Azure VMware Solution とAzure NetApp Filesを併せて選択すると、クラウドのメリットを迅速に実現でき、オンプレミスと複数のクラウドにわたる一貫したインフラストラクチャと運用、ワークロードの双方向の移植性、エンタープライズ レベルの容量とパフォーマンスが得られます。これは、VMware vSphere Replication、VMware vMotion、またはネットワーク ファイル コピー (NFC) を使用してストレージを接続し、VMware 仮想マシンを移行するために使用される、使い慣れたプロセスと手順と同じです。
 
 
 
+[[takeaways]]
 == まとめ
 
 このドキュメントの主なポイントは次のとおりです。
@@ -332,6 +336,7 @@ NOTE: ターゲット ANF データストアには、移行を処理するのに
 
 
 
+[[where-to-find-additional-information]]
 == 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、次の Web サイト リンクを参照してください。

@@ -26,6 +26,7 @@ image:dr-draas-nfs-001.png["入出力ダイアログまたは書かれたコン�
 
 
 
+[[getting-started]]
 == 開始
 
 BlueXP disaster recoveryを開始するには、 BlueXPコンソールを使用してサービスにアクセスします。
@@ -58,6 +59,7 @@ image:dr-draas-nfs-003.png["入出力ダイアログまたは書かれたコン�
 
 
 
+[[bluexp-disaster-recovery-configuration]]
 == BlueXP disaster recovery構成
 
 災害復旧の準備の最初のステップは、オンプレミスの vCenter とストレージ リソースを検出し、 BlueXP disaster recoveryに追加することです。
@@ -82,6 +84,7 @@ vCenter が追加されると、自動検出がトリガーされます。
 
 
 
+[[configuring-storage-replication-between-source-site-array-and-destination-site-array]]
 == ソースサイトアレイと宛先サイトアレイ間のストレージレプリケーションの構成
 
 SnapMirror は、 NetApp環境でのデータ複製を提供します。  NetApp Snapshot テクノロジーに基づいて構築されたSnapMirrorレプリケーションは、前回の更新以降に変更または追加されたブロックのみを複製するため、非常に効率的です。  SnapMirror は、 NetApp OnCommand System ManagerまたはONTAP CLI を使用して簡単に設定できます。  BlueXP DRaaS は、クラスターと SVM ピアリングが事前に構成されている場合、 SnapMirror関係も作成します。
@@ -93,6 +96,7 @@ NOTE: CLI または System Manager を介してボリュームにSnapMirror関�
 
 
 
+[[how-to-set-it-up-for-vmware-disaster-recovery]]
 == VMware Disaster Recoveryの設定方法
 
 SnapMirrorレプリケーションを作成するプロセスは、どのアプリケーションでも同じです。このプロセスは手動でも自動でも実行できます。最も簡単な方法は、 BlueXPを利用して、環境内のソースONTAPシステムを宛先にドラッグ アンド ドロップするだけでSnapMirrorレプリケーションを構成し、残りのプロセスをガイドするウィザードを起動することです。
@@ -113,6 +117,7 @@ NOTE: CLI 経由でボリュームにSnapMirror関係がすでに設定されて
 
 
 
+[[what-can-bluexp-disaster-recovery-do-for-you]]
 == BlueXP disaster recoveryは何を実現できるのでしょうか?
 
 ソース サイトと宛先サイトが追加されると、 BlueXP disaster recoveryは自動的に詳細な検出を実行し、VM と関連メタデータを表示します。  BlueXP disaster recoveryでは、VM で使用されるネットワークとポート グループも自動的に検出し、それらを入力します。
@@ -194,6 +199,7 @@ BlueXP DRaaS は次のワークフローで構成されています。
 
 
 
+[[test-failover]]
 == テストフェイルオーバー
 
 BlueXP DRaaS のテスト フェイルオーバーは、VMware 管理者が実稼働環境を中断することなくリカバリ プランを完全に検証できるようにする運用手順です。
@@ -220,6 +226,7 @@ image:dr-draas-nfs-026.png["入出力ダイアログまたは書かれたコン�
 
 
 
+[[cleanup-failover-test-operation]]
 == クリーンアップフェイルオーバーテスト操作
 
 クリーンアップ フェイルオーバー テスト操作は、レプリケーション プラン テストが完了し、VMware 管理者がクリーンアップ プロンプトに応答した後に実行されます。
@@ -236,6 +243,7 @@ VMware 管理者がリカバリ操作を実行すると、 BlueXP DRaaS は次�
 
 
 
+[[planned-migration-and-fail-over]]
 == 計画的な移行とフェイルオーバー
 
 BlueXP DRaaS には、実際のフェイルオーバーを実行するための 2 つの方法 (計画された移行とフェイルオーバー) があります。最初の方法である計画移行では、VM のシャットダウンとストレージ レプリケーションの同期をプロセスに組み込んで、VM を回復するか、効率的に移行先サイトに移動させます。計画された移行にはソース サイトへのアクセスが必要です。 2 番目の方法であるフェールオーバーは、計画済み/計画外のフェールオーバーであり、完了できた最後のストレージ レプリケーション間隔から宛先サイトで VM が回復されます。ソリューションに設計された RPO に応じて、DR シナリオではある程度のデータ損失が予想されます。
@@ -256,6 +264,7 @@ image:dr-draas-nfs-029.png["入出力ダイアログまたは書かれたコン�
 
 
 
+[[failback]]
 == フェイルバック
 
 フェイルバックは、回復後にソース サイトと宛先サイトの元の構成を復元するオプションの手順です。
@@ -276,6 +285,7 @@ BlueXP DRaaSへのアクセスと設定の詳細については、link:https://d
 
 
 
+[[monitoring-and-dashboard]]
 == 監視とダッシュボード
 
 BlueXPまたはONTAP CLI から、適切なデータストア ボリュームのレプリケーションのヘルス ステータスを監視し、ジョブ監視を介してフェイルオーバーまたはテスト フェイルオーバーのステータスを追跡できます。

@@ -18,6 +18,7 @@ summary:
 
 
 
+[[overview]]
 == 概要
 
 この戦略は、次の 3 つの基本ルールで構成されます。
@@ -31,6 +32,7 @@ summary:
 
 
 
+[[use-cases]]
 === ユースケース
 
 このソリューションは、次のユースケースに対応します。
@@ -41,6 +43,7 @@ summary:
 
 
 
+[[netapp-ontap-data-storage]]
 === NetApp ONTAPデータストレージ
 
 ONTAP は、SAN プロトコルまたは NAS プロトコルのどちらでアクセスする場合でも統合ストレージを提供する、NetApp の業界をリードするストレージ ソリューションです。  3-2-1 バックアップ戦略により、オンプレミスのデータが複数のメディア タイプで保護されることが保証され、 NetApp は高速フラッシュから低コストのメディアに至るまでのプラットフォームを提供します。
@@ -51,6 +54,7 @@ NetAppのハードウェアプラットフォームの詳細については、�
 
 
 
+[[snapcenter-plug-in-for-vmware-vsphere]]
 === SnapCenter Plug-in for VMware vSphere
 
 SnapCenter Plugin for VMware vSphere は、VMware vSphere と緊密に統合され、仮想マシンのバックアップとリストアの管理を容易にするデータ保護サービスです。このソリューションの一部として、 SnapMirror は、セカンダリONTAPストレージ クラスタ上に仮想マシン データの 2 番目の不変バックアップ コピーを作成するための高速で信頼性の高い方法を提供します。このアーキテクチャを導入すると、プライマリ バックアップの場所またはセカンダリ バックアップの場所から仮想マシンの復元操作を簡単に開始できるようになります。
@@ -61,6 +65,7 @@ SCVの詳細については、 https://docs.netapp.com/us-en/sc-plugin-vmware-vs
 
 
 
+[[bluexp-backup-and-recovery-for-virtual-machines]]
 === 仮想マシンのBlueXP backup and recovery
 
 BlueXP backup and recoveryは、オンプレミスとクラウド環境の両方にわたる幅広いバックアップおよびリカバリ操作に対して単一のコントロール プレーンを提供する、クラウド ベースのデータ管理ツールです。 NetApp BlueXP backup and recoveryスイートの一部である機能は、VMware vSphere (オンプレミス) 用のSnapCenterプラグインと統合して、データのコピーをクラウド内のオブジェクト ストレージに拡張します。これにより、プライマリまたはセカンダリ ストレージ バックアップから取得されたデータの 3 番目のコピーがオフサイトに作成されます。  BlueXP backup and recoveryを使用すると、オンプレミスのこれら 2 つの場所のいずれかからデータのコピーを転送するストレージ ポリシーを簡単に設定できます。
@@ -126,6 +131,7 @@ image:bxp-scv-hybrid-003.png["カスケードトポロジー"]
 ====
 
 
+[[high-level-architecture]]
 == 高レベルアーキテクチャ
 
 このソリューションのテスト/検証は、最終的な展開環境と一致する場合も一致しない場合もあるラボで実行されました。
@@ -134,6 +140,7 @@ image:bxp-scv-hybrid-004.png["ソリューションアーキテクチャ図"]
 
 
 
+[[solution-deployment]]
 == ソリューションの展開
 
 このソリューションでは、オンプレミス データ センターにある VMware vSphere クラスター内の Windows および Linux 仮想マシンのバックアップとリカバリを実行するために、 SnapCenter Plug-in for VMware vSphereとBlueXP backup and recoveryを利用するソリューションを展開および検証するための詳細な手順を示します。このセットアップの仮想マシンは、 ONTAP A300 ストレージ クラスタによってホストされる NFS データストアに保存されます。さらに、別のONTAP A300 ストレージ クラスタは、 SnapMirrorを使用して複製されたボリュームのセカンダリ デスティネーションとして機能します。さらに、Amazon Web Services と Azure Blob でホストされているオブジェクト ストレージが、データの 3 番目のコピーのターゲットとして使用されました。
@@ -146,6 +153,7 @@ BlueXP backup and recoveryの詳細については、 https://docs.netapp.com/us
 
 
 
+[[establish-snapmirror-relationships-between-ontap-clusters]]
 === ONTAPクラスタ間のSnapMirror関係を確立する
 
 SnapCenter Plug-in for VMware vSphereは、 ONTAP SnapMirrorテクノロジを使用して、セカンダリSnapMirrorおよび/またはSnapVaultコピーのセカンダリONTAPクラスタへの転送を管理します。
@@ -359,6 +367,7 @@ ONTAP-Dest::> snapmirror initialize -destination-path DestSVM:DestVol
 ====
 
 
+[[configure-the-snapcenter-plug-in-for-vmware-vsphere]]
 === SnapCenter Plug-in for VMware vSphereを構成する
 
 インストールが完了すると、vCenter Server Appliance 管理インターフェイスからSnapCenter Plug-in for VMware vSphereにアクセスできるようになります。  SCV は、ESXi ホストにマウントされ、Windows および Linux VM を含む NFS データストアのバックアップを管理します。
@@ -478,6 +487,7 @@ image:bxp-scv-hybrid-015.png["ジョブの進行状況を監視する"]
 ====
 
 
+[[configure-backups-to-object-storage-in-bluexp-backup-and-recovery]]
 === BlueXP backup and recoveryでオブジェクト ストレージへのバックアップを構成する
 
 BlueXPがデータ インフラストラクチャを効果的に管理するには、事前にコネクタをインストールする必要があります。コネクタは、リソースの検出とデータ操作の管理に関連するアクションを実行します。
@@ -606,6 +616,7 @@ NOTE: この時点ではデータ転送がすぐに開始されない場合が�
 ====
 
 
+[[restoring-virtual-machines-in-the-case-of-data-loss]]
 === データ損失の場合の仮想マシンの復元
 
 データの安全を確保することは、包括的なデータ保護の 1 つの側面にすぎません。同様に重要なのは、データの損失やランサムウェア攻撃が発生した場合に、どこからでも迅速にデータを復元できる機能です。この機能は、シームレスなビジネス運用を維持し、リカバリポイント目標を達成するために不可欠です。
@@ -681,6 +692,7 @@ image:bxp-scv-hybrid-039.png["ジョブ監視タブから復元を確認する"]
 ====
 
 
+[[conclusion]]
 == まとめ
 
 3-2-1 バックアップ戦略は、 SnapCenter Plug-in for VMware vSphereと仮想マシン用のBlueXP backup and recoveryを使用して実装すると、データ保護のための堅牢で信頼性が高く、コスト効率に優れたソリューションを提供します。この戦略は、データの冗長性とアクセス性を保証するだけでなく、オンプレミスのONTAPストレージ システムとクラウドベースのオブジェクト ストレージの両方から、任意の場所からデータを復元できる柔軟性も提供します。
@@ -689,6 +701,7 @@ image:bxp-scv-hybrid-039.png["ジョブ監視タブから復元を確認する"]
 
 
 
+[[additional-information]]
 == 追加情報
 
 このソリューションで紹介されているテクノロジーの詳細については、次の追加情報を参照してください。

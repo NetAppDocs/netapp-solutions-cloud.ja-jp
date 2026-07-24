@@ -18,6 +18,7 @@ Azure NetApp Files (ANF) データストアは、ストレージをコンピュ�
 
 
 
+[[overview]]
 == 概要
 
 Azure NetApp Files (ANF) ボリューム ベースの NFS データストアは、VM レプリケーション機能を提供する検証済みのサードパーティ ソリューションを使用してオンプレミスからデータをレプリケートするために使用できます。 Azure NetApp Filesデータストアを追加することで、ストレージに対応するために膨大な数の ESXi ホストを備えた Azure VMware Solution SDDC を構築する場合と比較して、コストを最適化した展開が可能になります。このアプローチは「パイロット ライト クラスター」と呼ばれます。パイロット ライト クラスターは、 Azure NetApp Filesデータストアの容量と最小限の AVS ホスト構成 (3 つの AVS ノード) で構成されます。
@@ -26,6 +27,7 @@ Azure NetApp Files (ANF) ボリューム ベースの NFS データストアは�
 
 
 
+[[purposes-of-this-document]]
 == この文書の目的
 
 この記事では、Veeam バックアップおよびレプリケーションを備えたAzure NetApp Filesデータストアを使用して、Veeam VM レプリケーション ソフトウェア機能を使用してオンプレミスの VMware VM のディザスター リカバリーを (AVS) に設定する方法について説明します。
@@ -40,10 +42,12 @@ image:dr-veeam-anf-001.png["入出力ダイアログまたは書かれたコン�
 
 
 
+[[solution-deployment]]
 == ソリューションの展開
 
 
 
+[[high-level-steps]]
 === 高レベルの手順
 
 . Veeam Backup and Replication ソフトウェアは、適切なネットワーク接続を備えたオンプレミス環境で実行されています。
@@ -58,6 +62,7 @@ image:dr-veeam-anf-001.png["入出力ダイアログまたは書かれたコン�
 
 
 
+[[pre-requisites-for-veeam-vm-replication-to-avs-and-anf-datastores]]
 === Veeam VM レプリケーションの AVS および ANF データストアへの前提条件
 
 . Veeam Backup & Replication バックアップ VM がソースとターゲットの AVS SDDC クラスターに接続されていることを確認します。
@@ -69,6 +74,7 @@ image:dr-veeam-anf-001.png["入出力ダイアログまたは書かれたコン�
 
 
 
+[[deployment-details]]
 === 導入環境の詳細
 
 .ステップ1: VMを複製する
@@ -225,6 +231,7 @@ image:dr-veeam-anf-022.png["入出力ダイアログまたは書かれたコン�
 ====
 
 
+[[conclusion]]
 == まとめ
 
 Azure NetApp Filesデータストア機能により、Veeam または検証済みのサードパーティ ツールは、VM レプリカを収容するためだけに大規模なクラスターを立ち上げるのではなく、パイロット ライト クラスターを活用して低コストの DR ソリューションを提供できるようになります。これにより、調整されカスタマイズされた災害復旧計画を効率的に処理し、既存のバックアップ製品を社内で DR に再利用して、オンプレミスの DR データセンターを廃止してクラウドベースの災害復旧を実現できるようになります。災害時にはボタンをクリックすることでフェイルオーバーしたり、災害発生時に自動的にフェイルオーバーしたりすることが可能。

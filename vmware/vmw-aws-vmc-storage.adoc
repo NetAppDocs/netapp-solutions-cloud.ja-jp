@@ -18,6 +18,7 @@ NetAppストレージは、ゲスト接続ストレージまたは補助スト�
 
 
 
+[[amazon-fsx-for-netapp-ontap-fsx-ontap-as-a-supplemental-nfs-datastore]]
 == 補助的な NFS データストアとしてのAmazon FSx for NetApp ONTAP (FSx ONTAP)
 
 Amazon FSx ONTAP は、データ要件をアプリケーション層にシームレスに適用することで TCO を削減しながら、ファイルサービスとともにアプリケーションワークロードをデプロイおよび管理するための優れたオプションを提供します。ユースケースに関係なく、VMware Cloud on AWS とAmazon FSx ONTAPを併せて選択すると、クラウドのメリットの迅速な実現、オンプレミスから AWS への一貫したインフラストラクチャと運用、ワークロードの双方向の移植性、エンタープライズ グレードの容量とパフォーマンスが得られます。これは、ストレージを接続するために使用される、使い慣れたプロセスと手順と同じです。
@@ -30,6 +31,7 @@ Amazon FSx ONTAP は、データ要件をアプリケーション層にシーム
 
 
 
+[[amazon-fsx-for-netapp-ontap-as-guest-connected-storage]]
 == ゲスト接続ストレージとしてのAmazon FSx for NetApp ONTAP
 
 Amazon FSx ONTAP は、NetApp の人気のONTAPファイルシステム上に構築された、信頼性が高く、スケーラブルで、高性能かつ機能豊富なファイルストレージを提供するフルマネージドサービスです。  FSx ONTAP は、 NetAppファイルシステムの使い慣れた機能、パフォーマンス、機能、API 操作と、完全に管理された AWS サービスの俊敏性、拡張性、シンプルさを兼ね備えています。
@@ -44,6 +46,7 @@ FSx ONTAP は、完全に管理されたバックアップとリージョン間�
 
 
 
+[[cloud-volumes-ontap-cvo-as-guest-connected-storage]]
 == ゲスト接続ストレージとしてのCloud Volumes ONTAP (CVO)
 
 Cloud Volumes ONTAP(CVO) は、NetApp のONTAPストレージ ソフトウェア上に構築された業界をリードするクラウド データ管理ソリューションであり、Amazon Web Services (AWS)、Microsoft Azure、Google Cloud Platform (GCP) でネイティブに利用できます。

@@ -25,6 +25,8 @@ NetApp がAWS VMware Cloud (VMC) にもたらす機能について詳しく説�
 
 
 
+[[configuring-vmc-in-aws]]
+[[config]]
 == AWS での VMC の構成
 
 オンプレミスの場合と同様に、VM の作成と移行のための本番環境を正常に構築するには、クラウド ベースの仮想化環境を計画することが重要です。
@@ -44,6 +46,8 @@ NOTE: ゲスト内ストレージは、Cloud Volumes ONTAP をAWS VMC に接続�
 
 
 
+[[netapp-storage-options-for-vmc]]
+[[datastore]]
 == VMC向けNetAppストレージオプション
 
 NetAppストレージは、AWS VMC 内で、仮想接続として、または補助的な NFS データストアとして、さまざまな方法で利用できます。
@@ -61,6 +65,8 @@ AWS は、次の構成でNetAppストレージをサポートしています。
 
 
 
+[[solution-use-cases]]
+[[solutions]]
 == ソリューションのユースケース
 
 NetAppと VMware のクラウド ソリューションを使用すると、多くのユース ケースを AWS VMC に簡単に導入できます。  VMware が定義したクラウド領域ごとにユースケースが定義されています。

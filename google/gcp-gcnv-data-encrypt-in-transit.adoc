@@ -18,6 +18,7 @@ summary: 転送中のデータは NAS プロトコル レイヤで暗号化で�
 
 
 
+[[google-cloud-network]]
 == Google Cloud ネットワーク
 
 Google Cloudは、ネットワークレベルでトラフィックを暗号化します。 https://cloud.google.com/security/encryption-in-transit["転送中の暗号化"^] Google ドキュメントに記載されています。  「Google Cloud NetApp Volumes のアーキテクチャ」セクションで述べたように、 Google Cloud NetApp Volumes はNetAppが管理する PSA プロデューサー プロジェクトから提供されます。
@@ -28,12 +29,14 @@ NetApp Volumes-Performanceのデータパスはネットワーク層で完全に
 
 
 
+[[nas-protocols]]
 == NASプロトコル
 
 NFS および SMB NAS プロトコルは、プロトコル層でオプションのトランスポート暗号化を提供します。
 
 
 
+[[smb-encryption]]
 === SMB暗号化
 
 https://docs.microsoft.com/en-us/windows-server/storage/file-server/smb-security["SMB暗号化"^]SMB データのエンドツーエンドの暗号化を提供し、信頼できないネットワーク上での盗聴からデータを保護します。クライアント/サーバー データ接続 (SMB3.x 対応クライアントのみ使用可能) とサーバー/ドメイン コントローラー認証の両方の暗号化を有効にすることができます。
@@ -44,6 +47,7 @@ Google Cloud NetApp Volumes は、 SMB 暗号化に RC4-HMAC、AES-128-CTS-HMAC-
 
 
 
+[[nfsv4-1-kerberos]]
 === NFSv4.1 ケルベロス
 
 NFSv4.1では、 NetApp Volumes-PerformanceはKerberos認証を提供します。 https://datatracker.ietf.org/doc/html/rfc7530["RFC7530"^]ボリュームごとに Kerberos を有効にすることができます。

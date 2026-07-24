@@ -20,6 +20,7 @@ Google Cloud NetApp Volumesチームは、Google Cloud のバックエンド サ
 
 
 
+[[physical-security]]
 == 物理的なセキュリティ
 
 適切な事前承認があれば、オンサイト エンジニアとNetAppバッジを持つフィールド サポート エンジニア (FSE) のみがケージとラックにアクセスして物理的な作業を行うことができます。ストレージおよびネットワーク管理は許可されません。ハードウェア メンテナンス タスクを実行できるのは、これらのオンサイト リソースのみです。
@@ -28,6 +29,7 @@ Google Cloud NetApp Volumesチームは、Google Cloud のバックエンド サ
 
 
 
+[[operations-team]]
 == 運用チーム
 
 Google Cloud NetApp Volumesの運用チームは、Google Cloud NetApp Volumesのプロダクション エンジニアリングとサイト信頼性エンジニア（SRE）、ハードウェアのNetAppフィールド サポート エンジニアとパートナーで構成されています。すべての運用チーム メンバーは Google Cloud での作業の認定を受けており、発行されたチケットごとに詳細な作業記録が保持されます。さらに、各決定が適切に精査されるように、厳格な変更管理および承認プロセスが導入されています。
@@ -36,6 +38,7 @@ SRE チームは、コントロール プレーンと、データが UI リク�
 
 
 
+[[customer-responsibilities]]
 == お客様の責任範囲
 
 Google Cloud NetApp Volumesのお客様は、組織の Active Directory とユーザーロールの管理、およびボリュームとデータの操作を管理します。お客様は管理者ロールを持つことができ、 NetAppと Google Cloud が提供する 2 つの定義済みロール（管理者と閲覧者）を使用して、同じ Google Cloud プロジェクト内の他のエンドユーザーに権限を委任できます。
@@ -44,6 +47,7 @@ Google Cloud NetApp Volumesのお客様は、組織の Active Directory とユ�
 
 
 
+[[malicious-sre-protection]]
 == 悪意のあるSREからの保護
 
 懸念されるのは、悪意のある SRE が存在する場合や SRE の認証情報が侵害された場合に、Google Cloud NetApp Volumes がどのように保護するかということです。
@@ -52,6 +56,7 @@ Google Cloud NetApp Volumesのお客様は、組織の Active Directory とユ�
 
 
 
+[[volume-life-cycle]]
 == ボリュームライフサイクル
 
 Google Cloud NetApp Volumes は、ボリューム内のデータではなく、サービス内のオブジェクトのみを管理します。ボリュームにアクセスするクライアントのみが、データ、ACL、ファイル所有者などを管理できます。これらのボリューム内のデータは保存時に暗号化され、アクセスはGoogle Cloud NetApp Volumesインスタンスのテナントに制限されます。
@@ -62,12 +67,14 @@ Google Cloud NetApp Volumes の契約が終了した場合、 NetApp は一定�
 
 
 
+[[certifications]]
 == 認定資格
 
 Google Cloud NetApp Volumes for Google Cloud は現在、ISO/IEC 27001:2013 および ISO/IEC 27018:2019 規格の認定を受けています。このサービスは最近、SOC2 タイプ I 認証レポートも受け取りました。  NetAppのデータセキュリティとプライバシーへの取り組みについては、以下をご覧ください。 https://www.netapp.com/company/trust-center/compliance/["コンプライアンス: データセキュリティとデータプライバシー"^] 。
 
 
 
+[[gdpr]]
 == GDPR
 
 当社のプライバシーとGDPR遵守への取り組みについては、当社のウェブサイトでご覧いただけます。 https://www.netapp.com/how-to-buy/sales-terms-and-conditions%22%20/o%20%22SEO%20-%20Sales%20Terms%20and%20Conditions["顧客契約"^] 、例えば私たちの https://netapp.na1.echosign.com/public/esignWidget?wid=CBFCIBAA3AAABLblqZhCqPPgcufskl_71q-FelD4DHz5EMJVOkqqT0iiORT10DlfZnZeMpDrse5W6K9LEw6o*["顧客Data Processing補足契約"^]これには、 https://ec.europa.eu/info/law/law-topic/data-protection/international-dimension-data-protection/standard-contractual-clauses-scc_en["標準契約条項"^]欧州委員会によって提供された。当社は、企業行動規範に定められた中核的価値観に基づき、プライバシー ポリシーでもこれらの取り組みを行っています。

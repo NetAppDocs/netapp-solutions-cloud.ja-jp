@@ -18,24 +18,28 @@ NetAppによる Red Hat OpenShift 向けハイブリッド マルチクラウド
 
 
 
+[[snapshots-and-restore]]
 == スナップショットと復元
 
 .Amazon FSx ONTAPストレージを使用した Red Hat OpenShift Service on AWS (ROSA) クラスター上のアプリケーションのスナップショット/リストア
 video::36ecf505-5d1d-4e99-a6f8-b11c00341793[panopto,width=360]
 
 
+[[storage-integration]]
 == ストレージ統合
 
 .FSx ONTAPとTridentの統合
 video::621ae20d-7567-4bbf-809d-b01200fa7a68[panopto,width=360]
 
 
+[[failover-and-fail-back]]
 == フェイルオーバーとフェイルバック
 
 .FSx ONTAPを使用した ROSA 上のアプリのフェイルオーバーとフェイルバック
 video::e9a07d79-42a1-4480-86be-b01200fa62f5[panopto,width=360]
 
 
+[[solution-automation]]
 == ソリューション自動化
 
 .Ansibleを使用したFlexPodへのOracle 19c RACの自動導入

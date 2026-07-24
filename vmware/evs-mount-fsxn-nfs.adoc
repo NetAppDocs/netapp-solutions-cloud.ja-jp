@@ -18,6 +18,7 @@ summary: このセクションでは、FSx for ONTAP をNFS データストア�
 
 
 
+[[high-level-deployment-steps]]
 == 大まかな展開手順
 
 Amazon EVS の NFS データストアとして使用するために FSx for ONTAPファイルシステムをデプロイし、2 つのサービス間の接続を確立するには、次の手順を実行します。
@@ -29,6 +30,7 @@ Amazon EVS の NFS データストアとして使用するために FSx for ONTA
 
 
 
+[[prerequisites]]
 == 前提条件
 
 FSx for ONTAP をAmazon EVS の NFS データストアとしてセットアップするプロセスを開始する前に、次の前提条件を満たしている必要があります。
@@ -49,6 +51,7 @@ NOTE: FSx for ONTAPファイルシステムは、Amazon EVS SDDC と同じ AZ �
 
 
 
+[[create-an-fsx-for-ontap-file-system]]
 == FSx for ONTAPファイルシステムを作成する
 
 次の手順では、FSx for ONTAPファイル システムをプロビジョニングおよびマウントする方法を示します。
@@ -154,6 +157,7 @@ NOTE: 追加の FSx for ONTAPファイル システムを作成するには、�
 
 
 
+[[validating-vpc-and-virtualization-environment-routing-and-security-groups]]
 == VPC および仮想化環境のルーティングとセキュリティ グループの検証
 
 VPC および SDDC のルーティングとセキュリティ グループを検証することは、Amazon EVS 仮想化環境と FSx for ONTAPファイルシステム コンポーネントが適切に連携できることを確認するために重要です。
@@ -207,6 +211,7 @@ image:evs-mount-fsxn-017.png["上記の手順のダイアログを表す図"]
 
 
 
+[[attaching-an-fsx-for-ontap-nfs-volume-to-amazon-evs-for-use-as-a-datastore]]
 == FSx for ONTAP NFS ボリュームを Amazon EVS に接続してデータストアとして使用する
 
 FSx for ONTAPファイルシステムがプロビジョニングされ、適切な接続パラメータがすべて検証されたので、次は FSx for ONTAPストレージボリュームを Amazon EVS に接続します。次の手順では、vCenter にアクセスし、FSx for ONTAPボリュームを NFS データストアとしてマウントする方法を示します。

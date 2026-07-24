@@ -24,6 +24,7 @@ image:dr-draas-vmfs-030.png["入出力ダイアログまたは書かれたコン
 
 
 
+[[getting-started]]
 == 開始
 
 BlueXP disaster recoveryを開始するには、 BlueXPコンソールを使用してサービスにアクセスします。
@@ -56,6 +57,7 @@ NOTE: このドキュメントの執筆時点では、オンプレミスから�
 
 
 
+[[bluexp-disaster-recovery-configuration]]
 == BlueXP disaster recovery構成
 
 災害復旧の準備の最初のステップは、オンプレミスの vCenter とストレージ リソースを検出し、 BlueXP disaster recoveryに追加することです。
@@ -81,6 +83,7 @@ vCenter が追加されると、自動検出がトリガーされます。
 
 
 
+[[configuring-storage-replication-between-source-and-destination-site]]
 == ソースサイトと宛先サイト間のストレージレプリケーションの構成
 
 SnapMirror はONTAPスナップショットを利用して、ある場所から別の場所へのデータの転送を管理します。最初に、ソース ボリュームのスナップショットに基づく完全なコピーが宛先にコピーされ、ベースライン同期が実行されます。ソースでデータの変更が発生すると、新しいスナップショットが作成され、ベースライン スナップショットと比較されます。変更されたと判明したブロックは宛先に複製され、新しいスナップショットが現在のベースライン、つまり最新の共通スナップショットになります。これにより、プロセスを繰り返し、増分更新を宛先に送信できるようになります。
@@ -91,6 +94,7 @@ SnapMirror関係を解除すると、宛先ボリュームが書き込み可能�
 
 
 
+[[how-to-set-it-up-for-vmware-disaster-recovery]]
 == VMware Disaster Recoveryの設定方法
 
 SnapMirrorレプリケーションを作成するプロセスは、どのアプリケーションでも同じです。このプロセスは手動でも自動でも実行できます。最も簡単な方法は、 BlueXPを利用して、環境内のソースONTAPシステムを宛先にドラッグ アンド ドロップするだけでSnapMirrorレプリケーションを構成し、残りのプロセスをガイドするウィザードを起動することです。
@@ -113,6 +117,7 @@ NOTE: 上記の方法以外にも、 SnapMirrorレプリケーションはONTAP 
 
 
 
+[[what-can-bluexp-disaster-recovery-do-for-you]]
 == BlueXP disaster recoveryは何を実現できるのでしょうか?
 
 ソース サイトと宛先サイトが追加されると、 BlueXP disaster recoveryは自動的に詳細な検出を実行し、VM と関連メタデータを表示します。  BlueXP disaster recoveryでは、VM で使用されるネットワークとポート グループも自動的に検出し、それらを入力します。
@@ -189,6 +194,7 @@ image:dr-draas-vmfs-023.png["入出力ダイアログまたは書かれたコン
 
 
 
+[[what-happens-during-a-failover-or-test-failover-operation]]
 == フェイルオーバーまたはテストフェイルオーバー操作中に何が起こりますか?
 
 テスト フェイルオーバー操作中に、 BlueXP disaster recoveryは、最新の Snapshot コピーまたは宛先ボリュームの選択されたスナップショットを使用して、宛先ONTAPストレージ システムにFlexCloneボリュームを作成します。

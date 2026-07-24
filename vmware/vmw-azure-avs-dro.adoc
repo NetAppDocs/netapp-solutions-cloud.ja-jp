@@ -18,6 +18,7 @@ summary:
 
 
 
+[[overview]]
 == 概要
 
 Azure NetAppファイル (ANF) のリージョン間ボリューム レプリケーションを使用すると、プライマリ AVS サイトで NFS データストアとして Azure NetAppファイル ボリュームを使用している Azure VMware Solution (AVS) SDDC サイトで実行されている VMware ワークロードを、ターゲット回復リージョン内の指定されたセカンダリ AVS サイトにレプリケートできます。
@@ -28,6 +29,7 @@ image:azure-dro-001.png["入出力ダイアログまたは書かれたコンテ�
 
 
 
+[[prerequisites-and-general-recommendations]]
 === 前提条件と一般的な推奨事項
 
 * レプリケーション ピアリングを作成して、リージョン間レプリケーションが有効になっていることを確認します。見る https://learn.microsoft.com/en-us/azure/azure-netapp-files/cross-region-replication-create-peering["Azure NetApp Filesのボリューム レプリケーションを作成する"^]。
@@ -42,10 +44,12 @@ NOTE: カスケードおよびファンイン/ファンアウト トポロジは
 
 
 
+[[getting-started]]
 == 開始
 
 
 
+[[deploy-azure-vmware-solution]]
 === Azure VMware ソリューションをデプロイする
 
 その https://learn.microsoft.com/en-us/azure/azure-vmware/introduction["Azure VMware ソリューション"^](AVS) は、Microsoft Azure パブリック クラウド内で完全に機能する VMware SDDC を提供するハイブリッド クラウド サービスです。 AVS は、Microsoft によって完全に管理およびサポートされ、Azure インフラストラクチャを使用する VMware によって検証されたファーストパーティ ソリューションです。そのため、お客様は、コンピューティング仮想化用の VMware ESXi、ハイパーコンバージド ストレージ用の vSAN、ネットワークとセキュリティ用の NSX を利用できると同時に、Microsoft Azure のグローバルな展開、クラス最高のデータセンター設備、ネイティブ Azure サービスとソリューションの豊富なエコシステムへの近接性を活用できます。  Azure VMware Solution SDDC とAzure NetApp Files を組み合わせることで、最小限のネットワーク待機時間で最高のパフォーマンスが得られます。
@@ -57,6 +61,7 @@ NOTE: 最初のリリースでは、DRO は既存の AVS SDDC クラスターを
 
 
 
+[[provision-and-configure-azure-netapp-files]]
 === Azure NetApp Files のプロビジョニングと構成
 
 https://learn.microsoft.com/en-us/azure/azure-netapp-files/azure-netapp-files-introduction["Azure NetApp Files"^]は、高性能でエンタープライズ クラスの従量制ファイル ストレージ サービスです。この手順に従ってください https://learn.microsoft.com/en-us/azure/azure-vmware/attach-azure-netapp-files-to-azure-vmware-solution-hosts?tabs=azure-portal["リンク"^]Azure NetApp Files をNFS データストアとしてプロビジョニングおよび構成し、AVS プライベート クラウドの展開を最適化します。
@@ -76,6 +81,7 @@ NOTE: リージョン間のレプリケーション関係は前提条件であ�
 
 
 
+[[dro-installation]]
 == DROのインストール
 
 DRO を開始するには、指定された Azure 仮想マシンで Ubuntu オペレーティング システムを使用し、前提条件を満たしていることを確認します。次にパッケージをインストールします。
@@ -129,6 +135,7 @@ image:azure-dro-003.png["入出力ダイアログまたは書かれたコンテ�
 
 
 
+[[dro-configuration]]
 == DRO構成
 
 Azure NetApp Filesと AVS が適切に構成されたら、プライマリ AVS サイトからセカンダリ AVS サイトへのワークロードの回復を自動化するための DRO の構成を開始できます。  NetApp、DRO エージェントをセカンダリ AVS サイトに展開し、ExpressRoute ゲートウェイ接続を構成して、DRO エージェントが適切な AVS およびAzure NetApp Filesコンポーネントとネットワーク経由で通信できるようにすることをお勧めします。
@@ -202,6 +209,7 @@ image:azure-dro-008.png["入出力ダイアログまたは書かれたコンテ�
 
 
 
+[[resource-groupings]]
 === リソースのグループ化
 
 プラットフォームを追加したら、回復する VM をリソース グループにグループ化します。  DRO リソース グループを使用すると、依存する VM のセットを、ブート順序、ブート遅延、および回復時に実行できるオプションのアプリケーション検証を含む論理グループにグループ化できます。
@@ -233,6 +241,7 @@ image:azure-dro-011.png["入出力ダイアログまたは書かれたコンテ�
 
 
 
+[[replication-plans]]
 === レプリケーションプラン
 
 災害が発生した場合にアプリケーションを回復するための計画が必要です。ドロップダウンからソースとターゲットの vCenter プラットフォームを選択し、このプランに含めるリソース グループを選択します。また、アプリケーションを復元してパワーオンする方法のグループ化も含めます (たとえば、ドメイン コントローラ、Tier-1、Tier-2 など)。計画は青写真とも呼ばれることがあります。リカバリ プランを定義するには、[レプリケーション プラン] タブに移動し、[新しいレプリケーション プラン] をクリックします。
@@ -298,6 +307,7 @@ Azure ポータルから、セカンダリ サイトの AVS SDDC に読み取り
 
 
 
+[[ransomware-recovery]]
 === ランサムウェアからの回復
 
 ランサムウェアからの回復は困難な作業になる可能性があります。具体的には、IT 組織にとって、安全な復帰ポイントがどこなのかを正確に特定することが困難になる可能性があり、また、それが決定された後、回復したワークロードが再発する攻撃 (たとえば、休眠中のマルウェアや脆弱なアプリケーションによるもの) から確実に保護されるようにする方法も困難になります。
@@ -306,6 +316,7 @@ DRO は、組織が利用可能な任意の時点から回復できるように�
 
 
 
+[[conclusion]]
 == まとめ
 
 Azure NetApp Filesと Azure VMware ディザスター リカバリー ソリューションには、次の利点があります。
@@ -322,6 +333,7 @@ Azure NetApp Filesと Azure VMware ディザスター リカバリー ソリュ�
 
 
 
+[[where-to-find-additional-information]]
 === 詳細情報の入手方法
 
 このドキュメントに記載されている情報の詳細については、次のドキュメントや Web サイトを参照してください。

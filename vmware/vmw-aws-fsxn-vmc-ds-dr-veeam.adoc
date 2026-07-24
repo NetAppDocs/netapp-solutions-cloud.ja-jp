@@ -18,6 +18,7 @@ Amazon FSx ONTAPと VMware Cloud on AWS の統合は、SDDC 内のクラスタ�
 
 
 
+[[overview]]
 == 概要
 
 VMware Cloud on AWS SDDC を災害復旧ターゲットとして使用することを検討しているお客様の場合、VM レプリケーション機能を提供する検証済みのサードパーティ ソリューションを使用して、FSx ONTAPデータストアでオンプレミスからデータを複製できます。  FSx ONTAPデータストアを追加することで、ストレージに対応するためだけに膨大な数の ESXi ホストを使用して VMware Cloud on AWS SDDC を構築するよりもコストを最適化した展開が可能になります。
@@ -26,6 +27,7 @@ VMware Cloud on AWS SDDC を災害復旧ターゲットとして使用するこ�
 
 
 
+[[problem-statement]]
 == 問題の説明
 
 このドキュメントでは、FSx ONTAPデータストアと Veeam Backup and replication を使用して、VM レプリケーション機能によりオンプレミスの VMware VM から VMware Cloud on AWS へのディザスタ リカバリを設定する方法について説明します。
@@ -42,10 +44,12 @@ image:dr-veeam-fsx-001.png["Veeam Replication と FSx ONTAP for VMC を使用し
 
 
 
+[[solution-deployment]]
 == ソリューションの展開
 
 
 
+[[high-level-steps]]
 === 高レベルの手順
 
 . Veeam Backup and Replication ソフトウェアは、適切なネットワーク接続を備えたオンプレミス環境で実行されています。
@@ -57,6 +61,7 @@ image:dr-veeam-fsx-001.png["Veeam Replication と FSx ONTAP for VMC を使用し
 
 
 
+[[pre-requisites-for-veeam-vm-replication-to-vmc-and-fsx-ontap-datastores]]
 === VMC および FSx ONTAPデータストアへの Veeam VM レプリケーションの前提条件
 
 . Veeam Backup & Replication バックアップ VM がソース vCenter とターゲット VMware cloud on AWS SDDC クラスターに接続されていることを確認します。
@@ -68,6 +73,7 @@ image:dr-veeam-fsx-001.png["Veeam Replication と FSx ONTAP for VMC を使用し
 
 
 
+[[deployment-details]]
 === 導入環境の詳細
 
 .ステップ1: VMを複製する
@@ -217,6 +223,7 @@ image:dr-veeam-fsx-019.png["入出力ダイアログまたは書かれたコン�
 ====
 
 
+[[conclusion]]
 == まとめ
 
 FSx ONTAPデータストア機能により、Veeam または検証済みのサードパーティ ツールは、VM レプリカ コピーに対応するためだけにクラスター内に多数のホストを立ち上げることなく、Pilot light クラスターを使用して低コストの DR ソリューションを提供できるようになります。これにより、調整されカスタマイズされた災害復旧計画を処理するための強力なソリューションが提供され、DR のニーズを満たすために社内の既存のバックアップ製品を再利用することも可能になり、オンプレミスの DR データセンターを終了してクラウドベースの災害復旧が可能になります。フェイルオーバーは、計画的なフェイルオーバーとして実行することも、災害発生時にボタンをクリックするだけでフェイルオーバーを実行することもでき、DR サイトをアクティブ化する決定が下されます。
