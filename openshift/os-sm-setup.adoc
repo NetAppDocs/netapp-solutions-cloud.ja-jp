@@ -57,7 +57,7 @@ NOTE: コネクタはクラウド環境にもインストールできます。�
 .OCP クラスターにTridentをインストールする
 [%collapsible%open]
 ====
-* Helm を使用してTrident Operator をデプロイします。説明書を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-helm.html["ここをクリックしてください。"]
+* Helm を使用して Trident Operator をデプロイします。手順を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-install/kubernetes-deploy-helm.html["ここをクリックしてください。"]
 * バックエンドとストレージ クラスを作成します。説明書を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/backends.html["ここをクリックしてください。"]。
 
 

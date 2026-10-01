@@ -13,13 +13,11 @@ summary:
 :imagesdir: ../media/
 
 
+[role="lead"]
+以下の追加ソリューションも参照してください。
 
+* link:https://docs.netapp.com/us-en/netapp-solutions-containers/openshift/os-solution-overview.html["Red Hat OpenShift Container Solutionオンプレミス"^]
+* link:https://docs.netapp.com/us-en/netapp-solutions-containers/openshift/os-rosa-solution-overview.html["Red Hat OpenShift Service on AWS コンテナソリューション"^]
+* link:https://docs.netapp.com/us-en/netapp-solutions-virtualization/openshift/osv-storage-getting-started.html["Red Hat OpenShift Virtualization ソリューションオンプレミス"^]
+* link:https://docs.netapp.com/us-en/netapp-solutions-virtualization/openshift/osv-rosa-overview.html["Red Hat OpenShift Service on AWS 仮想化ソリューション"^]
 
-[[additional-solutions]]
-== 追加のソリューション
-
-追加のソリューションは、次の他のセクションで利用できます。
-
-Red Hat OpenShift Container ソリューションについては、link:https://docs.netapp.com/us-en/netapp-solutions-containers/openshift/os-solution-overview.html["ここをクリックしてください。"^] 。
-
-オンプレミスのRed Hat OpenShift Virtualizationソリューションについては、link:https://docs.netapp.com/us-en/netapp-solutions-virtualization/openshift/osv-deployment-prerequisites.html["ここをクリックしてください。"^] 。

@@ -58,8 +58,8 @@ NOTE: GCP に Red Hat OpenShift Container Platform クラスターをデプロ�
 
 
 .GCP の OCP クラスタにTridentをインストールする
-* Tridentを展開する方法は数多くある。 https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy.html["ここをクリックしてください。"] 。
-* このプロジェクトでは、以下の手順に従ってTrident Operatorを手動で展開することでTridentをインストールしました。 https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-operator.html["ここをクリックしてください。"] 。
+* 以下に示すように、Trident を導入する方法は多数あります https://docs.netapp.com/us-en/trident/trident-install/kubernetes-deploy.html["ここをクリックしてください。"^]。
+* このプロジェクトでは、 https://docs.netapp.com/us-en/trident/trident-install/kubernetes-deploy-operator.html["ここをクリックしてください。"^]の手順に従って Trident Operator を手動でデプロイすることで、Trident をインストールしました。
 * バックエンドとストレージ クラスを作成します。説明書を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/backends.html["ここをクリックしてください。"]。
 
 

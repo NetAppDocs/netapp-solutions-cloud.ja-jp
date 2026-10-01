@@ -25,7 +25,7 @@ summary:
 . link:https://docs.netapp.com/us-en/trident/["Trident"]
 . link:https://docs.netapp.com/us-en/ontap/["ONTAP 9"]
 . link:https://github.com/NetApp/Verda["NetAppヴェルダ"]- Verda（オープンソース）には、一般的なクラウドネイティブのデータ集約型アプリケーション用のリファレンス実行フックのコレクションがあります。
-. link:https://docs.netapp.com/us-en/cloud-manager-family/["NetAppBlueXP"]
+. link:https://bluexp.netapp.com/["NetAppBlueXP"]
 . link:https://docs.openshift.com/rosa/welcome/index.html["AWS 上の Red Hat OpenShift サービス"]
 . link:https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/["Amazon FSx ONTAP"]
 . link:https://docs.openshift.com/container-platform/4.13/installing/installing_gcp/preparing-to-install-on-gcp.html["GCP への OpenShift クラスターのインストール"]

@@ -36,7 +36,7 @@ NOTE: このソリューションは、AWS の 2 つの VPC 内の 2 つの ROSA
 
 
 .ROSA クラスターにTridentをインストールする (Helm チャートを使用)
-* Helm チャートを使用して、ROSA クラスターにTridentをインストールします。ドキュメントリンクを参照してください: https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-helm.html[ここ]。
+* Helm チャートを使用して ROSA クラスターに Trident をインストールします。ドキュメントへのリンクを参照してください：https://docs.netapp.com/us-en/trident/trident-install/kubernetes-deploy-helm.html[ここ^]。
 
 
 .ROSA クラスタ向け FSx ONTAPとTridentの統合
@@ -58,6 +58,6 @@ image:rhhc-default-storage-class.png["入出力ダイアログまたは書かれ
 * クラスターに新しい Argo CD インスタンスをセットアップします。説明書を参照してくださいlink:https://docs.openshift.com/container-platform/4.10/cicd/gitops/setting-up-argocd-instance.html["ここをクリックしてください。"]。
 
 
-Argo CD のコンソールを開き、アプリを展開します。たとえば、Helm Chart を使用した Argo CD を使用して Jenkins アプリをデプロイできます。アプリケーションを作成するときに、次の詳細が指定されました: プロジェクト: デフォルト クラスター:'https://kubernetes.default.svc'[] (引用符なし) 名前空間: Jenkins Helm Chart の URL:'https://charts.bitnami.com/bitnami'[] （引用符なし）
+Argo CD のコンソールを開き、アプリケーションをデプロイします。例えば、Argo CD と Helm チャートを使用して Jenkins アプリをデプロイすることができます。アプリケーションを作成する際に、以下の詳細情報が提供されました： Project: default cluster: +'https://kubernetes.default.svc'+[]（引用符なし） Namespace: Jenkins Helm チャートの URL: +'https://charts.bitnami.com/bitnami'+[]（引用符なし）
 
 Helm パラメータ: global.storageClass: fsxn-nas

@@ -682,7 +682,7 @@ SnapCenterサーバーと Veeam Backup & Replication サーバーは、VMware Cl
 .SnapCenter Server
 [%collapsible%open]
 =====
-SnapCenter softwareはNetAppサポート サイトから入手でき、ドメインまたはワークグループ内に存在する Microsoft Windows システムにインストールできます。詳細な計画ガイドとインストール手順については、link:https://docs.netapp.com/us-en/snapcenter/install/install_workflow.html["NetAppドキュメント センター"^] 。
+SnapCenter software は NetApp サポートサイトから入手可能で、ドメインまたはワークグループに属する Microsoft Windows システムにインストールできます。詳細な計画ガイドとインストール手順は、link:https://docs.netapp.com/["NetAppドキュメント センター"^] をご参照ください。
 
 SnapCenter softwareは次の場所にあります。 https://mysupport.netapp.com["このリンク"^] 。
 

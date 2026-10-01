@@ -70,7 +70,7 @@ TIP: 次の点に注意してください: - インストーラーに提供す�
 [%collapsible%open]
 ====
 * ハブ、ソース、および宛先クラスタの3つのクラスタすべてにNetApp Tridentをインストールします。
-* 説明書を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-get-started/kubernetes-deploy-operator.html["ここをクリックしてください。"]。
+* 説明書を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-install/kubernetes-deploy-operator.html["ここをクリックしてください。"]。
 * ontap-nas のストレージ バックエンドを作成します。
 * ontap-nas のストレージ クラスを作成します。
 * 説明書を参照してくださいlink:https://docs.netapp.com/us-en/trident/trident-use/create-stor-class.html["ここをクリックしてください。"]。
