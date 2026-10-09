@@ -14,7 +14,7 @@ summary: Google Cloud NetApp Volumes は、適切なアクセス権限デュア�
 
 
 [role="lead"]
-Google Cloud NetApp Volumes は、適切なアクセス権限を維持しながら、SMB クライアントと NFS クライアントの両方に同じデータセットを共有する機能を提供します。(https://cloud.google.com/architecture/partners/netapp-cloud-volumes/managing-dual-protocol-access["デュアルプロトコル"^] ）。これは、プロトコル間の ID マッピングを調整し、集中型のバックエンド LDAP サーバーを使用して UNIX ID をGoogle Cloud NetApp Volumesに提供することによって行われます。  Windows Active Directory を使用すると、Windows ユーザーと UNIX ユーザーの両方に使いやすさを提供できます。
+Google Cloud NetApp Volumesは、適切なアクセス権限を維持しながら、SMBクライアントとNFSクライアントの両方に同じデータセットを共有する機能を提供します(https://docs.cloud.google.com/netapp/volumes/docs/configure-and-use/active-directory/ad-ldap-access["デュアルプロトコル"^]）。これは、プロトコル間のIDマッピングを調整し、一元化されたバックエンドLDAPサーバを使用してUNIX IDをGoogle Cloud NetApp Volumesに提供することで実現されます。使いやすさを考慮して、Windows Active Directoryを使用してWindowsユーザとUNIXユーザの両方を提供できます。
 
 
 
@@ -38,7 +38,7 @@ NFS と SMB の両方にデータを提供するボリュームのアクセス�
 
 あるいは、UNIXユーザーが `joe`Windows 権限を使用してGoogle Cloud NetApp Volumesボリュームにアクセスしようとする場合、UNIX ユーザーは有効な Windows ユーザーにマップできる必要があります。それ以外の場合、ボリュームへのアクセスは拒否されます。
 
-現在、LDAP を使用した外部 UNIX ID 管理では Active Directory のみがサポートされています。このサービスへのアクセス設定の詳細については、以下を参照してください。 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-smb-volumes["AD接続の作成"^] 。
+現在、LDAPによる外部UNIX ID管理では、Active Directoryのみがサポートされています。このサービスへのアクセス設定の詳細については、 https://docs.cloud.google.com/netapp/volumes/docs/configure-and-use/active-directory/create-ad-policy["AD接続の作成"^]を参照してください。
 
 
 

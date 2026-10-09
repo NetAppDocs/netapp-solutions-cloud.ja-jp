@@ -77,4 +77,4 @@ Google Cloud NetApp Volumes for Google Cloud は現在、ISO/IEC 27001:2013 お�
 [[gdpr]]
 == GDPR
 
-当社のプライバシーとGDPR遵守への取り組みについては、当社のウェブサイトでご覧いただけます。 https://www.netapp.com/how-to-buy/sales-terms-and-conditions%22%20/o%20%22SEO%20-%20Sales%20Terms%20and%20Conditions["顧客契約"^] 、例えば私たちの https://netapp.na1.echosign.com/public/esignWidget?wid=CBFCIBAA3AAABLblqZhCqPPgcufskl_71q-FelD4DHz5EMJVOkqqT0iiORT10DlfZnZeMpDrse5W6K9LEw6o*["顧客Data Processing補足契約"^]これには、 https://ec.europa.eu/info/law/law-topic/data-protection/international-dimension-data-protection/standard-contractual-clauses-scc_en["標準契約条項"^]欧州委員会によって提供された。当社は、企業行動規範に定められた中核的価値観に基づき、プライバシー ポリシーでもこれらの取り組みを行っています。
+プライバシーおよび GDPR への準拠に関するコミットメントは、欧州委員会が提供する  https://ec.europa.eu/info/law/law-topic/data-protection/international-dimension-data-protection/standard-contractual-clauses-scc_en["標準契約条項"^] を含む https://netapp.na1.echosign.com/public/esignWidget?wid=CBFCIBAA3AAABLblqZhCqPPgcufskl_71q-FelD4DHz5EMJVOkqqT0iiORT10DlfZnZeMpDrse5W6K9LEw6o*["顧客Data Processing補足契約"^]など、弊社の複数の  https://www.netapp.com/how-to-buy/sales-terms-and-conditions/["顧客契約"^] に記載されています。また、これらのコミットメントは、弊社の企業行動規範に定めるコアバリューに基づき、プライバシーポリシーにも明記されています。

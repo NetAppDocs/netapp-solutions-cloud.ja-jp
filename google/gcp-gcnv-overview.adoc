@@ -16,7 +16,7 @@ summary: 特にインフラストラクチャがストレージ管理者の制�
 オリバー・クラウス、ジャスティン・パリシ、 NetApp
 
 [role="lead"]
-特にインフラストラクチャがストレージ管理者の制御外にあるクラウドでは、セキュリティは、クラウド プロバイダーが提供するサービス オファリングにデータを信頼する上で最も重要です。この文書は、セキュリティ製品の概要です。 https://cloud.netapp.com/cloud-volumes-service-for-gcp["Google Cloud NetApp VolumesはGoogle Cloudで"^] 。
+インフラストラクチャがストレージ管理者の管理下にないクラウド環境では特に、クラウドプロバイダーが提供するサービスにデータを安心して預けるためにセキュリティが極めて重要です。このドキュメントは、セキュリティサービスの概要です https://www.netapp.com/google-cloud/netapp-volumes/["Google Cloud NetApp VolumesはGoogle Cloudで"^]。
 
 
 

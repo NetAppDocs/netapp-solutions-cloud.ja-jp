@@ -581,7 +581,7 @@ NOTE: ここで入力したSnapMirrorラベルは、ポリシーを適用する�
 ====
 最後のステップは、個々のデータストアと仮想マシンのデータ保護を有効にすることです。次の手順では、AWS へのバックアップをアクティブ化する方法を説明します。
 
-詳細については、 https://docs.netapp.com/us-en/bluexp-backup-recovery/task-backup-vm-data-to-aws.html["データストアを Amazon Web Services にバックアップする"] 。
+詳細については、 https://docs.netapp.com/us-en/data-services-backup-recovery/br-use-vmware-backup.html["VMwareワークロードをバックアップする"^]を参照してください。
 
 . BlueXP backup and recoveryのメイン ページから、バックアップするデータストアの設定ドロップダウンにアクセスし、[バックアップのアクティブ化] を選択します。
 +
@@ -663,7 +663,7 @@ image:bxp-scv-hybrid-035.png["プライマリまたはセカンダリを選択"]
 
 仮想マシン用のBlueXP backup and recoveryを使用すると、仮想マシンを元の場所に復元できます。復元機能には、 BlueXP Web コンソールからアクセスします。
 
-詳細については、 https://docs.netapp.com/us-en/bluexp-backup-recovery/task-restore-vm-data.html["クラウドから仮想マシンのデータを復元する"] 。
+詳細については、 https://docs.netapp.com/us-en/data-services-backup-recovery/br-use-vmware-restore.html["クラウドから仮想マシンのデータを復元する"^]を参照してください。
 
 .BlueXP backup and recoveryから仮想マシンを復元する
 [%collapsible%open]

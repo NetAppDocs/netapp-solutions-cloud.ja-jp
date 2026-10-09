@@ -128,7 +128,7 @@ Cloud Volumes ONTAP共有と LUN は、Azure VMware Solution SDDC 環境で作�
 災害復旧または移行の目的でオンプレミス環境からクラウドにボリュームをレプリケートするには、サイト間 VPN または ExpressRoute を使用して Azure へのネットワーク接続を確立します。オンプレミスからCloud Volumes ONTAPへのデータの複製については、このドキュメントの範囲外です。オンプレミスとCloud Volumes ONTAPシステム間でデータを複製するには、link:https://docs.netapp.com/us-en/occm/task_replicating_data.html#setting-up-data-replication-between-systems["システム間のデータ複製の設定"] 。
 
 
-NOTE: 使用link:https://cloud.netapp.com/cvo-sizer["Cloud Volumes ONTAPサイザー"]Cloud Volumes ONTAPインスタンスのサイズを正確に決定します。また、オンプレミスのパフォーマンスを監視して、 Cloud Volumes ONTAPサイザーの入力として使用します。
+NOTE: link:https://bluexp.netapp.com/cvo-sizer["Cloud Volumes ONTAPサイザー"^] を使用して、Cloud Volumes ONTAPインスタンスのサイズを正確に設定します。また、オンプレミスのパフォーマンスを監視して、Cloud Volumes ONTAPサイザーの入力として使用します。
 
 . NetApp Cloud Central にログインすると、Fabric View 画面が表示されます。 Cloud Volumes ONTAPタブを見つけて、「Go to Cloud Manager」を選択します。ログインすると、Canvas 画面が表示されます。
 +

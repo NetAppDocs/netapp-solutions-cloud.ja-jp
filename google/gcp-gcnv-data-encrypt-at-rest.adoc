@@ -22,4 +22,4 @@ Google Cloud NetApp Volumesのすべてのボリュームは、AES-256 暗号化
 
 2021 年 11 月から、プレビュー版の顧客管理暗号化キー (CMEK) 機能が利用可能になりました。これにより、ボリュームごとのキーを、プロジェクトごと、リージョンごとにホストされているマスターキーで暗号化できるようになります。 https://cloud.google.com/kms/docs["Google キー管理サービス (KMS)。"^] KMS を使用すると、外部キー マネージャーを接続できます。
 
-NetApp Volumes-PerformanceのKMSの設定については、以下を参照してください。 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/customer-managed-keys?hl=en_US["顧客管理暗号化キーの設定"^] 。
+NetApp Volumes-PerformanceのKMSの設定については、 https://docs.cloud.google.com/netapp/volumes/docs/configure-and-use/cmek/cmek-overview["顧客管理暗号化キーの設定"^]を参照してください。

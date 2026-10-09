@@ -14,7 +14,7 @@ summary: SMB は、Microsoft が開発したネットワーク ファイル共�
 
 
 [role="lead"]
-https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-r2-and-2012/hh831795(v=ws.11)["SMB"^]は、Microsoft が開発したネットワーク ファイル共有プロトコルであり、イーサネット ネットワーク経由で複数の SMB クライアントに集中的なユーザー/グループ認証、アクセス許可、ロック、およびファイル共有を提供します。ファイルとフォルダーは共有を通じてクライアントに提示されます。共有はさまざまな共有プロパティで構成でき、共有レベルの権限によるアクセス制御を提供します。  SMB は、Windows、Apple、Linux クライアントなど、プロトコルをサポートする任意のクライアントに提供できます。
+https://learn.microsoft.com/en-us/windows-server/storage/file-server/file-server-smb-overview["SMB"^]は、Microsoftが開発したネットワークファイル共有プロトコルであり、イーサネットネットワークを介して複数のSMBクライアントに対し、一元的なユーザ/グループ認証、権限、ロック、およびファイル共有を提供します。ファイルやフォルダは共有を介してクライアントに提供され、共有にはさまざまな共有プロパティを設定でき、共有レベルの権限によるアクセス制御が可能です。SMBは、Windows、Apple、Linuxクライアントなど、このプロトコルをサポートするあらゆるクライアントに提供できます。
 
 Google Cloud NetApp Volumes は、 SMB 2.1 および 3.x バージョンのプロトコルをサポートしています。
 

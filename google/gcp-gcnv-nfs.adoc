@@ -144,7 +144,7 @@ Google Cloud NetApp Volumes は、 UNIX セキュリティ スタイルを使用
 |===
 最後に、NFS グループ メンバーシップ (NFSv3 と NFSV4.x の両方) は、RPC パケット制限に従って、AUTH_SYS のデフォルトの最大値 16 に制限されます。  NFS Kerberos は最大 32 個のグループを提供し、NFSv4 ACL はきめ細かなユーザーおよびグループ ACL (ACE あたり最大 1024 エントリ) によって制限を解除します。
 
-さらに、 Google Cloud NetApp Volumes は拡張グループ サポートを提供し、サポートされるグループの最大数を 32 まで拡張します。これには、有効な UNIX ユーザーおよびグループ ID を含む LDAP サーバーへの LDAP 接続が必要です。設定方法の詳細については、以下を参照してください。 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/creating-nfs-volumes?hl=en_US["NFSボリュームの作成と管理"^] Google ドキュメントに記載されています。
+さらに、Google Cloud NetApp Volumesは拡張グループサポートを提供し、サポートされるグループの最大数を32まで拡張します。これには、有効なUNIXユーザおよびグループIDを含むLDAPサーバへのLDAP接続が必要です。この設定の詳細については、Googleドキュメントの https://docs.cloud.google.com/netapp/volumes/docs/configure-and-use/active-directory/ad-ldap-access["NFSボリュームの作成と管理"^]を参照してください。
 
 
 

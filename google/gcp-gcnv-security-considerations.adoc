@@ -78,7 +78,7 @@ Google Cloud NetApp Volumesでは、更新はクラウド プロバイダ チー
 
 2021 年 11 月から、プレビュー版のカスタマー管理暗号化 (CMEK) 機能がNetApp Volumes-Performance で利用できるようになりました。この機能を使用すると、Google Key Management Service（KMS）でホストされているプロジェクトごと、リージョンごとのマスターキーを使用して、ボリュームごとのキーを暗号化できます。  KMS を使用すると、外部キー マネージャーを接続できます。
 
-NetApp Volumes-PerformanceのKMSの設定方法の詳細については、 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/customer-managed-keys?hl=en_US["Google Cloud NetApp Volumesのドキュメントをご覧ください"^] 。
+NetApp Volumes-PerformanceのKMSの設定方法の詳細については、 https://docs.cloud.google.com/netapp/volumes/docs/configure-and-use/cmek/cmek-overview["Google Cloud NetApp Volumesのドキュメントをご覧ください"^]。
 
 アーキテクチャの詳細については、セクションを参照してください。link:gcp-gcnv-arch-detail.html["Google Cloud NetApp Volumes のアーキテクチャ。"]
 
@@ -148,8 +148,8 @@ Google Cloud NetApp Volumesのスナップショット コピーは読み取り�
 
 Google Cloud NetApp Volumes は、標準の NAS クライアント バックアップ機能（NFS または SMB 経由のバックアップなど）を提供します。
 
-* NetApp Volumes-Performance は、他のNetApp Volumes-Performance ボリュームへのリージョン間ボリュームレプリケーションを提供します。詳細については、 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/volume-replication?hl=en_US["ボリュームレプリケーション"^] Google Cloud NetApp Volumes のドキュメントをご覧ください。
-* NetApp Volumes-SW は、サービスネイティブのボリューム バックアップ/リストア機能を提供します。詳細については、 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/back-up?hl=en_US["クラウドバックアップ"^] Google Cloud NetApp Volumes のドキュメントをご覧ください。
+* NetApp Volumes-Performanceは、他のNetApp Volumes-Performanceボリュームへのクロスリージョンボリュームレプリケーションを提供します。詳細については、Google Cloud NetApp Volumesドキュメントの https://docs.cloud.google.com/netapp/volumes/docs/protect-data/about-volume-replication["ボリュームレプリケーション"^]を参照してください。
+* NetApp Volumes-SWは、サービスネイティブなボリュームのバックアップ/リストア機能を提供します。詳細については、Google Cloud NetApp Volumesのドキュメントの https://docs.cloud.google.com/netapp/volumes/docs/protect-data/about-backups["クラウドバックアップ"^]を参照してください。
 
 
 ボリューム レプリケーションは、ランサムウェア イベントなどの災害発生時に高速フェイルオーバーを実現するために、ソース ボリュームの正確なコピーを提供します。
@@ -167,7 +167,7 @@ NetApp Volumes-Performance を使用すると、Google のネットワークで�
 
 ボリューム レプリカは読み取り専用であり、ウイルスがデータに感染した場合やランサムウェアがプライマリ データセットを暗号化した場合に、データを迅速に回復できるように、オフサイトでデータの不変のコピーを提供します。読み取り専用データは暗号化されませんが、プライマリ ボリュームが影響を受けてレプリケーションが発生すると、感染したブロックも複製されます。影響を受けていない古いスナップショット コピーを使用して回復することもできますが、攻撃の検出速度によっては、SLA が約束された RTO/RPO の範囲外になる可能性があります。
 
-さらに、Google Cloud のクロスリージョン レプリケーション（CRR）管理により、ボリュームの削除、スナップショットの削除、スナップショットのスケジュール変更などの悪意のある管理アクションを防ぐことができます。これは、ソース ボリュームを削除できるがミラーを解除できないため宛先ボリュームを削除できないボリューム管理者と、ボリューム操作を一切実行できない CRR 管理者を分離するカスタム ロールを作成することによって行われます。見る https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["セキュリティに関する考慮事項"^]各管理者グループで許可される権限については、 Google Cloud NetApp Volumes のドキュメントをご覧ください。
+さらに、Google Cloudのクロスリージョンレプリケーション（CRR）管理を使用することで、ボリュームの削除、Snapshotの削除、Snapshotスケジュールの変更などの悪意のある管理アクションを防ぐことができます。これは、ソースボリュームを削除できるがミラーを解除できず、したがってデスティネーションボリュームを削除できないボリューム管理者と、ボリューム操作を一切実行できないCRR管理者を分離するカスタムロールを作成することによって実現されます。各管理者グループに許可されている権限については、Google Cloud NetApp Volumesのドキュメントの https://docs.cloud.google.com/netapp/volumes/docs/plan-and-prepare/iam["セキュリティに関する考慮事項"^]を参照してください。
 
 
 
@@ -177,16 +177,16 @@ NetApp Volumes-Performance を使用すると、Google のネットワークで�
 
 Google Cloud NetApp Volumes は高いデータ耐久性を提供しますが、外部イベントによってデータが失われる可能性があります。ウイルスやランサムウェアなどのセキュリティ イベントが発生した場合、データ アクセスをタイムリーに再開するには、バックアップと復元が重要になります。管理者がGoogle Cloud NetApp Volumesボリュームを誤って削除してしまう可能性があります。あるいは、ユーザーはデータのバックアップ バージョンを数か月間保持したいだけなので、ボリューム内に追加のスナップショット コピー スペースを保持するとコスト上の課題が発生します。スナップショット コピーは、失われたデータを復元するために過去数週間のバックアップ バージョンを保持するのに適した方法ですが、スナップショット コピーはボリューム内に保存されるため、ボリュームが消失すると失われます。
 
-これらの理由から、 Google Cloud NetApp Volumesは、 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/back-up?hl=en_US["Google Cloud NetApp Volumesバックアップ"^] 。
+これらの理由から、Google Cloud NetApp Volumesは https://docs.cloud.google.com/netapp/volumes/docs/protect-data/about-backups["Google Cloud NetApp Volumesバックアップ"^]を通じてバックアップサービスを提供しています。
 
 Google Cloud NetApp Volumesバックアップでは、Google Cloud Storage (GCS) 上にボリュームのコピーが生成されます。ボリューム内に保存されている実際のデータのみがバックアップされ、空き領域はバックアップされません。これは永久増分として機能します。つまり、ボリュームの内容を一度転送し、それ以降は変更されたデータのみをバックアップし続けます。複数の完全バックアップを伴う従来のバックアップ概念と比較すると、大量のバックアップストレージを節約し、コストを削減します。バックアップ スペースの月額料金はボリュームに比べて低いため、バックアップ バージョンを長期間保存するのに最適な場所です。
 
 ユーザーは、 Google Cloud NetApp Volumesバックアップを使用して、同じリージョン内の同じボリュームまたは別のボリュームに任意のバックアップ バージョンを復元できます。ソースボリュームが削除された場合でも、バックアップデータは保持されるため、個別に管理（削除など）する必要があります。
 
-Google Cloud NetApp Volumesバックアップは、オプションとしてGoogle Cloud NetApp Volumesに組み込まれています。ユーザーは、ボリュームごとにGoogle Cloud NetApp Volumesバックアップを有効にすることで、保護するボリュームを決定できます。参照 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/back-up?hl=en_US["Google Cloud NetApp Volumesバックアップのドキュメント"^]バックアップの詳細については、 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/resource-limits-quotas?hl=en_US["サポートされる最大バックアップバージョンの数"^] 、スケジュール、そして https://cloud.google.com/architecture/partners/netapp-cloud-volumes/costs?hl=en_US["価格設定"^]。
+Google Cloud NetApp Volumes バックアップは、オプションとして Google Cloud NetApp Volumes に組み込まれています。ユーザーは、ボリュームごとに Google Cloud NetApp Volumes バックアップを有効化することで、保護するボリュームを選択できます。バックアップ、 https://docs.cloud.google.com/netapp/volumes/docs/quotas["サポートされる最大バックアップバージョンの数"^]、スケジュール、および https://cloud.google.com/netapp/volumes/pricing["価格設定"^]の詳細については、 https://docs.cloud.google.com/netapp/volumes/docs/protect-data/about-backups["Google Cloud NetApp Volumesバックアップのドキュメント"^]を参照してください。
 
 プロジェクトのすべてのバックアップ データは GCS バケット内に保存されます。このバケットはサービスによって管理され、ユーザーには表示されません。各プロジェクトは異なるバケットを使用します。現在、バケットはGoogle Cloud NetApp Volumesボリュームと同じリージョンにありますが、さらに多くのオプションが検討されています。最新のステータスについてはドキュメントを参照してください。
 
 Google Cloud NetApp Volumesバケットから GCS へのデータ転送には、HTTPS と TLS1.2 を使用したサービス内部の Google ネットワークが使用されます。データは Google が管理するキーを使用して保存時に暗号化されます。
 
-Google Cloud NetApp Volumesのバックアップ（バックアップの作成、削除、復元）を管理するには、ユーザーは https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["ロール/netappcloudvolumes.admin"^]役割。
+Google Cloud NetApp Volumesのバックアップ（バックアップの作成、削除、復元）を管理するには、ユーザーに https://docs.cloud.google.com/netapp/volumes/docs/plan-and-prepare/iam["roles/netapp.admin"^]ロールが必要です。

@@ -16,7 +16,7 @@ summary: Google Cloud NetApp Volumes for Google Cloud は、Google Cloud プラ�
 [role="lead"]
 Google Cloud NetApp Volumes for Google CloudはGoogle Cloudを活用しています https://cloud.google.com/vpc/docs/configure-private-services-access["プライベートサービスアクセス"^]フレームワーク。このフレームワークでは、ユーザーはGoogle Cloud NetApp Volumesに接続できます。このフレームワークは、他の Google Cloud サービスと同様にサービス ネットワーキングと VPC ピアリング構造を使用して、テナント間の完全な分離を保証します。
 
-Google Cloud NetApp Volumes for Google Cloud のアーキテクチャの概要については、以下をご覧ください。 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/architecture["Google Cloud NetApp Volumesのアーキテクチャ"^] 。
+Google Cloud向けのGoogle Cloud NetApp Volumesのアーキテクチャの概要については、 https://docs.cloud.google.com/netapp/volumes/docs/discover/overview#netapp_volumes_architecture["Google Cloud NetApp Volumesのアーキテクチャ"^]を参照してください。
 
 ユーザー VPC（スタンドアロンまたは共有）は、ボリュームをホストするGoogle Cloud NetApp Volumes管理対象テナント プロジェクト内の VPC にピアリングされます。
 

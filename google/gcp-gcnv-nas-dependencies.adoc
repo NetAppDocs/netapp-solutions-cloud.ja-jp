@@ -59,7 +59,7 @@ NFS Kerberos マシン アカウントの場合、パスワードのリセット
 [[network-ports-for-use-with-ldap-and-kerberos]]
 == LDAP および Kerberos で使用するネットワーク ポート
 
-LDAP および Kerberos を使用する場合は、これらのサービスで使用されているネットワーク ポートを特定する必要があります。  Google Cloud NetApp Volumesで使用されているポートの完全なリストは、 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/security-considerations?hl=en_US["Google Cloud NetApp Volumes のセキュリティに関する考慮事項に関するドキュメント"^] 。
+LDAPとKerberosを使用する場合は、これらのサービスが使用するネットワークポートを特定する必要があります。Google Cloud NetApp Volumesで使用されているポートの完全なリストは、 https://docs.cloud.google.com/netapp/volumes/docs/plan-and-prepare/security-considerations["Google Cloud NetApp Volumes のセキュリティに関する考慮事項に関するドキュメント"^]で確認できます。
 
 
 
@@ -326,7 +326,7 @@ Active Directory DNS を構成して、DNS レコードを更新できるサー�
 
 Google プロジェクト内のリソースはデフォルトで Google Cloud DNS を使用するようになっており、これは Active Directory DNS に接続されていないことに注意してください。  Cloud DNS を使用するクライアントは、Google Cloud NetApp Volumesによって返される UNC パスを解決できません。  Active Directory ドメインに参加している Windows クライアントは、Active Directory DNS を使用するように構成されており、このような UNC パスを解決できます。
 
-クライアントを Active Directory に参加させるには、Active Directory DNS を使用するように DNS 構成を構成する必要があります。必要に応じて、リクエストを Active Directory DNS に転送するように Cloud DNS を構成することもできます。見る https://cloud.google.com/architecture/partners/netapp-cloud-volumes/faqs-netapp["クライアントが SMB NetBIOS 名を解決できないのはなぜですか?"^]詳細についてはこちらをご覧ください。
+クライアントをActive Directoryに参加させるには、Active Directory DNSを使用するようにDNS構成を設定する必要があります。オプションとして、Cloud DNSを設定して、リクエストをActive Directory DNSに転送することもできます。詳細については、 https://docs.cloud.google.com/netapp/volumes/docs/configure-and-use/active-directory/about-ad["クライアントが SMB NetBIOS 名を解決できないのはなぜですか?"^]を参照してください。
 
 
 NOTE: Google Cloud NetApp Volumes は現在 DNSSEC をサポートしておらず、DNS クエリはプレーンテキストで実行されます。
