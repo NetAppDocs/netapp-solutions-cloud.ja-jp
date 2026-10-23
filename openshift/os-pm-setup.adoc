@@ -55,7 +55,7 @@ image:rhhc-default-storage-class.png["入出力ダイアログまたは書かれ
 
 .OpenShift GitOps (Argo CD) を使用してアプリケーションをデプロイする
 * クラスターに OpenShift GitOps オペレーターをインストールします。説明書を参照してくださいlink:https://docs.openshift.com/container-platform/4.10/cicd/gitops/installing-openshift-gitops.html["ここをクリックしてください。"]。
-* クラスターに新しい Argo CD インスタンスをセットアップします。説明書を参照してくださいlink:https://docs.openshift.com/container-platform/4.10/cicd/gitops/setting-up-argocd-instance.html["ここをクリックしてください。"]。
+* クラスター用の新しいArgo CDインスタンスをSetUpします。手順link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.10/html/cicd/gitops#gitops-argo-cd-installation_setting-up-argocd-instance["ここをクリックしてください。"^]を参照してください。
 
 
 Argo CD のコンソールを開き、アプリケーションをデプロイします。例えば、Argo CD と Helm チャートを使用して Jenkins アプリをデプロイすることができます。アプリケーションを作成する際に、以下の詳細情報が提供されました： Project: default cluster: +'https://kubernetes.default.svc'+[]（引用符なし） Namespace: Jenkins Helm チャートの URL: +'https://charts.bitnami.com/bitnami'+[]（引用符なし）

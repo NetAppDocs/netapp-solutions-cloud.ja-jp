@@ -70,7 +70,7 @@ Google Cloud NetApp Volumes はLDAP クライアントとして機能し、UNIX 
 
 Active Directory を UNIX LDAP サーバーとして使用するには、UNIX ID に使用する予定のユーザーとグループに必要な UNIX 属性を設定する必要があります。 Google Cloud NetApp Volumesは、以下の基準に基づいて属性をクエリするデフォルトのLDAPスキーマテンプレートを使用します。 https://tools.ietf.org/id/draft-howard-rfc2307bis-01.txt["RFC-2307-bis"^] 。その結果、次の表は、ユーザーとグループに入力する必要がある最小限の Active Directory 属性と、各属性の使用目的を示しています。
 
-Active DirectoryでLDAP属性を設定する方法の詳細については、以下を参照してください。 https://cloud.google.com/architecture/partners/netapp-cloud-volumes/managing-dual-protocol-access["デュアルプロトコル アクセスの管理。"^]
+Active Directory で LDAP 属性を設定する方法の詳細については、以下を参照してください。 https://docs.cloud.google.com/netapp/volumes/docs/configure-and-use/active-directory/ad-ldap-access["デュアルプロトコル アクセスの管理。"^]
 
 |===
 | 属性 | 何をするのか 

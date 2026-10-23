@@ -37,7 +37,7 @@ image:rhhc-self-managed-aws.png["入出力ダイアログまたは書かれた�
 高度なクラスター管理 (ACM) ウィザードから AWS 上に OpenShift クラスターを作成します。説明書を参照してくださいlink:https://docs.openshift.com/dedicated/osd_install_access_delete_cluster/creating-an-aws-cluster.html["ここをクリックしてください。"]。
 
 
-NOTE: OpenShift Hybrid Cloud コンソールから AWS にクラスターを作成することもできます。参照するlink:https://docs.openshift.com/container-platform/4.10/installing/installing_aws/installing-aws-default.html["ここをクリックしてください。"]手順についてはこちらをご覧ください。
+NOTE: OpenShift Hybrid Cloud コンソールから AWS にクラスタを作成することもできます。手順については、link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.10/html/installing/installing-on-aws["ここをクリックしてください。"^] を参照してください。
 
 
 TIP: ACM を使用してクラスターを作成する場合、フォーム ビューに詳細を入力した後に yaml ファイルを編集してインストールをカスタマイズできます。クラスターが作成された後、トラブルシューティングや追加の手動構成のために、クラスターのノードに SSH ログインできます。インストール時に指定した SSH キーとユーザー名 core を使用してログインします。

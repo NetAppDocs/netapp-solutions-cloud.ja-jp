@@ -21,7 +21,7 @@ summary: NetApp ONTAPによる Red Hat OpenShift Container アプリケーショ
 [[steps-to-create-a-backup-of-an-app]]
 == アプリのバックアップを作成する手順
 
-アプリのオンデマンド バックアップ (アプリのメタデータと永続ボリューム) を作成するには、[**バックアップ**] タブをクリックして、バックアップ カスタム リソース (CR) を作成します。バックアップ CR を作成するためのサンプル yaml が提供されています。この yaml を使用すると、指定された名前空間内のアプリとその永続ストレージがバックアップされます。追加のパラメータは、link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/backing_up_and_restoring/oadp-creating-backup-cr.html["ドキュメント"] 。
+アプリのオンデマンドバックアップ（アプリのメタデータとアプリの永続ボリューム）を作成するには、**Backup**タブをクリックしてBackup Custom Resource（CR）を作成します。Backup CRを作成するためのサンプルyamlが提供されています。このyamlを使用すると、指定された名前空間内のアプリとその永続ストレージがバックアップされます。追加のパラメータは、link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.14/html/backup_and_restore/oadp-application-backup-and-restore#oadp-creating-backup-cr-doc["ドキュメント"^]に示すように設定できます。
 
 指定された名前空間内の永続ボリュームとアプリ リソースのスナップショットが CSI によって作成されます。このスナップショットは、yaml で指定されたバックアップの場所に保存されます。バックアップは、TTL で指定されたとおり 30 日間システム内に残ります。
 

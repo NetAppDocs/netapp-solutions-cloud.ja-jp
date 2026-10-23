@@ -28,10 +28,10 @@ NOTE: Azure に Red Hat OpenShift Container Platform クラスターをデプロ
 .CLI から Azure に OCP クラスターをインストールします。
 [%collapsible%open]
 ====
-* 記載されているすべての前提条件を満たしていることを確認してくださいlink:https://docs.openshift.com/container-platform/4.13/installing/installing_azure/installing-azure-vnet.html["ここをクリックしてください。"]。
+* 記載されているすべての前提条件を満たしていることを確認してくださいlink:https://docs.redhat.com/en/documentation/openshift_container_platform/4.10/html-single/installing/index#installing-azure-vnet["ここをクリックしてください。"^]。
 * VPN、サブネット、ネットワーク セキュリティ グループ、およびプライベート DNS ゾーンを作成します。  VPN ゲートウェイとサイト間 VPN 接続を作成します。
 * オンプレミスと Azure 間の VPN 接続用に、pfsense VM が作成および構成されました。手順については、link:https://docs.netgate.com/pfsense/en/latest/recipes/ipsec-s2s-psk.html["ここをクリックしてください。"] 。
-* インストールプログラムとプルシークレットを取得し、ドキュメントに記載されている手順に従ってクラスターをデプロイします。link:https://docs.openshift.com/container-platform/4.13/installing/installing_azure/installing-azure-vnet.html["ここをクリックしてください。"] 。
+* インストールプログラムとプルシークレットを取得し、ドキュメントに記載されている手順に従ってクラスターをデプロイしますlink:https://docs.redhat.com/en/documentation/openshift_container_platform/4.10/html-single/installing/index#installing-azure-vnet["ここをクリックしてください。"^]。
 * クラスターのインストールが完了し、クラスターのコンソールにログインするための kubeconfig ファイルとユーザー名とパスワードが提供されます。
 
 

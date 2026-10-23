@@ -59,7 +59,7 @@ parameters:
 allowVolumeExpansion: true
 ----
 .OpenShift GitOps (Argo CD) を使用してアプリケーションをデプロイする
-* クラスターに OpenShift GitOps オペレーターをインストールします。説明書を参照してくださいlink:https://docs.openshift.com/gitops/1.13/installing_gitops/installing-openshift-gitops.html["ここをクリックしてください。"]。
+* クラスターにOpenShift GitOpsオペレーターをインストールします。手順link:https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.13/html/installing_gitops/index["ここをクリックしてください。"^]を参照してください。
 * クラスターに新しい Argo CD インスタンスをセットアップします。説明書を参照してくださいlink:https://docs.openshift.com/gitops/1.13/argocd_instance/setting-up-argocd-instance.html["ここをクリックしてください。"]。
 
 

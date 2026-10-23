@@ -355,7 +355,6 @@
   <block id="2eaa173e56517db74fb0eb92806a0877" category="inline-link">RFC-2307-bis</block>
   <block id="f0ffb6475b0cf36d6dec7230979a5d99" category="paragraph">Active Directory を UNIX LDAP サーバーとして使用するには、UNIX ID に使用する予定のユーザーとグループに必要な UNIX 属性を設定する必要があります。 Google Cloud NetApp Volumesは、以下の基準に基づいて属性をクエリするデフォルトのLDAPスキーマテンプレートを使用します。<block ref="54011f528a38d24d58a7f02f98da0d00" category="inline-link-rx"></block> 。その結果、次の表は、ユーザーとグループに入力する必要がある最小限の Active Directory 属性と、各属性の使用目的を示しています。</block>
   <block id="a6e75b8341b03d08fb1d6817635b1d47" category="inline-link">デュアルプロトコル アクセスの管理。</block>
-  <block id="c0f3d72f07b570cdf3f5d1376c72a389" category="paragraph">Active DirectoryでLDAP属性を設定する方法の詳細については、以下を参照してください。<block ref="c2741a8ac44d0c827e11ee9004dcd081" category="inline-link-rx"></block></block>
   <block id="f2bbdf9f72c085adc4d0404e370f0f4c" category="cell">属性</block>
   <block id="b12c51b935d86f01d092fb23a1fa4f9f" category="cell">何をするのか</block>
   <block id="e266bea072e01571abba7fc5075c2c86" category="cell">uid*</block>
@@ -1101,7 +1100,6 @@
   <block id="5f8bb3c8dda2d3aead02890ea8c54e3e" category="paragraph">このセクションでは、OpenShift Virtualization で VM のオンデマンド バックアップを作成する方法について説明します。</block>
   <block id="c072e8c0e577f288f9b33f2e15d40ea2" category="section-title">アプリのバックアップを作成する手順</block>
   <block id="55876228853abf632dec9346a4f372ec" category="inline-link-macro">ドキュメント</block>
-  <block id="27fce95cab4e8e1be8870bf42a5493e3" category="paragraph">アプリのオンデマンド バックアップ (アプリのメタデータと永続ボリューム) を作成するには、[**バックアップ**] タブをクリックして、バックアップ カスタム リソース (CR) を作成します。バックアップ CR を作成するためのサンプル yaml が提供されています。この yaml を使用すると、指定された名前空間内のアプリとその永続ストレージがバックアップされます。追加のパラメータは、<block ref="45bf4fcb30cb666d5b02b54fb671e73b" category="inline-link-macro-rx"></block> 。</block>
   <block id="61c783a93fa3ff977cadb409ff31ae78" category="paragraph">指定された名前空間内の永続ボリュームとアプリ リソースのスナップショットが CSI によって作成されます。このスナップショットは、yaml で指定されたバックアップの場所に保存されます。バックアップは、TTL で指定されたとおり 30 日間システム内に残ります。</block>
   <block id="c04e0f40b83a86fd835680d3df9ce399" category="paragraph">バックアップが完了すると、そのフェーズは完了として表示されます。</block>
   <block id="a2eabcbade98a44462292c4666e62044" category="inline-image-macro">バックアップが完了しました</block>
@@ -1322,7 +1320,6 @@
   <block id="bc6be57de293aecbdd76179b49cf3d18" category="list-text">インストール中にこの VM にルート ユーザーが構成されます。</block>
   <block id="32049ccafae47776aabbbc616d0f03c3" category="example-title">VMware vSphere (ハブ クラスター) 上に OpenShift Container Platform クラスターをデプロイして構成する</block>
   <block id="8f723b78972cfa193e65ef9f3a2344c8" category="inline-link-macro">支援展開</block>
-  <block id="9f411a513455f8ddf5eec40502ede88d" category="paragraph">の説明書を参照してください<block ref="65f43ff86dc09e8eca32a46f76b24cfc" category="inline-link-macro-rx"></block>OCP クラスターをデプロイする方法。</block>
   <block id="9e925e9341b490bfd3b4c4ca3b0c1ef2" category="inline-link-macro">事項を</block>
   <block id="bc4ca673b1da75d1fc9d8fb4c7d5be52" category="admonition">次の点に注意してください: - インストーラーに提供する ssh 公開キーと秘密キーを作成します。これらのキーは、必要に応じてマスターノードとワーカーノードにログインするために使用されます。 - アシストインストーラーからインストーラー プログラムをダウンロードします。このプログラムは、マスター ノードとワーカー ノード用に VMware vSphere 環境で作成した VM を起動するために使用されます。  - VM には最低限の CPU、メモリ、ハード ディスクの要件が必要です。  （vm createコマンドについては、<block ref="ad56d2cae35f81c0593c34aac3d8101d" category="inline-link-macro-rx"></block>この情報を提供するマスター ノードとワーカー ノードのページ - すべての VM でディスク UUID を有効にする必要があります。  - マスター用に最低 3 つのノード、ワーカー用に最低 3 つのノードを作成します。  - インストーラーによって検出されたら、VMware vSphere 統合トグル ボタンをオンにします。</block>
   <block id="5ee7e5d095a85988457e6852e94af6e8" category="example-title">ハブクラスタに高度なクラスタ管理をインストールする</block>
@@ -1367,7 +1364,6 @@
   <block id="ddb3824d66d83c1cb42a0f409b88c3f5" category="list-text">Kubernetes の現在のストレージ クラスのいずれかがデフォルトとしてマークされている場合は、ストレージ クラスを編集してその注釈を削除します。</block>
   <block id="83a6edfaeb8960933ba30055e77c4031" category="list-text">Trident CSI プロビジョナーを使用して、 NetAppボリューム用に少なくとも 1 つのストレージ クラスを作成します。アノテーションを使用して、ストレージ クラスの 1 つだけをデフォルトにします。これにより、PVC マニフェストで明示的に呼び出されていない場合でも、PVC はこのストレージ クラスを使用できるようになります。注釈付きの例を以下に示します。</block>
   <block id="bb2978b82e7eef8973a778154ed9d1d8" category="list-title">OpenShift GitOps (Argo CD) を使用してアプリケーションをデプロイする</block>
-  <block id="391500fa73fe756b6e5639d4be254f9b" category="list-text">クラスターに OpenShift GitOps オペレーターをインストールします。説明書を参照してください<block ref="0f28c06b874e8771e180b718b2d11a08" category="inline-link-macro-rx"></block>。</block>
   <block id="2f32c13166e5bf78897d9948ab7ba878" category="list-text">クラスターに新しい Argo CD インスタンスをセットアップします。説明書を参照してください<block ref="92e97978dfa95fc31fba8b02ddee3516" category="inline-link-macro-rx"></block>。</block>
   <block id="7d6d4165ad5f6730731dde0ccade66be" category="doc">Red Hat OpenShift ワークロード向けの追加のNetAppハイブリッド マルチクラウド ソリューション</block>
   <block id="8f1d3df73fb3b1a1a98cb44ce73c8c9a" category="section-title">追加のソリューション</block>
@@ -1390,7 +1386,6 @@
   <block id="a13d721aed664ec4974349a0a4cd1184" category="list-text">OpenShift コンソールから、 Trident CSI を使用して FsxN 用に作成されたストレージ クラスをデフォルトにします。下のスクリーンショットを参照してください。</block>
   <block id="ed119532e0d1f0ce424b19f98f51fdcc" category="paragraph"><block ref="ed119532e0d1f0ce424b19f98f51fdcc" category="inline-image-macro-rx" type="image"></block></block>
   <block id="28832d59ac5a06d16e97fd07fb21b521" category="list-text">クラスターに OpenShift GitOps オペレーターをインストールします。説明書を参照してください<block ref="946032aa50bddc23d84d8e7c39ffd30b" category="inline-link-macro-rx"></block>。</block>
-  <block id="356be904a2ad4050250d6fe2a3227030" category="list-text">クラスターに新しい Argo CD インスタンスをセットアップします。説明書を参照してください<block ref="119b4b110537aa2ea9e3e33df43cde60" category="inline-link-macro-rx"></block>。</block>
   <block id="c6900348e4c35229bfdef15cd046933d" category="paragraph">Helm パラメータ: global.storageClass: fsxn-nas</block>
   <block id="a92627d33b05b20f86355f0ec9c1786f" category="doc">マネージド Red Hat OpenShift Container プラットフォーム ワークロードを備えたNetAppソリューション</block>
   <block id="bcdc55eb7a6d566683a3cf8d0715610c" category="paragraph">お客様は「クラウド生まれ」の場合もあれば、モダナイゼーションの過程で、一部のワークロードまたはすべてのワークロードをデータセンターからクラウドに移行する準備が整っている場合もあります。ワークロードを実行するために、クラウド内のプロバイダー管理の OpenShift コンテナとプロバイダー管理のNetAppストレージを使用することを選択できます。コンテナ ワークロードに適した本番環境を正常に構築するには、マネージド Red Hat OpenShift コンテナ クラスターをクラウドで計画して導入する必要があります。  NetApp は、3 つの主要なパブリック クラウドすべてにおいて、マネージド Red Hat ソリューション向けに完全に管理されたストレージ サービスを提供します。</block>
@@ -1405,10 +1400,8 @@
   <block id="cd9cb04f3381ccbd3d21c64bf624a027" category="paragraph"><block ref="cd9cb04f3381ccbd3d21c64bf624a027" category="inline-image-macro-rx" type="image"></block></block>
   <block id="41d1c7e4fb0ee270686f45df6c4cc0fb" category="admonition">Azure に Red Hat OpenShift Container Platform クラスターをデプロイする方法はいくつかあります。このセットアップの概要説明には、使用された特定の方法に関するドキュメント リンクが提供されます。その他の方法については、以下の関連リンクを参照してください。<block ref="0dda26563abbac8fd54607a52d591e91" category="inline-link-macro-rx"></block> 。</block>
   <block id="e48a8638636d8a3f7826e829d6166418" category="example-title">CLI から Azure に OCP クラスターをインストールします。</block>
-  <block id="9724bc82f58f261a75898cc300f0b993" category="list-text">記載されているすべての前提条件を満たしていることを確認してください<block ref="3aae5312888d8e9223e629f14f295a63" category="inline-link-macro-rx"></block>。</block>
   <block id="811d1cf13b4e3820eec83db1c4c05fe6" category="list-text">VPN、サブネット、ネットワーク セキュリティ グループ、およびプライベート DNS ゾーンを作成します。  VPN ゲートウェイとサイト間 VPN 接続を作成します。</block>
   <block id="88300001929e9a793a02e0e2955279cd" category="list-text">オンプレミスと Azure 間の VPN 接続用に、pfsense VM が作成および構成されました。手順については、<block ref="be1f25e1c0fba9929238d326827b9fa7" category="inline-link-macro-rx"></block> 。</block>
-  <block id="b0f1e5ccb49619c57e880ef68847b35d" category="list-text">インストールプログラムとプルシークレットを取得し、ドキュメントに記載されている手順に従ってクラスターをデプロイします。<block ref="3aae5312888d8e9223e629f14f295a63" category="inline-link-macro-rx"></block> 。</block>
   <block id="4f27717b74673bf2705ddb857faf61a6" category="list-text">クラスターのインストールが完了し、クラスターのコンソールにログインするための kubeconfig ファイルとユーザー名とパスワードが提供されます。</block>
   <block id="c8a9f594886c5614d298ffe7ce45e839" category="paragraph">サンプルの install-config.yaml ファイルを以下に示します。</block>
   <block id="e4e0602228585217e17627fb546a2623" category="example-title">BlueXPを使用して Azure にCloud Volumes ONTAP をデプロイします。</block>
@@ -1455,7 +1448,6 @@
   <block id="2f9a622f50ad91f20ea33eb464dffed5" category="list-text">3 つの異なる AZ に 3 つのプライベート サブネットを作成します。</block>
   <block id="3bc0575c716ca54e3e3f3c18896d2073" category="list-text">VPC 用の Route 53 プライベートホストゾーンと DNS リゾルバーを作成します。</block>
   <block id="78e681da9aa719a4fa341bfefe7241dc" category="paragraph">高度なクラスター管理 (ACM) ウィザードから AWS 上に OpenShift クラスターを作成します。説明書を参照してください<block ref="a8dc968cbec7f22006c56d08b612b183" category="inline-link-macro-rx"></block>。</block>
-  <block id="308c1e3e719191b8ced2d38fd974ca8e" category="admonition">OpenShift Hybrid Cloud コンソールから AWS にクラスターを作成することもできます。参照する<block ref="2273fb526f12aab77cc8d6457769ac6c" category="inline-link-macro-rx"></block>手順についてはこちらをご覧ください。</block>
   <block id="fdb3ae874409cbcef80a6d9bfeb5f048" category="admonition">ACM を使用してクラスターを作成する場合、フォーム ビューに詳細を入力した後に yaml ファイルを編集してインストールをカスタマイズできます。クラスターが作成された後、トラブルシューティングや追加の手動構成のために、クラスターのノードに SSH ログインできます。インストール時に指定した SSH キーとユーザー名 core を使用してログインします。</block>
   <block id="09896a8f2d501b8991dc697c7cbfa3db" category="example-title">BlueXPを使用して AWS にCloud Volumes ONTAP をデプロイします。</block>
   <block id="aac68d095e2a2a598854689d3a9118c3" category="list-text">オンプレミスの VMware 環境にコネクタをインストールします。説明書を参照してください<block ref="09bba0e8799e65970cd5db9fc029a18c" category="inline-link-macro-rx"></block>。</block>
@@ -1492,31 +1484,19 @@
   <block id="7e9f968a139a25a62b6f7f581469c718" category="doc">追加ドキュメント</block>
   <block id="2958dbcd62d37cb8d2dae92d4bd5ddaf" category="paragraph">以下に参考となる追加ドキュメントを示します。</block>
   <block id="8887a9a417a1629326acdb917d224337" category="inline-link-macro">VMware vSphere</block>
-  <block id="299437d2dfff10029aa68548910ed14a" category="list-text"><block ref="299437d2dfff10029aa68548910ed14a" category="inline-link-macro-rx"></block></block>
   <block id="8b35ba920859760c3b7ab07c1f52df88" category="inline-link-macro">OpenShift Container プラットフォーム製品ドキュメント</block>
-  <block id="7113f7690b69458a12c8968b2e7b5c94" category="list-text"><block ref="7113f7690b69458a12c8968b2e7b5c94" category="inline-link-macro-rx"></block></block>
   <block id="010bce66eda52af8597098e33d12e767" category="inline-link-macro">OpenShift コンテナ プラットフォーム クラスターのインストール</block>
-  <block id="bb6401d44c28bcee95779ebce2e127f1" category="list-text"><block ref="bb6401d44c28bcee95779ebce2e127f1" category="inline-link-macro-rx"></block></block>
   <block id="9e4f27bab2ba4dcc223eabe15d060c22" category="inline-link-macro">高度なクラスタ管理製品ドキュメント</block>
   <block id="0de84e35816fe2bf24a2d62358c71ec0" category="list-text"><block ref="0de84e35816fe2bf24a2d62358c71ec0" category="inline-link-macro-rx"></block></block>
   <block id="1a28b2dbd24896f9ae4e7ea905e79d07" category="inline-link-macro">ACM を使用してクラスターを作成する</block>
-  <block id="c17964cf4aee883c1f79b2b18d5cf8c5" category="list-text"><block ref="c17964cf4aee883c1f79b2b18d5cf8c5" category="inline-link-macro-rx"></block></block>
   <block id="88c39d9e07dd53d7dfe71bcc634dd892" category="inline-link-macro">OpenShift への Red Hat Quay のデプロイ</block>
-  <block id="c4a315706dd2011b5383e54e9b2917d4" category="list-text"><block ref="c4a315706dd2011b5383e54e9b2917d4" category="inline-link-macro-rx"></block></block>
   <block id="10f0fa4079121b371145e16713fdbb44" category="inline-link-macro">Trident</block>
-  <block id="7ab586adf508841140a17861f83c2f68" category="list-text"><block ref="7ab586adf508841140a17861f83c2f68" category="inline-link-macro-rx"></block></block>
   <block id="203165a49e3a391bdbc44e3a05d54279" category="inline-link-macro">ONTAP 9</block>
-  <block id="2f4df966d6adc25fd002d42aba0522c1" category="list-text"><block ref="2f4df966d6adc25fd002d42aba0522c1" category="inline-link-macro-rx"></block></block>
   <block id="8c9552895e8b32d168c001c8cb0d41ac" category="inline-link-macro">NetAppヴェルダ</block>
-  <block id="c9201dcf5ef4e81010385777c2b0eefd" category="list-text"><block ref="c2f5b2c54b56c4b456371849b6825da6" category="inline-link-macro-rx"></block>- Verda（オープンソース）には、一般的なクラウドネイティブのデータ集約型アプリケーション用のリファレンス実行フックのコレクションがあります。</block>
   <block id="1273c8a63109161e6fd1f18d6998523f" category="inline-link-macro">NetAppBlueXP</block>
   <block id="d2154db2b88b25388e0f4a7a9080bfc9" category="inline-link-macro">AWS 上の Red Hat OpenShift サービス</block>
-  <block id="ca0553647614febb5dfa86b86874cf2f" category="list-text"><block ref="ca0553647614febb5dfa86b86874cf2f" category="inline-link-macro-rx"></block></block>
-  <block id="f51b423dfa48d00e66fde30840ade1ae" category="list-text"><block ref="f51b423dfa48d00e66fde30840ade1ae" category="inline-link-macro-rx"></block></block>
   <block id="258dff02bafa822fdd86173cf3a704fd" category="inline-link-macro">GCP への OpenShift クラスターのインストール</block>
-  <block id="b6d7b323dede2a4e24afaa7b9dd5984f" category="list-text"><block ref="b6d7b323dede2a4e24afaa7b9dd5984f" category="inline-link-macro-rx"></block></block>
   <block id="d0b55d3b0b9d8025eb06e76618f6bf8a" category="inline-link-macro">Azure への OpenShift クラスターのインストール</block>
-  <block id="30bef8c4d342eeb1d1f466a9ea23121d" category="list-text"><block ref="30bef8c4d342eeb1d1f466a9ea23121d" category="inline-link-macro-rx"></block></block>
   <block id="7ffdbddadae2331a4b6fe9848564fe3e" category="doc">Red Hat OpenShift Containers とサポートされるNetAppストレージの統合</block>
   <block id="fe8eee79d056bcfea51f3c41c47daada" category="paragraph">Red Hat OpenShift コンテナが VMware 上で実行されているか、ハイパースケーラー内で実行されているかに関係なく、 NetApp Trident は、サポートされるさまざまなタイプのバックエンドNetAppストレージの CSI プロビジョナーとして使用できます。</block>
   <block id="20ff55cda5b4afe35761476a6ae379e0" category="paragraph">次の図は、 NetApp Tridentを使用して OpenShift クラスターと統合できるさまざまなバックエンドNetAppストレージを示しています。</block>
@@ -6260,7 +6240,6 @@
   <block id="282025b5b19344c8e277116127efe10a" category="list-text">以下に示すように、Trident を導入する方法は多数あります<block ref="a513e33196701a0875db01e145416086" category="inline-link-rx"></block>。</block>
   <block id="8b92be9389cce6edfc4c001f1db14964" category="list-text">このプロジェクトでは、<block ref="0984860e46f3ed8718676caeb88662f6" category="inline-link-rx"></block>の手順に従って Trident Operator を手動でデプロイすることで、Trident をインストールしました。</block>
   <block id="38d6382e9e736693ef209aef9d7c37ca" category="list-text">Helm を使用して Trident Operator をデプロイします。手順を参照してください<block ref="2ff93a5b15d1fa89110d690cb53d85fd" category="inline-link-macro-rx"></block></block>
-  <block id="79ba8743942daea465ff28416e07cbd7" category="list-text"><block ref="79ba8743942daea465ff28416e07cbd7" category="inline-link-macro-rx"></block></block>
   <block id="f553be2d93d2e2e12265c808c5b01c02" category="list-text"><block ref="f553be2d93d2e2e12265c808c5b01c02" category="inline-link-macro-rx"></block></block>
   <block id="af84bbf7cdb0d0e716f2513d0d3f363f" category="paragraph">SnapCenter software は NetApp サポートサイトから入手可能で、ドメインまたはワークグループに属する Microsoft Windows システムにインストールできます。詳細な計画ガイドとインストール手順は、<block ref="85cbe5bd6e949acc06321919c4679a05" category="inline-link-macro-rx"></block> をご参照ください。</block>
   <block id="660febd0d05e3ca3fc12d156de67c555" category="paragraph">これにより、Cloud Volumes ONTAPインスタンスが実行されているVPCネットワークが、GCVEプライベートクラウドと通信できるようになります。そのためには、<block ref="12bbd3d08aba9fc22ed45e2726d3faff" category="inline-link-macro-rx"></block>に従ってください。Cloud Volume Serviceの場合、テナントホストプロジェクト間で1回限りのピアリングを実行することにより、VMware EngineとGoogle Cloud NetApp Volumesの間の接続を確立します。詳細な手順については、この<block ref="04a9f04edfdd7b0a53da57f015378c5a" category="inline-link-macro-rx"></block>に従ってください。</block>
@@ -6304,4 +6283,25 @@
   <block id="d20800ec3a640eb8116268213843541a" category="inline-link">VMwareワークロードをバックアップする</block>
   <block id="55457fd2a146b1a9975a978c0a85420c" category="paragraph">詳細については、<block ref="25682a6e5e8d6eabcc83860d625c84b6" category="inline-link-rx"></block>を参照してください。</block>
   <block id="7268afda6855d1969a1bca2a7f29d4e8" category="paragraph">詳細については、<block ref="983a2e651837ee711af9347ffcffa05a" category="inline-link-rx"></block>を参照してください。</block>
+  <block id="853948d45bbdfb5d52e5ddaea5f8ca19" category="paragraph">Active Directory で LDAP 属性を設定する方法の詳細については、以下を参照してください。<block ref="7aa82d812bceb501016373a9e04865ce" category="inline-link-rx"></block></block>
+  <block id="5d17d0403298597f46cca376902dcc25" category="paragraph">アプリのオンデマンドバックアップ（アプリのメタデータとアプリの永続ボリューム）を作成するには、**Backup**タブをクリックしてBackup Custom Resource（CR）を作成します。Backup CRを作成するためのサンプルyamlが提供されています。このyamlを使用すると、指定された名前空間内のアプリとその永続ストレージがバックアップされます。追加のパラメータは、<block ref="25bf7b01740b9a4cb688c218ad60e2ab" category="inline-link-macro-rx"></block>に示すように設定できます。</block>
+  <block id="4ca3944d1f10718296e64d82c080294c" category="paragraph">OCPクラスタをデプロイするための<block ref="555dd86eb7e4d7ec70b803bad962866a" category="inline-link-macro-rx"></block>方法の手順を参照してください。</block>
+  <block id="4274ed69352fd8d9d7bca9c8a40efdd9" category="list-text">クラスターにOpenShift GitOpsオペレーターをインストールします。手順<block ref="dd857fbedaa7e391e6b16c730acb8c2e" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="b8c2c8724f06cc74809b160a18849243" category="list-text">クラスター用の新しいArgo CDインスタンスをSetUpします。手順<block ref="f3fe5972e08db05ede2c32f1dc33d4a2" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="2fef5cf61dfb6a16ea892403969cb1a9" category="list-text">記載されているすべての前提条件を満たしていることを確認してください<block ref="072197b16ac4bac15f286e5c622d9439" category="inline-link-macro-rx"></block>。</block>
+  <block id="b67b5c15053211b1d63473f9df5b1ab8" category="list-text">インストールプログラムとプルシークレットを取得し、ドキュメントに記載されている手順に従ってクラスターをデプロイします<block ref="072197b16ac4bac15f286e5c622d9439" category="inline-link-macro-rx"></block>。</block>
+  <block id="bd203bf7c34fef7dccc4c39161c78dc8" category="admonition">OpenShift Hybrid Cloud コンソールから AWS にクラスタを作成することもできます。手順については、<block ref="adab8e48d805755a937b8ae49e0ee7b7" category="inline-link-macro-rx"></block> を参照してください。</block>
+  <block id="b272b3fad6d7e2dc24417fce138d59f0" category="list-text"><block ref="b272b3fad6d7e2dc24417fce138d59f0" category="inline-link-macro-rx"></block></block>
+  <block id="2e5e19e6aa211b5fbf5ec029c54234c3" category="list-text"><block ref="2e5e19e6aa211b5fbf5ec029c54234c3" category="inline-link-macro-rx"></block></block>
+  <block id="ae28a5decafe6d5c821bf3f3af745b68" category="list-text"><block ref="ae28a5decafe6d5c821bf3f3af745b68" category="inline-link-macro-rx"></block></block>
+  <block id="b538fa533b3feb4047e609177c09e0c1" category="list-text"><block ref="b538fa533b3feb4047e609177c09e0c1" category="inline-link-macro-rx"></block></block>
+  <block id="8c6518684f03117be0fa781cb78c25fd" category="list-text"><block ref="8c6518684f03117be0fa781cb78c25fd" category="inline-link-macro-rx"></block></block>
+  <block id="122f25fa4135a6f278aee53402db3807" category="list-text"><block ref="122f25fa4135a6f278aee53402db3807" category="inline-link-macro-rx"></block></block>
+  <block id="1bc28ada1e3a8c93363efbd956281f27" category="list-text"><block ref="1bc28ada1e3a8c93363efbd956281f27" category="inline-link-macro-rx"></block></block>
+  <block id="f16dd96ff15aa34fe7db06e2c8c45330" category="list-text"><block ref="ce06c104c0af95b337c108430c00cd74" category="inline-link-macro-rx"></block> - Verda（オープンソース）には、一般的なクラウドネイティブのデータ集約型アプリケーション向けの参照実行フックのコレクションがあります</block>
+  <block id="0de368763e843138fe700f4b2508ce20" category="list-text"><block ref="0de368763e843138fe700f4b2508ce20" category="inline-link-macro-rx"></block></block>
+  <block id="f113175d4e4221a09932cde3e24f9fa2" category="list-text"><block ref="f113175d4e4221a09932cde3e24f9fa2" category="inline-link-macro-rx"></block></block>
+  <block id="0590cece0084ebc06cfbb1e44bbd49fb" category="list-text"><block ref="0590cece0084ebc06cfbb1e44bbd49fb" category="inline-link-macro-rx"></block></block>
+  <block id="103d083d560520cc80800305ed72e735" category="list-text"><block ref="103d083d560520cc80800305ed72e735" category="inline-link-macro-rx"></block></block>
+  <block id="995ab6d6d5bb69975037b3f28adcc6f3" category="list-text"><block ref="995ab6d6d5bb69975037b3f28adcc6f3" category="inline-link-macro-rx"></block></block>
 </blocks>
