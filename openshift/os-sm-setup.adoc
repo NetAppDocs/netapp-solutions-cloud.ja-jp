@@ -34,7 +34,7 @@ image:rhhc-self-managed-aws.png["入出力ダイアログまたは書かれた�
 * VPC 用の Route 53 プライベートホストゾーンと DNS リゾルバーを作成します。
 
 
-高度なクラスター管理 (ACM) ウィザードから AWS 上に OpenShift クラスターを作成します。説明書を参照してくださいlink:https://docs.openshift.com/dedicated/osd_install_access_delete_cluster/creating-an-aws-cluster.html["ここをクリックしてください。"]。
+Advanced Cluster Management（ACM）ウィザードからAWS上にOpenShiftクラスタを作成します。手順を参照してくださいlink:https://docs.redhat.com/en/documentation/openshift_dedicated/4/html/openshift_dedicated_clusters_on_aws/osd-creating-a-cluster-on-aws["ここをクリックしてください。"^]。
 
 
 NOTE: OpenShift Hybrid Cloud コンソールから AWS にクラスタを作成することもできます。手順については、link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.10/html/installing/installing-on-aws["ここをクリックしてください。"^] を参照してください。

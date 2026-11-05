@@ -16,7 +16,7 @@ summary: NetApp ONTAPによる Red Hat OpenShift Container アプリケーショ
 [role="lead"]
 リファレンス ドキュメントのこのセクションでは、 NetApp ONTAP S3 またはNetApp StorageGRID S3 上の Velero で OpenShift API for Data Protection (OADP) を使用してコンテナー アプリのバックアップを作成する方法について詳しく説明します。アプリの永続ボリューム (PV) を含む名前空間スコープのリソースのバックアップは、CSI Tridentスナップショットを使用して作成されます。
 
-コンテナアプリの永続ストレージは、OpenShift Clusterに統合されたONTAPストレージによってバックアップできます。link:https://docs.netapp.com/us-en/trident/["TridentCSI"] 。このセクションではlink:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["データ保護のための OpenShift API (OADP)"]データボリュームを含むアプリのバックアップを実行する
+コンテナアプリの永続ストレージは、link:https://docs.netapp.com/us-en/trident/["TridentCSI"]を使用してOpenShiftクラスタに統合されたONTAPストレージをバックエンドとして使用できます。このセクションでは、link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.14/html/backup_and_restore/oadp-application-backup-and-restore#installing-oadp-ocs["データ保護のための OpenShift API (OADP)"]を使用して、データボリュームを含むアプリのバックアップを
 
 * ONTAPオブジェクトストレージ
 * ストレージグリッド
@@ -44,4 +44,4 @@ OADP 1.3 は、OpenShift クラスター 4.12 以降のオペレーター ハブ
 * helm を使用してインストールされた postgresql。
 
 
-link:https://docs.netapp.com/us-en/trident/["TridentCSI"] link:https://docs.openshift.com/container-platform/4.14/backup_and_restore/application_backup_and_restore/installing/installing-oadp-ocs.html["データ保護のための OpenShift API (OADP)"] link:https://velero.io/["ベレロ"]
+link:https://docs.netapp.com/us-en/trident/["TridentCSI"] link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.14/html/backup_and_restore/oadp-application-backup-and-restore#installing-oadp-ocs["データ保護のための OpenShift API (OADP)"] link:https://velero.io/["ベレロ"]

@@ -53,7 +53,7 @@ image:dr-veeam-fsx-001.png["Veeam Replication と FSx ONTAP for VMC を使用し
 === 高レベルの手順
 
 . Veeam Backup and Replication ソフトウェアは、適切なネットワーク接続を備えたオンプレミス環境で実行されています。
-. VMware Cloud on AWS を構成するには、VMware Cloud Tech Zone の記事を参照してください。link:https://vmc.techzone.vmware.com/fsx-guide["VMware Cloud on AWS とAmazon FSx ONTAP の統合の導入ガイド"]展開するには、VMware Cloud on AWS SDDC と FSx ONTAP をNFS データストアとして構成します。 (最小限の構成でセットアップされたパイロットライト環境は、DR の目的で使用できます。インシデント発生時には VM はこのクラスターにフェールオーバーされ、追加のノードを追加できます。
+. VMware Cloud on AWS を設定し、VMware Cloud on AWS SDDC と FSx ONTAP を NFS データストアとしてデプロイおよび構成するには、VMware Cloud Tech Zone の記事 link:https://www.vmware.com/docs/vmware-cloud-on-aws-integration-with-amazon-fsx-for-netapp-ontap-deployment-guide["VMware Cloud on AWS とAmazon FSx ONTAP の統合の導入ガイド"^] を参照してください。（最小限の構成でセットアップされたパイロットライト環境は、DRの目的で使用できます。インシデントの発生時には、VMはこのクラスタにフェイルオーバーされ、追加のノードを追加できます）。
 . Veeam Backup and Replication を使用して VM レプリカを作成するためのレプリケーション ジョブを設定します。
 . フェイルオーバー プランを作成し、フェイルオーバーを実行します。
 . 災害イベントが完了し、プライマリ サイトが稼働したら、本番環境の VM に切り替えます。

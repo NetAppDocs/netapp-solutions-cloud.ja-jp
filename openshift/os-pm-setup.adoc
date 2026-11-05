@@ -27,7 +27,7 @@ NOTE: このソリューションは、AWS の 2 つの VPC 内の 2 つの ROSA
 
 .ROSAクラスタをインストールする
 * 2 つの VPC を作成し、VPC 間に VPC ピアリング接続を設定します。
-* 参照するlink:https://docs.openshift.com/rosa/welcome/index.html["ここをクリックしてください。"]ROSA クラスターのインストール手順については、こちらをご覧ください。
+* ROSAクラスタのインストール手順については、link:https://docs.redhat.com/en/documentation/red_hat_openshift_service_on_aws_classic_architecture/4["ここをクリックしてください。"^]を参照してください。
 
 
 .FSx ONTAPをインストールする
@@ -54,7 +54,7 @@ image:rhhc-trident-helm.png["入出力ダイアログまたは書かれたコン
 image:rhhc-default-storage-class.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
 
 .OpenShift GitOps (Argo CD) を使用してアプリケーションをデプロイする
-* クラスターに OpenShift GitOps オペレーターをインストールします。説明書を参照してくださいlink:https://docs.openshift.com/container-platform/4.10/cicd/gitops/installing-openshift-gitops.html["ここをクリックしてください。"]。
+* クラスターにOpenShift GitOpsオペレーターをインストールします。手順link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.10/html/cicd/gitops#installing-openshift-gitops["ここをクリックしてください。"^]を参照してください。
 * クラスター用の新しいArgo CDインスタンスをSetUpします。手順link:https://docs.redhat.com/en/documentation/openshift_container_platform/4.10/html/cicd/gitops#gitops-argo-cd-installation_setting-up-argocd-instance["ここをクリックしてください。"^]を参照してください。
 
 

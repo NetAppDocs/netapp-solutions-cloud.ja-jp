@@ -26,7 +26,7 @@ NOTE: GCP に Red Hat OpenShift Container Platform クラスターをデプロ�
 セットアッププロセスは次の手順に分けられます。
 
 .CLI から GCP に OCP クラスタをインストールする
-* 記載されているすべての前提条件を満たしていることを確認してくださいlink:https://docs.openshift.com/container-platform/4.13/installing/installing_gcp/installing-gcp-default.html["ここをクリックしてください。"]。
+* 記載されているすべての前提条件を満たしていることを確認してくださいlink:https://docs.redhat.com/en/documentation/openshift_container_platform/4.13/html/installing_on_google_cloud/index#installing-gcp-default["ここをクリックしてください。"^]。
 * オンプレミスと GCP 間の VPN 接続用に、pfsense VM が作成および構成されました。手順については、 https://docs.netgate.com/pfsense/en/latest/recipes/ipsec-s2s-psk.html["ここをクリックしてください。"] 。
 +
 ** pfsense のリモート ゲートウェイ アドレスは、Google Cloud Platform で VPN ゲートウェイを作成した後にのみ構成できます。
@@ -36,7 +36,7 @@ NOTE: GCP に Red Hat OpenShift Container Platform クラスターをデプロ�
 
 * 次に、GCP に OpenShift クラスターをインストールします。
 +
-** インストールプログラムとプルシークレットを取得し、ドキュメントに記載されている手順に従ってクラスターをデプロイします。 https://docs.openshift.com/container-platform/4.13/installing/installing_gcp/installing-gcp-default.html["ここをクリックしてください。"] 。
+** インストールプログラムとプルシークレットを取得し、ドキュメントに記載されている手順に従ってクラスタをデプロイします https://docs.redhat.com/en/documentation/openshift_container_platform/4.13/html/installing_on_google_cloud/index#installing-gcp-default["ここをクリックしてください。"^]。
 ** インストールにより、Google Cloud Platform に VPC ネットワークが作成されます。また、Cloud DNS にプライベート ゾーンを作成し、A レコードを追加します。
 +
 *** VPC ネットワークの CIDR ブロック アドレスを使用して pfsense を設定し、VPN 接続を確立します。ファイアウォールが正しく設定されていることを確認します。
