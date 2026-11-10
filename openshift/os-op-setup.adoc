@@ -53,7 +53,7 @@ TIP: 次の点に注意してください: - インストーラーに提供す�
 [%collapsible%open]
 ====
 * 追加のクラスターは、ハブ クラスター上の ACM を使用してデプロイできます。
-* 説明書を参照してくださいlink:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/clusters/cluster_mce_overview#vsphere_prerequisites["ここをクリックしてください。"]。
+* 説明書を参照してくださいlink:https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/clusters/cluster_mce_overview#vsphere_prerequisites["ここをクリックしてください。"^]。
 
 
 ====
