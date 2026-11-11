@@ -428,8 +428,8 @@ Veeam を構成する最後の手順は、新しく作成された SOBR をバ�
 ====
 
 
-[[bluexp-backup-and-recovery-tools-and-configuration]]
-=== BlueXP backup and recoveryツールと構成
+[[netapp-backup-and-recovery-tools-and-configuration]]
+=== NetApp Backup and Recoveryツールと構成
 
 AWS で実行されている VMware Cloud Volumes サービスへのアプリケーション VM とデータベース ボリュームのフェイルオーバーを実行するには、 SnapCenter Server と Veeam Backup and Replication Server の両方の実行中のインスタンスをインストールして構成する必要があります。フェールオーバーが完了したら、オンプレミスのデータセンターへのフェールバックが計画され実行されるまで、通常のバックアップ操作を再開するようにこれらのツールを構成する必要もあります。
 

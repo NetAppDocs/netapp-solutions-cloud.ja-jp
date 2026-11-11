@@ -102,11 +102,11 @@ publish: Internal
 pullSecret:
 ....
 ====
-.BlueXPを使用して Azure にCloud Volumes ONTAP をデプロイします。
+.NetApp Consoleを使用してAzureにCloud Volumes ONTAPを展開します。
 [%collapsible%open]
 ====
-* Azure にコネクタをインストールします。説明書を参照してください https://docs.netapp.com/us-en/bluexp-setup-admin/task-install-connector-azure-bluexp.html["ここをクリックしてください。"]。
-* コネクタを使用して Azure に CVO インスタンスをデプロイします。手順についてはリンクhttps://docs.netapp.com/us-en/bluexp-cloud-volumes-ontap/task-getting-started-azure.html [こちら]を参照してください。
+* Azure に NetApp Console エージェントをインストールします。手順を参照してください https://docs.netapp.com/us-en/console-setup-admin/task-install-agent-azure-console.html["ここをクリックしてください。"]。
+* エージェントを使用して、AzureにCVOインスタンスをデプロイします。手順link:https://docs.netapp.com/us-en/storage-management-cloud-volumes-ontap/task-getting-started-azure.html["ここをクリックしてください。"]を参照してください。
 
 
 ====

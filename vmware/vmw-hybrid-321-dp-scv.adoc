@@ -4,7 +4,7 @@ permalink: vmware/vmw-hybrid-321-dp-scv.html
 keywords: disaster recovery, vmc, vmware cloud, aws, amazon web services, nfs datastore, fsxn, FSx ONTAP, FSx ONTAP, backup, restore, sql server, oracle 
 summary:  
 ---
-= SnapCenterプラグインとBlueXP backup and recoveryによる VMware の 3-2-1 データ保護
+= VMwareワークロードを保護するための、SnapCenterプラグインおよびNetApp Backup and Recoveryを使用したVMware向け3-2-1データ保護
 :hardbreaks:
 :allow-uri-read: 
 :nofooter: 
@@ -28,7 +28,7 @@ summary:
 . 最後に、少なくとも 1 つのバックアップ コピーがオフサイトにあることを確認します。オフサイト ストレージは、オンサイト コピーが使用できなくなる可能性のある火災や洪水などの局所的な災害に対するフェイルセーフとして機能します。
 
 
-このソリューション ドキュメントでは、SnapCenter Plug-in for VMware vSphere (SCV) を使用してオンプレミスの仮想マシンのプライマリ バックアップとセカンダリ バックアップを作成し、仮想マシン用のBlueXP backup and recoveryを使用してデータのコピーをクラウド ストレージまたはStorageGRIDにバックアップする 3-2-1 バックアップ ソリューションについて説明します。
+この解決策ドキュメントでは、オンプレミスの仮想マシンのプライマリおよびセカンダリバックアップを作成するSnapCenter Plug-in for VMware vSphere（SCV）と、データのコピーをクラウドストレージまたはStorageGRIDにバックアップする仮想マシン向けNetApp Backup and Recoveryを使用した3-2-1バックアップ解決策について説明します。
 
 
 
@@ -38,7 +38,7 @@ summary:
 このソリューションは、次のユースケースに対応します。
 
 * SnapCenter Plug-in for VMware vSphereを使用して、オンプレミスの仮想マシンとデータストアをバックアップおよび復元します。
-* ONTAPクラスターでホストされ、仮想マシン用のBlueXP backup and recovery。
+* ONTAPクラスタでホストされ、仮想マシン向けNetApp Backup and Recoveryを使用してオブジェクトストレージにバックアップされる、オンプレミスの仮想マシンとデータストアのバックアップとリストア。
 
 
 
@@ -65,22 +65,22 @@ SCVの詳細については、 https://docs.netapp.com/us-en/sc-plugin-vmware-vs
 
 
 
-[[bluexp-backup-and-recovery-for-virtual-machines]]
-=== 仮想マシンのBlueXP backup and recovery
+[[netapp-backup-and-recovery-to-protect-vmware-workloads]]
+=== NetApp Backup and RecoveryによるVMwareワークロードの保護
 
-BlueXP backup and recoveryは、オンプレミスとクラウド環境の両方にわたる幅広いバックアップおよびリカバリ操作に対して単一のコントロール プレーンを提供する、クラウド ベースのデータ管理ツールです。 NetApp BlueXP backup and recoveryスイートの一部である機能は、VMware vSphere (オンプレミス) 用のSnapCenterプラグインと統合して、データのコピーをクラウド内のオブジェクト ストレージに拡張します。これにより、プライマリまたはセカンダリ ストレージ バックアップから取得されたデータの 3 番目のコピーがオフサイトに作成されます。  BlueXP backup and recoveryを使用すると、オンプレミスのこれら 2 つの場所のいずれかからデータのコピーを転送するストレージ ポリシーを簡単に設定できます。
+NetApp Backup and Recoveryは、オンプレミス環境とクラウド環境の両方にわたる幅広いバックアップおよびリカバリ操作に単一のコントロール プレーンを提供する、データ管理用のクラウドベースのツールです。NetApp Backup and Recovery for VMスイートの一部として、SnapCenter Plug-in for VMware vSphere（オンプレミス）と統合して、データのコピーをクラウド内のオブジェクトストレージに拡張する機能があります。これにより、プライマリまたはセカンダリストレージのバックアップから取得した、データの3つ目のコピーがオフサイトに作成されます。NetApp Backup and Recovery for VMsを使用すると、これら2つのオンプレミスの場所のいずれかからデータのコピーを転送するストレージポリシーを簡単に設定できます。
 
-BlueXP Backup and Recovery でソースとしてプライマリ バックアップとセカンダリ バックアップのいずれかを選択すると、次の 2 つのトポロジのいずれかが実装されます。
+NetApp Backup and Recoveryでプライマリバックアップとセカンダリバックアップのどちらをソースとして選択するかによって、次の2つのトポロジのいずれかが実装されます：
 
-*ファンアウト トポロジ* – SnapCenter Plug-in for VMware vSphereによってバックアップが開始されると、ローカル スナップショットが直ちに作成されます。次に、SCV は最新のスナップショットをセカンダリONTAPクラスタに複製するSnapMirror操作を開始します。  BlueXP Backup and Recovery では、ポリシーによって、選択したクラウド プロバイダーのオブジェクト ストレージに転送されるデータのスナップショット コピーのソースとしてプライマリONTAPクラスターが指定されます。
+*ファンアウト トポロジ* – SnapCenter Plug-in for VMware vSphereがバックアップを開始すると、ローカル スナップショットが即座に取得されます。次に、SCVは最新のスナップショットをセカンダリONTAPクラスタにレプリケートするSnapMirror処理を開始します。NetApp Backup and Recoveryでは、選択したクラウド プロバイダのオブジェクト ストレージに転送されるデータのスナップショット コピーのソースとして、ポリシーでプライマリONTAPクラスタを指定します。
 
 image:bxp-scv-hybrid-001.png["ファンアウトトポロジー、800,418"]
 
-*カスケード トポロジ* – SCV を使用してプライマリ データ コピーとセカンダリ データ コピーを作成する方法は、上記のファンアウト トポロジと同じです。ただし、今回は、オブジェクト ストレージへのバックアップがセカンダリONTAPクラスターから実行されるように指定するポリシーがBlueXP Backup and Recovery に作成されます。
+*カスケードトポロジ* – SCVを使用してプライマリおよびセカンダリのデータコピーを作成する手順は、上記のファンアウトトポロジと同じです。ただし今回は、オブジェクトストレージへのバックアップがセカンダリONTAPクラスタから開始されることを指定するポリシーをNetApp Backup and Recoveryで作成します。
 
 image:bxp-scv-hybrid-002.png["カスケードトポロジー"]
 
-BlueXP backup and recoveryでは、オンプレミスのONTAPスナップショットのバックアップ コピーを AWS Glacier、Azure Blob、GCP アーカイブ ストレージに作成できます。
+NetApp Backup and Recoveryは、オンプレミスのONTAPスナップショットのバックアップコピーをAWS Glacier、Azure Blob、およびGCP Archiveストレージに作成できます。
 
 image:bxp-scv-hybrid-003.png["カスケードトポロジー"]
 
@@ -89,7 +89,7 @@ image:bxp-scv-hybrid-003.png["カスケードトポロジー"]
 .ソリューション展開の概要
 [%collapsible%open]
 ====
-このリストには、このソリューションを構成し、SCV およびBlueXP backup and recoveryからバックアップと復元操作を実行するために必要な高レベルの手順が示されています。
+このリストは、この解決策を構成し、SCVおよびNetApp Consoleからバックアップおよびリストア操作を実行するために必要な概要の手順を示しています：
 
 . プライマリおよびセカンダリ データ コピーに使用するONTAPクラスタ間のSnapMirror関係を構成します。
 . VMware vSphere 用のSnapCenterプラグインを構成します。
@@ -100,7 +100,7 @@ image:bxp-scv-hybrid-003.png["カスケードトポロジー"]
 .. 最初のバックアップジョブを実行する
 
 
-. 仮想マシンのBlueXP backup and recoveryを構成する
+. 仮想マシンのNetApp Backup and Recoveryを設定する
 +
 .. 作業環境を追加する
 .. SCVおよびvCenterアプライアンスの検出
@@ -109,7 +109,7 @@ image:bxp-scv-hybrid-003.png["カスケードトポロジー"]
 
 
 . SCV を使用してプライマリ ストレージとセカンダリ ストレージから仮想マシンを復元します。
-. BlueXPバックアップと復元を使用して、オブジェクト ストレージから仮想マシンを復元します。
+. NetApp Consoleを使用して、オブジェクトストレージから仮想マシンを復元します。
 
 
 ====
@@ -120,10 +120,10 @@ image:bxp-scv-hybrid-003.png["カスケードトポロジー"]
 
 . VMware vSphere に接続された NFS または VMFS データストアを備えたONTAPストレージ クラスター。 NFS と VMFS の両方のデータストアがサポートされています。このソリューションでは NFS データストアが利用されました。
 . NFS データストアに使用されるボリュームに対してSnapMirror関係が確立されたセカンダリONTAPストレージ クラスタ。
-. オブジェクト ストレージ バックアップに使用されるクラウド プロバイダー用にBlueXPコネクタがインストールされています。
+. オブジェクトストレージのバックアップに使用されるクラウド プロバイダ用にConsoleエージェントがインストールされていること。
 . バックアップされる仮想マシンは、プライマリONTAPストレージ クラスタにある NFS データストア上にあります。
-. BlueXPコネクタとオンプレミスのONTAPストレージ クラスタ管理インターフェイス間のネットワーク接続。
-. BlueXPコネクタとオンプレミスの SCV アプライアンス VM 間、およびBlueXPコネクタと vCenter 間のネットワーク接続。
+. ConsoleエージェントとオンプレミスONTAPストレージクラスタ管理インターフェース間のネットワーク接続。
+. ConsoleエージェントとオンプレミスSCVアプライアンスVMの間、およびConsoleエージェントとvCenterの間のネットワーク接続。
 . オンプレミスのONTAPクラスタ間 LIF とオブジェクト ストレージ サービス間のネットワーク接続。
 . プライマリおよびセカンダリONTAPストレージ クラスタ上の管理 SVM 用に設定された DNS。詳細については、 https://docs.netapp.com/us-en/ontap/networking/configure_dns_for_host-name_resolution.html#configure-an-svm-and-data-lifs-for-host-name-resolution-using-an-external-dns-server["ホスト名解決に使用するDNSの設定"] 。
 
@@ -143,13 +143,13 @@ image:bxp-scv-hybrid-004.png["ソリューションアーキテクチャ図"]
 [[solution-deployment]]
 == ソリューションの展開
 
-このソリューションでは、オンプレミス データ センターにある VMware vSphere クラスター内の Windows および Linux 仮想マシンのバックアップとリカバリを実行するために、 SnapCenter Plug-in for VMware vSphereとBlueXP backup and recoveryを利用するソリューションを展開および検証するための詳細な手順を示します。このセットアップの仮想マシンは、 ONTAP A300 ストレージ クラスタによってホストされる NFS データストアに保存されます。さらに、別のONTAP A300 ストレージ クラスタは、 SnapMirrorを使用して複製されたボリュームのセカンダリ デスティネーションとして機能します。さらに、Amazon Web Services と Azure Blob でホストされているオブジェクト ストレージが、データの 3 番目のコピーのターゲットとして使用されました。
+この解決策では、VMware vSphere 向け SnapCenter Plug-in for VMware vSphere と Backup and Recovery を活用して、オンプレミス データ センターに配置された VMware vSphere クラスタ内の Windows および Linux 仮想マシンのバックアップとリカバリを実行する解決策のデプロイおよび検証に関する詳細な手順を提供します。このセットアップの仮想マシンは、ONTAP A300 ストレージ クラスタがホストする NFS データストアに格納されています。さらに、別の ONTAP A300 ストレージ クラスタが、SnapMirror を使用してレプリケートされたボリュームのセカンダリ デスティネーションとして機能します。また、Amazon Web Services および Azure Blob でホストされるオブジェクト ストレージが、データの第 3 のコピーのターゲットとして使用されました。
 
-SCV によって管理されるバックアップのセカンダリ コピーのSnapMirror関係の作成と、SCV とBlueXP backup and recoveryの両方でのバックアップ ジョブの構成について説明します。
+SCVで管理されるバックアップのセカンダリコピー用のSnapMirror関係の作成と、SCVおよびNetApp Consoleの両方でのバックアップジョブの設定について説明します。
 
 SnapCenter Plug-in for VMware vSphereの詳細については、 https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["SnapCenter Plug-in for VMware vSphereのドキュメント"] 。
 
-BlueXP backup and recoveryの詳細については、 https://docs.netapp.com/us-en/bluexp-backup-recovery/index.html["BlueXP backup and recoveryドキュメント"] 。
+バックアップとリカバリの詳細については、 https://docs.netapp.com/us-en/data-services-backup-recovery/index.html["バックアップとリカバリに関するドキュメント"]を参照してください。
 
 
 
@@ -160,18 +160,18 @@ SnapCenter Plug-in for VMware vSphereは、 ONTAP SnapMirrorテクノロジを�
 
 SCV バックアップ ポリシーには、 SnapMirrorまたはSnapVault関係を使用するオプションがあります。主な違いは、 SnapMirrorオプションを使用する場合、ポリシーでバックアップ用に構成された保持スケジュールがプライマリ ロケーションとセカンダリ ロケーションで同じになることです。  SnapVaultはアーカイブ用に設計されており、このオプションを使用すると、セカンダリONTAPストレージ クラスタ上のスナップショット コピーに対してSnapMirror関係を使用して個別の保持スケジュールを確立できます。
 
-SnapMirror関係の設定は、多くの手順が自動化されているBlueXPで実行することも、System Manager とONTAP CLI を使用して実行することもできます。これらすべての方法について以下で説明します。
+SnapMirror関係のセットアップは、多くの手順が自動化されているNetApp Consoleで実行するか、System ManagerおよびONTAP CLIを使用して実行できます。これらの方法はすべて以下で説明します。
 
 
 
-==== BlueXPとのSnapMirror関係を確立する
+==== SnapMirror関係をNetApp Consoleで確立する
 
-BlueXP Web コンソールから次の手順を完了する必要があります。
+NetApp Console から以下の手順を完了する必要があります：
 
 .プライマリおよびセカンダリONTAPストレージ システムのレプリケーション設定
 [%collapsible%open]
 ====
-まず、 BlueXP Web コンソールにログインし、Canvas に移動します。
+まず、NetApp Consoleにログインし、システムに移動します。
 
 . ソース (プライマリ) ONTAPストレージ システムを、宛先 (セカンダリ) ONTAPストレージ システムにドラッグ アンド ドロップします。
 +
@@ -416,7 +416,7 @@ NOTE: SnapCenterプラグインでポリシーを作成すると、 SnapMirror�
 
 +
 
-NOTE: スナップショット ラベルは、セカンダリONTAPクラスタに複製されたSnapVaultコピーに対して特定の保持期間を設定したポリシーを適用するために使用できるため便利です。  SCV をBlueXPバックアップおよびリストアで使用する場合、スナップショット ラベル フィールドは空白にするか、 BlueXPバックアップ ポリシーで指定されたラベルと [下線]#一致# する必要があります。
+NOTE: Snapshotラベルは、セカンダリONTAPクラスタにレプリケートされたSnapVaultコピーに対して、特定の保持期間を持つポリシーを適用するために使用できるという点で便利です。SCVをNetApp Data Servicesと組み合わせて使用する場合、Snapshotラベルフィールドは空白であるか、バックアップ ポリシーで指定されたラベルと[underline]#一致#している必要があります。
 
 . 必要なポリシーごとにこの手順を繰り返します。たとえば、毎日、毎週、毎月のバックアップに個別のポリシーを設定します。
 
@@ -450,7 +450,7 @@ image:bxp-scv-hybrid-011.png["データストアをまたぐ"]
 
 +
 
-NOTE: BlueXP backup and recoveryでは、現在、複数のデータストアにまたがる VMDK を持つ VM のバックアップはサポートされていません。
+NOTE: VMwareワークロードを保護するBackup and Recoveryは、現在、複数のデータストアにまたがるVMDKを持つVMのバックアップをサポートしていません。
 
 . 次のページで、リソース グループに関連付けるポリシーを選択し、[次へ] をクリックします。
 +
@@ -458,7 +458,7 @@ image:bxp-scv-hybrid-012.png["リソースグループポリシー"]
 
 +
 
-NOTE: BlueXP backup and recoveryを使用して SCV 管理スナップショットをオブジェクト ストレージにバックアップする場合、各リソース グループは 1 つのポリシーにのみ関連付けることができます。
+NOTE: Backup and Recoveryを使用してSCV管理スナップショットをオブジェクトストレージにバックアップする場合、各リソースグループには1つのポリシーのみを関連付けることができます。
 
 . バックアップが実行される時刻を決定するスケジュールを選択します。  *次へ*をクリックします。
 +
@@ -471,7 +471,7 @@ image:bxp-scv-hybrid-013.png["リソースグループポリシー"]
 .バックアップジョブを実行する
 [%collapsible%open]
 ====
-この最後のステップでは、バックアップ ジョブを実行し、その進行状況を監視します。  BlueXP backup and recoveryからリソースを検出する前に、SCV で少なくとも 1 つのバックアップ ジョブが正常に完了している必要があります。
+最後のステップとして、バックアップジョブを実行し、その進行状況を監視してください。SCV で少なくとも 1 つのバックアップ ジョブが正常に完了してからでないと、NetApp Console からリソースを検出できません。
 
 . SnapCenter Plug-in for VMware vSphereで、左側のメニューの *リソース グループ* に移動します。
 . バックアップ ジョブを開始するには、目的のリソース グループを選択し、[今すぐ実行] ボタンをクリックします。
@@ -487,23 +487,23 @@ image:bxp-scv-hybrid-015.png["ジョブの進行状況を監視する"]
 ====
 
 
-[[configure-backups-to-object-storage-in-bluexp-backup-and-recovery]]
-=== BlueXP backup and recoveryでオブジェクト ストレージへのバックアップを構成する
+[[configure-backups-to-object-storage-in-netapp-console]]
+=== NetApp Consoleでオブジェクトストレージへのバックアップを構成する
 
-BlueXPがデータ インフラストラクチャを効果的に管理するには、事前にコネクタをインストールする必要があります。コネクタは、リソースの検出とデータ操作の管理に関連するアクションを実行します。
+NetApp Consoleがデータインフラを効果的に管理するには、事前にConsoleエージェントをインストールする必要があります。Consoleエージェントは、リソースの検出とデータ処理の管理に関連するアクションを実行します。
 
-BlueXPコネクタの詳細については、以下を参照してください。 https://docs.netapp.com/us-en/bluexp-setup-admin/concept-connectors.html["コネクタについて学ぶ"] BlueXPドキュメント内。
+Consoleエージェントの詳細については、NetApp Consoleドキュメントの https://docs.netapp.com/us-en/console-setup-admin/concept-agents.html["コンソールエージェントについて学ぶ"]を参照してください。
 
-利用しているクラウド プロバイダーのコネクタがインストールされると、オブジェクト ストレージのグラフィック表現がキャンバスから表示できるようになります。
+利用中のクラウド プロバイダにエージェントがインストールされると、オブジェクト ストレージのグラフィック表示がシステムから閲覧可能になります。
 
-SCV オンプレミスで管理されるデータをバックアップするようにBlueXP backup and recoveryを構成するには、次の手順を実行します。
+オンプレミスのSCVで管理されているデータをバックアップするようにBackup and Recoveryを設定するには、以下の手順を実行します：
 
-.キャンバスに作業環境を追加する
+.ONTAPストレージシステムをシステムに追加
 [%collapsible%open]
 ====
-最初のステップは、オンプレミスのONTAPストレージシステムをBlueXPに追加することです。
+最初のステップは、オンプレミスのONTAPストレージシステムをNetApp Consoleに追加することです。
 
-. キャンバスから「*作業環境の追加*」を選択して開始します。
+. システムから *+追加* をクリックして開始します。
 +
 image:bxp-scv-hybrid-016.png["作業環境を追加する"]
 
@@ -523,7 +523,7 @@ image:bxp-scv-hybrid-018.png["ストレージシステムの資格情報を追�
 ====
 オンプレミスのデータストアと仮想マシンのリソースを検出するには、SCV データ ブローカーの情報と vCenter 管理アプライアンスの資格情報を追加します。
 
-. BlueXPの左側のメニューから*保護 > バックアップとリカバリ > 仮想マシン*を選択します。
+. NetApp Consoleの左側のメニューから、*保護 > バックアップとリカバリ > ワークロード >VMware*を選択します。
 +
 image:bxp-scv-hybrid-019.png["仮想マシンを選択"]
 
@@ -546,14 +546,14 @@ image:bxp-scv-hybrid-023.png["利用可能なリソースを表示"]
 
 
 ====
-.BlueXPバックアップポリシーを作成する
+.バックアップ ポリシーの作成
 [%collapsible%open]
 ====
-仮想マシンのBlueXP backup and recoveryでは、保持期間、バックアップ ソース、アーカイブ ポリシーを指定するポリシーを作成します。
+仮想マシン向けNetApp Backup and Recoveryでは、保持期間、バックアップ元、アーカイブポリシーを指定するポリシーを作成します。
 
-ポリシー作成の詳細については、以下を参照してください。 https://docs.netapp.com/us-en/bluexp-backup-recovery/task-create-policies-vms.html["データストアをバックアップするポリシーを作成する"] 。
+保護グループの作成の詳細については、 https://docs.netapp.com/us-en/data-services-backup-recovery/br-use-vmware-protection-groups.html#create-a-protection-group["保護グループを作成する"]を参照してください。
 
-. BlueXP backup and recoveryのメイン ページで、[設定] ドロップダウン メニューにアクセスし、[ポリシー] を選択します。
+. NetApp Backup and Recovery for Virtual Machinesのメイン ページから、*設定*ドロップダウンメニューにアクセスし、*ポリシー*を選択します。
 +
 image:bxp-scv-hybrid-024.png["仮想マシンを選択"]
 
@@ -583,7 +583,7 @@ NOTE: ここで入力したSnapMirrorラベルは、ポリシーを適用する�
 
 詳細については、 https://docs.netapp.com/us-en/data-services-backup-recovery/br-use-vmware-backup.html["VMwareワークロードをバックアップする"^]を参照してください。
 
-. BlueXP backup and recoveryのメイン ページから、バックアップするデータストアの設定ドロップダウンにアクセスし、[バックアップのアクティブ化] を選択します。
+. NetApp Backup and Recovery for Virtual Machinesのメイン ページから、バックアップするデータストアの設定ドロップダウンにアクセスし、*Activate Backup*を選択します。
 +
 image:bxp-scv-hybrid-026.png["バックアップを有効にする"]
 
@@ -609,7 +609,7 @@ image:bxp-scv-hybrid-031.png["確認して有効化"]
 
 +
 
-NOTE: この時点ではデータ転送がすぐに開始されない場合があります。  BlueXP backup and recoveryは、未処理のスナップショットを 1 時間ごとにスキャンし、それらをオブジェクト ストレージに転送します。
+NOTE: この時点では、データ転送がすぐに開始されない場合があります。NetApp Backup and Recoveryは、1時間ごとに未完了のスナップショットをスキャンし、オブジェクトストレージに転送します。
 
 
 
@@ -623,7 +623,7 @@ NOTE: この時点ではデータ転送がすぐに開始されない場合が�
 
 NetApp は、適応性に優れた 3-2-1 戦略を提供し、プライマリ、セカンダリ、およびオブジェクト ストレージの場所で保持スケジュールをカスタマイズして制御できます。この戦略により、データ保護のアプローチを特定のニーズに合わせて柔軟にカスタマイズできるようになります。
 
-このセクションでは、SnapCenter Plug-in for VMware vSphereと仮想マシンのBlueXP backup and recoveryの両方からのデータ復元プロセスの概要を説明します。
+このセクションでは、仮想マシン向けのSnapCenter Plug-in for VMware vSphereとNetApp Backup and Recoveryの両方からのデータ復元プロセスの概要を説明します。
 
 
 
@@ -659,16 +659,16 @@ image:bxp-scv-hybrid-035.png["プライマリまたはセカンダリを選択"]
 ====
 
 
-==== BlueXP backup and recoveryから仮想マシンを復元する
+==== NetApp Backup and Recovery for Virtual Machinesからの仮想マシンの復元
 
-仮想マシン用のBlueXP backup and recoveryを使用すると、仮想マシンを元の場所に復元できます。復元機能には、 BlueXP Web コンソールからアクセスします。
+NetApp Backup and Recovery for Virtual Machinesを使用すると、仮想マシンを元の場所に復元できます。復元機能には、NetApp Backup and Recovery Webコンソールからアクセスします。
 
 詳細については、 https://docs.netapp.com/us-en/data-services-backup-recovery/br-use-vmware-restore.html["クラウドから仮想マシンのデータを復元する"^]を参照してください。
 
-.BlueXP backup and recoveryから仮想マシンを復元する
+.NetApp Backup and Recoveryから仮想マシンを復元する
 [%collapsible%open]
 ====
-BlueXP backup and recoveryから仮想マシンを復元するには、次の手順を実行します。
+NetApp Backup and Recoveryから仮想マシンを復元するには、次の手順を実行します。
 
 . *保護 > バックアップとリカバリ > 仮想マシン* に移動し、仮想マシンをクリックして、復元可能な仮想マシンのリストを表示します。
 +
@@ -695,9 +695,9 @@ image:bxp-scv-hybrid-039.png["ジョブ監視タブから復元を確認する"]
 [[conclusion]]
 == まとめ
 
-3-2-1 バックアップ戦略は、 SnapCenter Plug-in for VMware vSphereと仮想マシン用のBlueXP backup and recoveryを使用して実装すると、データ保護のための堅牢で信頼性が高く、コスト効率に優れたソリューションを提供します。この戦略は、データの冗長性とアクセス性を保証するだけでなく、オンプレミスのONTAPストレージ システムとクラウドベースのオブジェクト ストレージの両方から、任意の場所からデータを復元できる柔軟性も提供します。
+3-2-1バックアップ戦略を、仮想マシン向けのSnapCenter Plug-in for VMware vSphereおよびNetApp Backup and Recoveryを使用して実装すると、データ保護のための堅牢で信頼性が高く、対費用効果の高い解決策が提供されます。この戦略は、データの冗長性とアクセス性を確保するだけでなく、あらゆる場所から、またオンプレミスのONTAPストレージシステムとクラウドベースのオブジェクトストレージの両方からデータを復元できる柔軟性も提供します。
 
-このドキュメントで紹介するユースケースは、 NetApp、VMware、および主要なクラウド プロバイダー間の統合を強調する実証済みのデータ保護テクノロジに重点を置いています。 SnapCenter Plug-in for VMware vSphere は、VMware vSphere とのシームレスな統合を提供し、データ保護操作の効率的かつ集中的な管理を可能にします。この統合により、仮想マシンのバックアップおよびリカバリ プロセスが合理化され、VMware エコシステム内でのスケジュール設定、監視、および柔軟な復元操作が容易になります。 BlueXP backup and recoveryは、仮想マシン データの安全なエアギャップ バックアップをクラウド ベースのオブジェクト ストレージに提供することで、3-2-1 の 1 つを実現します。直感的なインターフェースと論理的なワークフローにより、重要なデータを長期にわたってアーカイブするための安全なプラットフォームが提供されます。
+このドキュメントで紹介するユースケースは、NetApp、VMware、および主要なクラウド プロバイダ間の統合を強調する、実績のあるデータ保護テクノロジに焦点を当てています。SnapCenter Plug-in for VMware vSphereは、VMware vSphereとのシームレスな統合を提供し、データ保護操作の効率的かつ一元的な管理を可能にします。この統合により、仮想マシンのバックアップとリカバリのプロセスが効率化され、VMwareエコシステム内での容易なスケジュール設定、監視、および柔軟な復元操作が可能になります。仮想マシン向けのNetApp Backup and Recoveryは、仮想マシン データをクラウドベースのオブジェクト ストレージに安全かつエアギャップされた状態でバックアップすることで、3-2-1の1（1）を提供します。直感的なインターフェースと論理的なワークフローにより、重要なデータの長期保存のための安全なプラットフォームを提供します。
 
 
 
@@ -707,5 +707,5 @@ image:bxp-scv-hybrid-039.png["ジョブ監視タブから復元を確認する"]
 このソリューションで紹介されているテクノロジーの詳細については、次の追加情報を参照してください。
 
 * https://docs.netapp.com/us-en/sc-plugin-vmware-vsphere/["SnapCenter Plug-in for VMware vSphereのドキュメント"]
-* https://docs.netapp.com/us-en/bluexp-family/["BlueXPドキュメント"]
+* https://docs.netapp.com/us-en/console-family/index.html["NetApp Console のドキュメント"]
 

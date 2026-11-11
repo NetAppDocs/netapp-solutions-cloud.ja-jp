@@ -310,14 +310,14 @@ VM のバックアップと迅速な回復は、ANF データストアの大き�
 
 NOTE: ANF データストアでは、「新しいボリュームに復元」オプションを使用してデータストア ボリューム全体のクローンを作成し、復元されたボリュームを AVS SDDC 内のホストに別のデータストアとしてマウントできます。データストアをマウントすると、その中の VM は、個別にクローン作成された VM であるかのように登録、再構成、カスタマイズできるようになります。
 
-.仮想マシンのBlueXP backup and recovery
+.仮想マシン向けNetApp Backup and Recovery
 [%collapsible%open]
 =====
-BlueXP backup and recoveryでは、 vCenter 上の vSphere Web クライアント GUI が提供され、バックアップ ポリシーを通じて Azure VMware Solution 仮想マシンと Azure NetAppファイル データストアを保護します。これらのポリシーでは、スケジュール、保持期間、その他の機能を定義できます。  BlueXP backup and recovery機能は、実行コマンドを使用して展開できます。
+NetApp Backup and Recovery for Virtual Machines は、vCenter 上に vSphere Web クライアント GUI を提供し、バックアップ ポリシーを使用して Azure VMware Solution 仮想マシンおよび Azure NetApp Files データストアを保護します。これらのポリシーでは、スケジュール、保持期間、その他の機能を定義できます。NetApp Backup and Recovery for Virtual Machines の機能は、Run コマンドを使用してデプロイできます。
 
 セットアップと保護ポリシーは、次の手順を実行してインストールできます。
 
-. 実行コマンドを使用して、Azure VMware Solution プライベート クラウドの仮想マシン用のBlueXP backup and recoveryをインストールします。
+. 実行コマンドを使用して、Azure VMware Solution プライベート クラウドに仮想マシン用 NetApp Backup and Recovery をインストールします。
 . クラウド サブスクリプションの資格情報 (クライアントとシークレット値) を追加し、保護するリソースが含まれるクラウド サブスクリプション アカウント (NetAppアカウントと関連付けられたリソース グループ) を追加します。
 . リソース グループ バックアップの保持期間、頻度、その他の設定を管理する 1 つ以上のバックアップ ポリシーを作成します。
 . バックアップ ポリシーで保護する必要がある 1 つ以上のリソースを追加するためのコンテナーを作成します。

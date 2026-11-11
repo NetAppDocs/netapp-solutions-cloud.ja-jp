@@ -311,25 +311,25 @@ MS SQLとNetApp ONTAPのベストプラクティスの詳細については、�
 
 
 =====
-.Cloud Managerアカウントの確認
+.NetApp Consoleアカウント認証
 [%collapsible%open]
 =====
-NetApp Cloud Manager を使用してリソースを展開できる必要があります。できることを確認するには、次のタスクを完了します。
+NetApp Consoleを使用してリソースをデプロイできる必要があります。確認するには、以下のタスクを完了してください：
 
-* https://docs.netapp.com/us-en/bluexp-setup-admin/concept-modes.html["Cloud Centralに登録する"^]まだの場合は、ご覧ください。
-* https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-logging-in.html["クラウドマネージャーにログイン"^] 。
-* https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-setting-up-netapp-accounts.html["ワークスペースとユーザーを設定する"^] 。
-* https://docs.netapp.com/us-en/cloud-manager-setup-admin/concept-connectors.html["コネクタを作成する"^] 。
+* https://docs.netapp.com/us-en/console-setup-admin/concept-overview.html["NetApp Consoleの仕組みを理解する"]。
+* https://docs.netapp.com/us-en/console-setup-admin/task-logging-in.html["NetApp Consoleにログイン"^]。
+* https://docs.netapp.com/us-en/console-setup-admin/concept-agents.html#when-you-need-a-console-agent["Consoleエージェントが必要になる場合を理解する"]。
+* https://docs.netapp.com/us-en/console-setup-admin/task-install-agent-aws-console.html["AWSにNetApp Consoleエージェントを展開する"^]。
 
 
-=====
-.Amazon FSx ONTAP
-[%collapsible%open]
 =====
 AWS アカウントを取得したら、次のタスクを実行できる必要があります。
 
 * NetApp ONTAPファイルシステム用にAmazon FSx をプロビジョニングできる IAM 管理ユーザーを作成します。
 
+
+[]
+=====
 
 =====
 ====
@@ -669,8 +669,8 @@ image:dr-vmc-aws-009.png["入出力ダイアログまたは書かれたコンテ
 ====
 
 
-[[bluexp-backup-and-recovery-tools]]
-== BlueXP backup and recoveryツール
+[[netapp-backup-and-recovery-tools]]
+== NetApp Backup and Recoveryツール
 
 AWS で実行されている VMware Cloud Volumes サービスへのアプリケーション VM とデータベース ボリュームのフェイルオーバーを実行するには、 SnapCenter Server と Veeam Backup and Replication Server の両方の実行中のインスタンスをインストールして構成する必要がありました。フェールオーバーが完了したら、オンプレミスのデータセンターへのフェールバックが計画され実行されるまで、通常のバックアップ操作を再開するようにこれらのツールを構成する必要もあります。
 

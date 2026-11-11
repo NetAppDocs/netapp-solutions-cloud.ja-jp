@@ -21,7 +21,7 @@ ONTAPストレージとNetAppクラウド ソリューションを統合する�
 [[vmware-integration-with-aws-and-amazon-fsx-for-ontap]]
 == VMware と AWS およびAmazon FSx for ONTAP の統合
 
-* link:https://bluexp.netapp.com/blog/aws-fsxn-blg-migrate-vmware-to-amazon-ec2-iscsi-based-fsx-for-ontap["Amazon EC2 とAmazon FSx ONTAP iSCSI プロトコルを使用して VMware VM を AWS に移行する"]
+* link:https://www.netapp.com/blog/aws-fsxn-blg-migrate-vmware-to-amazon-ec2-iscsi-based-fsx-for-ontap/["Amazon EC2 とAmazon FSx ONTAP iSCSI プロトコルを使用して VMware VM を AWS に移行する"]
 * link:https://aws.amazon.com/about-aws/whats-new/2025/06/amazon-elastic-vmware-service-fsx-netapp-ontap/["Amazon EVS が FSx for ONTAPと統合"]
 * link:https://www.netapp.com/blog/amazon-elastic-vmware-service-fsx-ontap/["Amazon EVSがFSx for ONTAPのサポートを発表"]
 * link:https://www.netapp.com/blog/aws-fsxo-blg-configure-hybrid-cloud-with-fsx-for-netapp-ontap-and-vmware-cloud-on-aws-sddc-using-vmware-hcx/["VMware HCX を使用して FSx ONTAPと VMware Cloud on AWS SDDC でハイブリッド クラウドを構成する"]
@@ -51,7 +51,7 @@ ONTAPストレージとNetAppクラウド ソリューションを統合する�
 [[data-protection-and-management]]
 == データ保護と管理
 
-* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Data-Protection-for-VMware-with-SnapCenter-Plug-in-and-BlueXP-backup-and/ba-p/446180["SnapCenterプラグインとBlueXP のVM バックアップおよびリカバリを使用した VMware 向け 3-2-1 データ保護"]
+* link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/3-2-1-Data-Protection-for-VMware-with-SnapCenter-Plug-in-and-BlueXP-backup-and/ba-p/446180["SnapCenter プラグインおよび NetApp Backup and Recovery for VMs を使用した VMware 向け 3-2-1 データ保護"]
 * link:https://community.netapp.com/t5/Tech-ONTAP-Blogs/Observability-for-the-Modern-Datacenter-with-NetApp-Cloud-Insights/ba-p/447495["NetApp Cloud Insightsによる最新データセンターの可観測性"]
 
 

@@ -43,7 +43,7 @@ NOTE: OpenShift Hybrid Cloud コンソールから AWS にクラスタを作成�
 TIP: ACM を使用してクラスターを作成する場合、フォーム ビューに詳細を入力した後に yaml ファイルを編集してインストールをカスタマイズできます。クラスターが作成された後、トラブルシューティングや追加の手動構成のために、クラスターのノードに SSH ログインできます。インストール時に指定した SSH キーとユーザー名 core を使用してログインします。
 
 ====
-.BlueXPを使用して AWS にCloud Volumes ONTAP をデプロイします。
+.NetApp Console を使用して、AWS に Cloud Volumes ONTAP を展開します。
 [%collapsible%open]
 ====
 * オンプレミスの VMware 環境にコネクタをインストールします。説明書を参照してくださいlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/task-install-connector-on-prem.html#install-the-connector["ここをクリックしてください。"]。

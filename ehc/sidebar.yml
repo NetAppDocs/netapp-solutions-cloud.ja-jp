@@ -206,13 +206,14 @@ entries:
       url: "/google/gcp-gcnv-service-operation.html"
     - title: 追加情報
       url: "/vmware/gcp-gcnv-additional-info.html"
-- title: BlueXP disaster recovery
+- title: NetApp Disaster Recovery
   entries:
-  - title: SnapCenterプラグインとBlueXPでVMwareのデータを保護する
-    pdf-filename: SnapCenterプラグインとBlueXP backup and recoveryによる VMware の 3-2-1 データ保護
+  - title: SnapCenterプラグインとVM向けNetApp Backup and Recoveryを使用してVMwareのデータを保護する
+    pdf-filename: SnapCenter プラグインおよび NetApp Backup and Recovery for VMs を使用した VMware
+      向け 3-2-1 データ保護
     url: "/vmware/vmw-hybrid-321-dp-scv.html"
-  - title: BlueXP DRaaSを使用した災害復旧
-    pdf-filename: BlueXP DRaaS を使用した災害復旧
+  - title: NetApp Disaster Recovery
+    pdf-filename: NetApp Disaster Recovery
     entries:
     - title: ソリューションの概要
       url: "/vmware/vmw-hybrid-dr-overview.html"

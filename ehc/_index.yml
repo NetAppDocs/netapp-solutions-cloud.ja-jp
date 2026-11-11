@@ -58,9 +58,9 @@ indexpage:
       url: https://netapp-automation.github.io/dro-simulator/?intro-1
     - title: AVSシミュレータを使用したANFのDRO
       url: https://netapp-automation.github.io/dro-simulator-avs-anf/?intro-1
-    - title: BlueXP DRaaS シミュレーター
+    - title: NetApp Disaster Recoveryシミュレータ
       url: https://netapp-automation.github.io/DRaaS_Simulator/?0.1
-    - title: BlueXP - VM のバックアップとリカバリのシミュレーター
+    - title: NetApp Backup and Recovery for VMsシミュレータ
       url: https://netapp-automation.github.io/Backup_and_Recovery_for_VMs_Simulator/?0.1
   - title: TCO計算機
     links:
@@ -70,13 +70,13 @@ indexpage:
       url: https://tco.solutions.netapp.com/anfavstco/
     - title: GCVE + NetApp Volumes TCO 見積もり
       url: https://tco.solutions.netapp.com/gcvegcnvtco/
-  - title: BlueXP disaster recovery
+  - title: NetApp Disaster Recovery
     links:
-    - title: SnapCenterプラグインとBlueXP backup and recoveryを使用して VMware のデータを保護します
+    - title: SnapCenterプラグインとVM向けNetApp Backup and Recoveryを使用してVMwareのデータを保護する
       url: "../vmware/vmw-hybrid-321-dp-scv.html"
-    - title: BlueXPを使用した災害復旧
+    - title: NetAppを使用した災害復旧
       url: "../vmware/vmw-hybrid-dr-overview.html"
-    - title: NFSデータストア用のBlueXPを使用した災害復旧
+    - title: NetApp NFSデータストアのディザスタリカバリ
       url: "../vmware/vmw-hybrid-dr-nfs.html"
-    - title: VMFSデータストア用のBlueXPを使用した災害復旧
+    - title: NetApp VMFSデータストアのディザスタリカバリ
       url: "../vmware/vmw-hybrid-dr-vmfs.html"

@@ -52,9 +52,9 @@ NOTE: GCP に Red Hat OpenShift Container Platform クラスターをデプロ�
 * Google Cloud NetApp Volumesは、概要に従ってプロジェクトに追加できます。link:https://cloud.google.com/netapp/volumes/docs/discover/overview["ここをクリックしてください。"] 。
 
 
-.BlueXPを使用して GCP にCloud Volumes ONTAPを導入する
-* Google Cloud にコネクタをインストールします。説明書を参照してください https://docs.netapp.com/us-en/bluexp-setup-admin/task-install-connector-google-bluexp-gcloud.html["ここをクリックしてください。"]。
-* コネクタを使用して Google Cloud に CVO インスタンスをデプロイします。こちらの手順を参照してください。 https://docs.netapp.com/us-en/bluexp-cloud-volumes-ontap/task-getting-started-gcp.html[]
+.NetApp Consoleを使用してGCPにCloud Volumes ONTAPを展開する
+* Google CloudにConsoleエージェントをインストールします。手順を参照してください https://docs.netapp.com/us-en/console-setup-admin/task-install-agent-google-console-gcloud.html["ここをクリックしてください。"]。
+* エージェントを使用して、Google Cloud に CVO インスタンスをデプロイします。手順を参照してください https://docs.netapp.com/us-en/storage-management-cloud-volumes-ontap/task-getting-started-gcp.html["ここをクリックしてください。"]。
 
 
 .GCP の OCP クラスタにTridentをインストールする

@@ -317,7 +317,7 @@ image:aws-cvo-guest-002.png["入出力ダイアログまたは書かれたコン
 
 image:aws-cvo-guest-003.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
 
-. BlueXP分類、 BlueXP backup and recovery、 Cloud Insightsなど、 Cloud Volumes ONTAPデプロイメントのアドオン サービスを選択します。[Continue]をクリックします。
+. NetApp Data Classification、NetApp Backup and Recovery、Data Infrastructure Insightsなど、Cloud Volumes ONTAP展開用のアドオンサービスを選択します。続行をクリックします。
 
 
 image:aws-cvo-guest-004.png["入出力ダイアログまたは書かれたコンテンツを示す図"]

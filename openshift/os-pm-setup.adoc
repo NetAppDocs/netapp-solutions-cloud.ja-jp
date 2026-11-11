@@ -14,7 +14,7 @@ summary:
 
 
 [role="lead"]
-このセクションでは、AWS (ROSA) 上でマネージド Red Hat OpenShift クラスターをセットアップするための高レベルのワークフローについて説明します。これは、永続ボリュームを提供するためにTridentがストレージバックエンドとしてマネージドAmazon FSx for NetApp ONTAP (FSx ONTAP ) を使用する方法を示しています。 BlueXPを使用して AWS に FSx ONTAPを導入する方法について詳細に説明します。また、ROSA クラスター上のステートフル アプリケーションのデータ保護と移行アクティビティを実行するためにBlueXPと OpenShift GitOps (Argo CD) を使用する方法についても詳しく説明します。
+このセクションでは、AWS（ROSA）上でマネージドRed Hat OpenShiftクラスタを設定する概要ワークフローについて説明します。ここでは、永続ボリュームを提供するために、TridentがストレージバックエンドとしてマネージドAmazon FSx for NetApp ONTAP（FSx ONTAP）を使用する方法を示します。NetApp Consoleを使用したAWS上でのFSx ONTAPの導入について詳しく説明します。また、NetApp ConsoleとOpenShift GitOps（Argo CD）を使用して、ROSAクラスタ上のステートフルアプリケーションのデータ保護および移行アクティビティを実行する方法についても詳しく説明します。
 
 以下は、AWS にデプロイされ、バックエンドストレージとして FSx ONTAPを使用している ROSA クラスターを示す図です。
 
@@ -31,7 +31,7 @@ NOTE: このソリューションは、AWS の 2 つの VPC 内の 2 つの ROSA
 
 
 .FSx ONTAPをインストールする
-* BlueXPから VPC に FSx ONTAPをインストールします。参照するlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["ここをクリックしてください。"]BlueXPアカウントを作成して開始するには。参照するlink:https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/index.html["ここをクリックしてください。"]FSx ONTAPをインストールするためのものです。参照するlink:https://docs.netapp.com/us-en/cloud-manager-setup-admin/index.html["ここをクリックしてください。"]FSx ONTAP を管理するためのコネクタを AWS で作成します。
+* NetApp ConsoleからVPCにFSx ONTAPをインストールします。NetApp Consoleアカウントの作成と利用開始については、link:https://docs.netapp.com/us-en/console-setup-admin/index.html["ここをクリックしてください。"]を参照してください。FSx ONTAPのインストールについては、link:https://docs.netapp.com/us-en/cloud-manager-fsx-ontap/index.html["ここをクリックしてください。"]を参照してください。FSx ONTAPを管理するためのAWSでのコネクタの作成については、link:https://docs.netapp.com/us-en/console-setup-admin/index.html["ここをクリックしてください。"]を参照してください。
 * AWS を使用して FSx ONTAPをデプロイします。参照するlink:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/getting-started-step1.html["ここをクリックしてください。"]AWS コンソールを使用してデプロイします。
 
 
