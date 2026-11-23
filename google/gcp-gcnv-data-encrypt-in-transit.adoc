@@ -56,7 +56,7 @@ Kerberos で現在使用できる最も強力な暗号化タイプは AES-256-CT
 
 Kerberos は、NFS マウントに対して 3 つの異なるセキュリティ レベルを提供し、Kerberos セキュリティの強度を選択できます。
 
-RedHatによると https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/storage_administration_guide/s1-nfs-client-config-options["一般的なマウントオプション"^]ドキュメント:
+RedHatの https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/storage_administration_guide/s1-nfs-client-config-options["一般的なマウントオプション"^]ドキュメントによると：
 
 ....
 sec=krb5 uses Kerberos V5 instead of local UNIX UIDs and GIDs to authenticate users.

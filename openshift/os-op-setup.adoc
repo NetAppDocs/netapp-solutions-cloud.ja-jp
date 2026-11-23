@@ -46,7 +46,7 @@ TIP: 次の点に注意してください: - インストーラーに提供す�
 .ハブクラスタに高度なクラスタ管理をインストールする
 [%collapsible%open]
 ====
-これは、ハブ クラスター上の Advanced Cluster Management Operator を使用してインストールされます。説明書を参照してくださいlink:https://access.redhat.com/documentation/en-us/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/install/installing#doc-wrapper["ここをクリックしてください。"]。
+これは、ハブクラスタ上でAdvanced Cluster Management Operatorを使用してインストールされます。手順については、link:https://docs.redhat.com/en/documentation/red_hat_advanced_cluster_management_for_kubernetes/2.7/html/install/installing#doc-wrapper["ここをクリックしてください。"^]を参照してください。
 
 ====
 .2つの追加のOCPクラスタ（ソースと宛先）をインストールする

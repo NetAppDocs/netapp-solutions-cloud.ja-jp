@@ -246,7 +246,6 @@
   <block id="71b0cde5c82d4fce43062f4c6ab6ffed" category="paragraph">Kerberos で現在使用できる最も強力な暗号化タイプは AES-256-CTS-HMAC-SHA1 です。 Google Cloud NetApp Volumes は、 NFS に対して AES-256-CTS-HMAC-SHA1、AES-128-CTS-HMAC-SHA1、DES3、DES をサポートしています。また、CIFS/SMB トラフィックでは ARCFOUR-HMAC (RC4) をサポートしますが、NFS ではサポートしません。</block>
   <block id="59417c70dd426d4c6a1a81a09043bb7b" category="paragraph">Kerberos は、NFS マウントに対して 3 つの異なるセキュリティ レベルを提供し、Kerberos セキュリティの強度を選択できます。</block>
   <block id="710c8a535ea62cee124026e31e71a5bd" category="inline-link">一般的なマウントオプション</block>
-  <block id="e67cbf2de1080fc7770dec46df05c0e9" category="paragraph">RedHatによると<block ref="1849b335749f623c227052141b2e8b11" category="inline-link-rx"></block>ドキュメント:</block>
   <block id="babd6b3b4aea27ca41d56a231f2625af" category="paragraph">一般的な規則として、Kerberos セキュリティ レベルが高くなるほど、クライアントとサーバーが送信されたパケットごとに NFS 操作の暗号化と復号化に時間を費やすため、パフォーマンスは低下します。多くのクライアントと NFS サーバーは、全体的なエクスペリエンスを向上させるために CPU への AES-NI オフロードをサポートしていますが、Kerberos 5p (完全なエンドツーエンドの暗号化) のパフォーマンスへの影響は、Kerberos 5 (ユーザー認証) の影響よりも大幅に大きくなります。</block>
   <block id="986c123032dbfdac18bc180d1a2c3562" category="paragraph">次の表は、各レベルでのセキュリティとパフォーマンスの違いを示しています。</block>
   <block id="f12149bd43eabe8557e021017cfb9b1f" category="cell">セキュリティレベル</block>
@@ -1318,7 +1317,6 @@
   <block id="9e925e9341b490bfd3b4c4ca3b0c1ef2" category="inline-link-macro">事項を</block>
   <block id="bc4ca673b1da75d1fc9d8fb4c7d5be52" category="admonition">次の点に注意してください: - インストーラーに提供する ssh 公開キーと秘密キーを作成します。これらのキーは、必要に応じてマスターノードとワーカーノードにログインするために使用されます。 - アシストインストーラーからインストーラー プログラムをダウンロードします。このプログラムは、マスター ノードとワーカー ノード用に VMware vSphere 環境で作成した VM を起動するために使用されます。  - VM には最低限の CPU、メモリ、ハード ディスクの要件が必要です。  （vm createコマンドについては、<block ref="ad56d2cae35f81c0593c34aac3d8101d" category="inline-link-macro-rx"></block>この情報を提供するマスター ノードとワーカー ノードのページ - すべての VM でディスク UUID を有効にする必要があります。  - マスター用に最低 3 つのノード、ワーカー用に最低 3 つのノードを作成します。  - インストーラーによって検出されたら、VMware vSphere 統合トグル ボタンをオンにします。</block>
   <block id="5ee7e5d095a85988457e6852e94af6e8" category="example-title">ハブクラスタに高度なクラスタ管理をインストールする</block>
-  <block id="643c48205940ae10b1f2c5f6f8aa5f64" category="paragraph">これは、ハブ クラスター上の Advanced Cluster Management Operator を使用してインストールされます。説明書を参照してください<block ref="4bb39576c102d9630dc961b3998ecbd9" category="inline-link-macro-rx"></block>。</block>
   <block id="c0090a527266898baf1b6d9a9978eeb3" category="example-title">2つの追加のOCPクラスタ（ソースと宛先）をインストールする</block>
   <block id="a4fcf9c2586b5e93f63d9c1290438839" category="list-text">追加のクラスターは、ハブ クラスター上の ACM を使用してデプロイできます。</block>
   <block id="4cb2dca6265c22cd883513131d603c5f" category="example-title">NetApp ONTAPストレージを構成する</block>
@@ -1463,7 +1461,6 @@
   <block id="8b35ba920859760c3b7ab07c1f52df88" category="inline-link-macro">OpenShift Container プラットフォーム製品ドキュメント</block>
   <block id="010bce66eda52af8597098e33d12e767" category="inline-link-macro">OpenShift コンテナ プラットフォーム クラスターのインストール</block>
   <block id="9e4f27bab2ba4dcc223eabe15d060c22" category="inline-link-macro">高度なクラスタ管理製品ドキュメント</block>
-  <block id="0de84e35816fe2bf24a2d62358c71ec0" category="list-text"><block ref="0de84e35816fe2bf24a2d62358c71ec0" category="inline-link-macro-rx"></block></block>
   <block id="1a28b2dbd24896f9ae4e7ea905e79d07" category="inline-link-macro">ACM を使用してクラスターを作成する</block>
   <block id="88c39d9e07dd53d7dfe71bcc634dd892" category="inline-link-macro">OpenShift への Red Hat Quay のデプロイ</block>
   <block id="10f0fa4079121b371145e16713fdbb44" category="inline-link-macro">Trident</block>
@@ -6113,10 +6110,7 @@
   <block id="b67b5c15053211b1d63473f9df5b1ab8" category="list-text">インストールプログラムとプルシークレットを取得し、ドキュメントに記載されている手順に従ってクラスターをデプロイします<block ref="072197b16ac4bac15f286e5c622d9439" category="inline-link-macro-rx"></block>。</block>
   <block id="bd203bf7c34fef7dccc4c39161c78dc8" category="admonition">OpenShift Hybrid Cloud コンソールから AWS にクラスタを作成することもできます。手順については、<block ref="adab8e48d805755a937b8ae49e0ee7b7" category="inline-link-macro-rx"></block> を参照してください。</block>
   <block id="b272b3fad6d7e2dc24417fce138d59f0" category="list-text"><block ref="b272b3fad6d7e2dc24417fce138d59f0" category="inline-link-macro-rx"></block></block>
-  <block id="2e5e19e6aa211b5fbf5ec029c54234c3" category="list-text"><block ref="2e5e19e6aa211b5fbf5ec029c54234c3" category="inline-link-macro-rx"></block></block>
   <block id="ae28a5decafe6d5c821bf3f3af745b68" category="list-text"><block ref="ae28a5decafe6d5c821bf3f3af745b68" category="inline-link-macro-rx"></block></block>
-  <block id="b538fa533b3feb4047e609177c09e0c1" category="list-text"><block ref="b538fa533b3feb4047e609177c09e0c1" category="inline-link-macro-rx"></block></block>
-  <block id="8c6518684f03117be0fa781cb78c25fd" category="list-text"><block ref="8c6518684f03117be0fa781cb78c25fd" category="inline-link-macro-rx"></block></block>
   <block id="122f25fa4135a6f278aee53402db3807" category="list-text"><block ref="122f25fa4135a6f278aee53402db3807" category="inline-link-macro-rx"></block></block>
   <block id="1bc28ada1e3a8c93363efbd956281f27" category="list-text"><block ref="1bc28ada1e3a8c93363efbd956281f27" category="inline-link-macro-rx"></block></block>
   <block id="f16dd96ff15aa34fe7db06e2c8c45330" category="list-text"><block ref="ce06c104c0af95b337c108430c00cd74" category="inline-link-macro-rx"></block> - Verda（オープンソース）には、一般的なクラウドネイティブのデータ集約型アプリケーション向けの参照実行フックのコレクションがあります</block>
@@ -6313,4 +6307,10 @@
   <block id="cda22072a0914c289d071ab25b6c1978" category="sidebar">NetApp VMFSデータストアのディザスタリカバリ</block>
   <block id="51f76c45eb7b32a058fa55ae940a99f6" category="sidebar">NFSデータストアの災害復旧</block>
   <block id="6de29981a8cf2b52481f931babfac751" category="sidebar">VMFSデータストアの災害復旧</block>
+  <block id="a1eed947bb61e8bc603007f81e00de2e" category="paragraph">RedHatの<block ref="c27a12af4b20a1ce93e32b79d2b84a68" category="inline-link-rx"></block>ドキュメントによると：</block>
+  <block id="10d4600ffb9809c11fd9fbcccc467f7b" category="paragraph">これは、ハブクラスタ上でAdvanced Cluster Management Operatorを使用してインストールされます。手順については、<block ref="e42622b652f9818f19937989d1f442be" category="inline-link-macro-rx"></block>を参照してください。</block>
+  <block id="cf6d8997b5ec040231c35073edec56e3" category="list-text"><block ref="cf6d8997b5ec040231c35073edec56e3" category="inline-link-macro-rx"></block></block>
+  <block id="e3e35e1b84c784f9defb3d94a3007b10" category="list-text"><block ref="e3e35e1b84c784f9defb3d94a3007b10" category="inline-link-macro-rx"></block></block>
+  <block id="07d84ad3f5d033273b418d24d10bfcee" category="list-text"><block ref="07d84ad3f5d033273b418d24d10bfcee" category="inline-link-macro-rx"></block></block>
+  <block id="fda45d1fe193d65714509cae66e08eed" category="list-text"><block ref="fda45d1fe193d65714509cae66e08eed" category="inline-link-macro-rx"></block></block>
 </blocks>
