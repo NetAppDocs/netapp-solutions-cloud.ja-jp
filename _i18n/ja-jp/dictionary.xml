@@ -3125,7 +3125,6 @@
   <block id="17e39d08ab88f20eb5755f45fbb47a12" category="paragraph"><block ref="17e39d08ab88f20eb5755f45fbb47a12" category="inline-image-macro-rx" type="image"></block></block>
   <block id="059ac984f45a5c6aed1d7b2054c18c9a" category="example-title">iSCSI を使用して FSx ONTAP LUN をホストに接続する</block>
   <block id="f6199aef3ca86cfa9f9794d7590ab7e1" category="paragraph">FSx の iSCSI トラフィックは、前のセクションで提供されたルートを介して VMware Transit Connect/AWS Transit Gateway を通過します。  Amazon FSx ONTAPでLUNを設定するには、以下のドキュメントに従ってください。<block ref="70da71f7286decf7407c5db884b5344a" category="inline-link-macro-rx"></block> 。</block>
-  <block id="32139f76f200f13f9078d49f80c95815" category="paragraph">Linux クライアントでは、iSCSI デーモンが実行されていることを確認します。  LUN がプロビジョニングされたら、Ubuntu での iSCSI 構成に関する詳細なガイダンスを参照してください (例として)<block ref="6e395450a47e52243c1b6632fa351858" category="inline-link-macro-rx"></block> 。</block>
   <block id="102b54837bec429c2bc9f3f9fee8a857" category="paragraph">このホワイト ペーパーでは、iSCSI LUN を Windows ホストに接続する方法について説明します。</block>
   <block id="5cfee2e26aef5116a38b7d08760d608b" category="example-title">FSx ONTAPで LUN をプロビジョニングします。</block>
   <block id="6da38655de350d44c878e17adb0fd12c" category="list-text">ONTAPファイル システム用の FSx の管理ポートを使用して、 NetApp ONTAP CLI にアクセスします。</block>
@@ -3216,7 +3215,6 @@
   <block id="000356e69b60b4a0f68b2aa643234756" category="paragraph"><block ref="000356e69b60b4a0f68b2aa643234756" category="inline-image-macro-rx" type="image"></block></block>
   <block id="f8a056111a10f9e055d309c54e7ca2bb" category="paragraph">Windowsホストから初めてアクセスした時点では、新しいLUNにはパーティションやファイルシステムは設定されていません。LUN を初期化し、オプションで次の手順を実行して、LUN をファイル システムでフォーマットします。</block>
   <block id="cfa5bba75a043240ec4a8611db6ebc79" category="paragraph"><block ref="cfa5bba75a043240ec4a8611db6ebc79" category="inline-image-macro-rx" type="image"></block></block>
-  <block id="1085f8441673a34397360c417066d18f" category="paragraph">Linux クライアントで、iSCSI デーモンが実行されていることを確認します。 LUN がプロビジョニングされたら、Linux ディストリビューションの iSCSI 構成に関する詳細なガイダンスを参照してください。例えば、UbuntuのiSCSI設定は次のようになります。<block ref="6e395450a47e52243c1b6632fa351858" category="inline-link-macro-rx"></block> 。確認するには、シェルから lsblk cmd を実行します。</block>
   <block id="7b88883556cc41d9ed2a47bd0cfe1bb4" category="example-title">LinuxクライアントにCloud Volumes ONTAP NFSボリュームをマウントする</block>
   <block id="af16b968e0e3b3975cdcefb5cdd9858a" category="paragraph">VMC on AWS SDDC 内の仮想マシンからCloud Volumes ONTAP (DIY) ファイル システムをマウントするには、次の手順を実行します。</block>
   <block id="b3bcde31f03d76e154f81e6b5221b007" category="list-text">セキュア シェル (SSH) を使用してインスタンス上でターミナルを開き、適切な資格情報でログインします。</block>
@@ -5029,7 +5027,6 @@
   <block id="5c3eb3a1c6330fe124fc0706cbdd91df" category="paragraph">CloudOwner@gve.local ユーザーを使用して vCenter にSign in。認証情報にアクセスするには、VMware Engine ポータルにアクセスし、[リソース] に移動して、適切なプライベート クラウドを選択します。  [基本情報] セクションで、vCenter ログイン情報 (vCenter Server、HCX Manager) または NSX-T ログイン情報 (NSX Manager) の [表示] リンクをクリックします。</block>
   <block id="59979b9402f6e7e20880098f4f30a2ea" category="paragraph"><block ref="59979b9402f6e7e20880098f4f30a2ea" category="inline-image-macro-rx" type="image"></block></block>
   <block id="c4fc7138878e803ac78cccb45d543111" category="paragraph">Windows仮想マシンでブラウザを開き、vCenter WebクライアントのURLに移動します。<block ref="2f06cb73f297a33408090d1ca889decc" prefix="(" category="inline-code"></block> ) にアクセスし、管理者ユーザー名として CloudOwner@gve.local を使用し、コピーしたパスワードを貼り付けます。同様に、NSX-TマネージャにもWebクライアントURLを使用してアクセスできます。<block ref="b11b17830e20ea5c266b8449ac98d28c" prefix="(" category="inline-code"></block> ) にアクセスし、管理者ユーザー名とコピーしたパスワードを貼り付けて、新しいセグメントを作成したり、既存の層ゲートウェイを変更したりします。</block>
-  <block id="3a9cff0eb1abb119c1c264dbfff216f6" category="paragraph">オンプレミス ネットワークから VMware Engine プライベート クラウドに接続するには、適切な接続のためにクラウド VPN または Cloud Interconnect を活用し、必要なポートが開いていることを確認します。詳細な手順については、こちらを参照してください<block ref="6fe8ac83365e22e24c5c8eb9edc2d548" category="inline-link-macro-rx"></block>。</block>
   <block id="50133a2d08ebc0cefec22971fb5745f2" category="paragraph"><block ref="50133a2d08ebc0cefec22971fb5745f2" category="inline-image-macro-rx" type="image"></block></block>
   <block id="0a3b3306c6128e9ff9373d0890d1c334" category="paragraph"><block ref="0a3b3306c6128e9ff9373d0890d1c334" category="inline-image-macro-rx" type="image"></block></block>
   <block id="40237c40f43b510cb96f21f5d18ae730" category="example-title">Google Cloud NetApp Volumes補足データストアを GCVE にデプロイする</block>
@@ -6313,4 +6310,7 @@
   <block id="e3e35e1b84c784f9defb3d94a3007b10" category="list-text"><block ref="e3e35e1b84c784f9defb3d94a3007b10" category="inline-link-macro-rx"></block></block>
   <block id="07d84ad3f5d033273b418d24d10bfcee" category="list-text"><block ref="07d84ad3f5d033273b418d24d10bfcee" category="inline-link-macro-rx"></block></block>
   <block id="fda45d1fe193d65714509cae66e08eed" category="list-text"><block ref="fda45d1fe193d65714509cae66e08eed" category="inline-link-macro-rx"></block></block>
+  <block id="e04404bb52f872f701865f9127f73175" category="paragraph">Linuxクライアントでは、iSCSIデーモンが実行されていることを確認してください。LUNのプロビジョニングが完了したら、Ubuntuを使用したiSCSI構成に関する詳細なガイダンス（例として）を参照してください<block ref="b91137e8f43f5aa34226e9d551bcdf51" category="inline-link-macro-rx"></block>。</block>
+  <block id="e904c75c37e18b1306ad82cad79e32bf" category="paragraph">Linuxクライアントでは、iSCSIデーモンが実行されていることを確認してください。LUNのプロビジョニングが完了したら、お使いのLinuxディストリビューションのiSCSI構成に関する詳細なガイダンスを参照してください。たとえば、UbuntuのiSCSI構成は<block ref="b91137e8f43f5aa34226e9d551bcdf51" category="inline-link-macro-rx"></block>で確認できます。確認するには、シェルからlsblkコマンドを実行してください。</block>
+  <block id="8f68f9d1edef63cb5a7a57ff040f36bd" category="paragraph">オンプレミスネットワークからVMware Engineプライベートクラウドに接続するには、Cloud VPNまたはCloud Interconnectを活用して適切な接続を確保し、必要なポートが開いていることを確認してください。詳細な手順については、この<block ref="840d8d9cd3022b6323d4bc7ce2357db7" category="inline-link-macro-rx"></block>を参照してください。</block>
 </blocks>

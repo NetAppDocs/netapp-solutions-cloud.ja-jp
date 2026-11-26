@@ -174,7 +174,7 @@ image:aws-fsx-guest-026.png["入出力ダイアログまたは書かれたコン
 video::0d03e040-634f-4086-8cb5-b01200fb8515[panopto]
 FSx の iSCSI トラフィックは、前のセクションで提供されたルートを介して VMware Transit Connect/AWS Transit Gateway を通過します。  Amazon FSx ONTAPでLUNを設定するには、以下のドキュメントに従ってください。link:https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/supported-fsx-clients.html["ここをクリックしてください。"] 。
 
-Linux クライアントでは、iSCSI デーモンが実行されていることを確認します。  LUN がプロビジョニングされたら、Ubuntu での iSCSI 構成に関する詳細なガイダンスを参照してください (例として)link:https://ubuntu.com/server/docs/service-iscsi["ここをクリックしてください。"] 。
+Linuxクライアントでは、iSCSIデーモンが実行されていることを確認してください。LUNのプロビジョニングが完了したら、Ubuntuを使用したiSCSI構成に関する詳細なガイダンス（例として）を参照してくださいlink:https://ubuntu.com/server/docs/how-to/storage/iscsi-initiator-or-client/["ここをクリックしてください。"^]。
 
 このホワイト ペーパーでは、iSCSI LUN を Windows ホストに接続する方法について説明します。
 
@@ -445,7 +445,7 @@ Windowsホストから初めてアクセスした時点では、新しいLUNに�
 
 image:aws-cvo-guest-034.png["入出力ダイアログまたは書かれたコンテンツを示す図"]
 
-Linux クライアントで、iSCSI デーモンが実行されていることを確認します。 LUN がプロビジョニングされたら、Linux ディストリビューションの iSCSI 構成に関する詳細なガイダンスを参照してください。例えば、UbuntuのiSCSI設定は次のようになります。link:https://ubuntu.com/server/docs/service-iscsi["ここをクリックしてください。"] 。確認するには、シェルから lsblk cmd を実行します。
+Linuxクライアントでは、iSCSIデーモンが実行されていることを確認してください。LUNのプロビジョニングが完了したら、お使いのLinuxディストリビューションのiSCSI構成に関する詳細なガイダンスを参照してください。たとえば、UbuntuのiSCSI構成はlink:https://ubuntu.com/server/docs/how-to/storage/iscsi-initiator-or-client/["ここをクリックしてください。"^]で確認できます。確認するには、シェルからlsblkコマンドを実行してください。
 
 ====
 .LinuxクライアントにCloud Volumes ONTAP NFSボリュームをマウントする
